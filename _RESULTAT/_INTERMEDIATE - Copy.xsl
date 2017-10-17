@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-10-17T15:42:56.915+02:00-->
+<!--INTERMEDIATE Generated at 2017-10-17T15:02:04.543+02:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
                 xmlns:generate="http://jimetevenard.com/ns/generate-xsl"
                 xmlns:target-xsl="generate::generate-target-stylesheet"
                 xmlns:generate-utils="generate::internal-functions"
-                xmlns:saxon="http://saxon.sf.net/"
                 xmlns:metier="http://cogip.biz"
                 version="3.0">
    <xsl:output indent="yes"/>
@@ -33,12 +32,11 @@
          <xsl:for-each select="doc('../clients.xml')//client">
             <xsl:variable name="generate:client" select="."/>
             <target-xsl:template match="*[prenom = '{$generate:client/prenom}']" name="super-template">
-               <generate:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
                <generate:match xpath="*[prenom = '{$generate:client/prenom}']"/>
                <xsl:variable name="generate:genre"
                              select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
                <target-xsl:variable name="genre" select="{$generate:genre}"/>
-        
+               <target-xsl:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
                <target-xsl:variable name="uneAutreVariable" select="'toto'"/>
                <target-xsl:copy>
                   <target-xsl:attribute name="genre">
