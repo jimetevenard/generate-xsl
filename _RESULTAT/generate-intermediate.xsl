@@ -58,6 +58,10 @@
         ### GENERATE NODES
         ==================
     -->
+    <xsl:template match="generate:*" mode="#all">
+        <!-- on dégage -->
+    </xsl:template>
+    
     <xsl:template match="generate:use-import" mode="imports">
         <intermediate-xsl:import>
             <xsl:attribute name="href" select="@href" />
@@ -114,6 +118,7 @@
         ### XSL NODES
         =============
     -->
+    
     <xsl:template match="xsl:*" mode="generate-target generated-template"> 
         <xsl:element name="target-xsl:{local-name()}" namespace="generate::generate-target-stylesheet">
             <xsl:apply-templates select="node() | @*" mode="#current" />
@@ -133,6 +138,10 @@
             </target-xsl:variable>    
         </xsl:if>
     </xsl:template>
+    
+    <!-- elements to remove -->
+    <xsl:template match="xsl:template[preceding-sibling::element()[1]/self::element(generate:iterate)]" mode="generate-target"/>
+    <xsl:template match="xsl:*[preceding-sibling::element()[1]/self::element(generate:remove)]" mode="generate-target"/>
     
     
     

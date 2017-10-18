@@ -22,7 +22,7 @@
     <generate:iterate for="doc('../clients.xml')//client" name="client">
         <generate:template>
             <generate:match xpath="*[prenom = '{$generate:client/prenom}']"/>
-            <generate:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'" />
+            <generate:variable name="genre" select="concat('''',if (metier:isFemme(.)) then 'femme' else 'homme','''')" />
         </generate:template>
     </generate:iterate>
     <xsl:template match="client">
