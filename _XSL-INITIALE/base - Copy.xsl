@@ -43,44 +43,6 @@
          Est-ce qu'on fait des PI ou on reste en XML
          - J'aime pas trop les PI (contenu considéré comme simple texte, a parser soi-même... )
          - En mettre partout dans les templates
-         
-         
-        ##CAS DES VARIABLES
-        ===================
-         
-        ATTENTION :
-            generate:variable => target-xsl:variable
-            generate:use-variable => intermediate-xsl:variable
-            VOIR DANS CHAQUE CE QUE JE VEUX (cf. plus bas)
-                 (@select? | @use-select? | @value? | @compute?)
-                 
-        
-        ACTUELLEMENT Je rermplace directement le select par @generate:variable/@select
-        Don j'obtiens à l'arrivé un select="femme" qui sera interpreté comme du XPath (./femme)
-        d'ou cet affreux concat(''''
-        
-        IL FAUT : préciser ici si ce que je veux
-        - Construire une expression XPath qui deviendra le @select de la target-xsl:variable
-        - OU obtenir une valeur qui sera la VALEUR de le target-xsl:variable.
-            TOUT N'est pas sérializable, éléments, séquences non primitives...
-            
-            Dans ce cas, il faut prévoir une fonction :
-            # SI [not($valeur instance of xs:anyAtomicType)]
-                => ALORS message erreur - impossible de sérialiser 
-                    AU MOMENT DE LA GENREATION DE L'INTER            <=================\
-                    PLUS SIMPLE et perti                                               I
-            # SINON                                                                    I
-                => representation lexicale de la valeur                                I
-                 =>( évalue dans le sequence constructor et pas dans un select         I
-                    pour autocaster si la variable est typée)                          I
-                                                                                       I
-            On génère intermediate-variable avec la sequence en question               I
-            @name = generate:leNomDeLaVar                                              I
-                                                                                       I
-            Récuperation pour serialization via une fx (OU PLUS SIMPLE cf. ici  >>=====/  )
-            
-            
-                    
         -->
     <?test-pi toto="titi"?>
     
@@ -102,7 +64,39 @@
             <generate:match xpath="*[prenom = '{$generate:client/prenom}']"/>
             <generate:variable name="genre" select="concat('''',if (metier:isFemme(.)) then 'femme' else 'homme','''')" />
             <!-- 
-               
+                ATTENTION :
+                    generate:variable => target-xsl:variable
+                    generate:use-variable => intermediate-xsl:variable
+                    VOIR DANS CHAQUE CE QUE JE VEUX (cf. plus bas)
+                         (@select? | @use-select? | @value? | @compute?)
+                         
+                
+                ACTUELLEMENT Je rermplace directement le select par @generate:variable/@select
+                Don j'obtiens à l'arrivé un select="femme" qui sera interpreté comme du XPath (./femme)
+                d'ou cet affreux concat(''''
+                
+                IL FAUT : préciser ici si ce que je veux
+                - Construire une expression XPath qui deviendra le @select de la target-xsl:variable
+                - OU obtenir une valeur qui sera la VALEUR de le target-xsl:variable.
+                    TOUT N'est pas sérializable, éléments, séquences non primitives...
+                    
+                    Dans ce cas, il faut prévoir une fonction :
+                    # SI [not($valeur instance of xs:anyAtomicType)]
+                        => ALORS message erreur - impossible de sérialiser 
+                            AU MOMENT DE LA GENREATION DE L'INTER            <=================\
+                            PLUS SIMPLE et perti                                               I
+                    # SINON                                                                    I
+                        => representation lexicale de la valeur                                I
+                         =>( évalue dans le sequence constructor et pas dans un select         I
+                            pour autocaster si la variable est typée)                          I
+                                                                                               I
+                    On génère intermediate-variable avec la sequence en question               I
+                    @name = generate:leNomDeLaVar                                              I
+                                                                                               I
+                    Récuperation pour serialization via une fx (OU PLUS SIMPLE cf. ici  >>=====/  )
+                    
+                    
+                    
             -->
         </generate:template>
     </generate:iterate>
