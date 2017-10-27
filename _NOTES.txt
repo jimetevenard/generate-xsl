@@ -7,7 +7,8 @@ Citation Spec W3C :
 > d'utiliser n'importe quel préfixe, à condition qu'il y ait une déclaration
 > d'espace de noms liant le préfixe à l'URI de l'espace de noms XSLT.
 
-Yes !
+// Yes !
+Hop là, ceci n'a rien à voir avec ce que je veux faire !!!
 
 
 EVAL
@@ -17,3 +18,106 @@ https://stackoverflow.com/questions/9565358/how-to-eval-an-xsl-constructed-xpath
 @Chistophe
 
 http://www.saxonica.com/html/documentation/xsl-elements/evaluate.html
+
+=======================================================
+=======================  V2 ===========================
+
+    Prépa : Syntaxe V2
+            
+    Je veux :
+    =========
+    
+    - Un use-var global $clients (sur lequel itérer)
+        => clarifier generate:use-variable / genrate:variable, generate:use-import
+    - Introduction des ID
+        => On peut conserver la convention d'annoter au dessus 
+    - <generate:iterate /@for : Mathhieu n'aime pas trop
+        - (pourquoi pas tout simplement <generate:for-each / @select ?)
+        - Virer le @name ou le rendre facultatif ? (moi j'aime bien)
+    
+    
+     
+     CALRIFIER : 
+     ===========
+     
+     => Quand et comment on évalue les expressions ?
+     
+     => Comment on identifie les éléments cibles ?
+        - ID systématique ?
+        - Pour certains éléments, alternative à l'ID (ex: @name pour les templates )
+        - Conservation d'un comportement par défaut basé sur le sibling ?
+            (Attention au risque de confusion)
+        Valable aussi bien pour les generate:remove, g
+     
+     => generate:template, changer la sysntaxe
+        - Il faut clarifier le fait qu'on reprend (copy ?) un template existant
+        - Clarifier également le fait qu'on remplace le match / des variables / des params
+               [ <generate:with-variable ... > ] ?
+        - S
+        
+     Est-ce qu'on fait des PI ou on reste en XML
+     - J'aime pas trop les PI (contenu considéré comme simple texte, a parser soi-même... )
+     - En mettre partout dans les templates
+     
+     
+    ## CAS DES VARIABLES
+    ===================
+    
+    [A Valider] théorisation des variables en génération :
+     - USED : évaluée et utilisée pendant la génération (intermediate-xsl:variable)
+     - COMPUTED : Dont la construction est générée et effectivement évaluée dans la xsl cible
+                 (target-xsl:variable select="_GENERATED-XPATH_") 
+     - GENERATED : évaluée et inferrée pendant la génération pour utilisation dans la xsl cible
+            // Remarque : Possible uniquement pour les instances de xs:anyAtomicType
+            (NON, POSSIBLE POUR TOUT !! Mais attention, il n'est pas pertinent de séralizer
+             un gros document... mais ça, c'est la responsabilité du dèv)
+            XPATH => Séralisation gnérique ??
+            Message ou flag ?
+            
+                   <target-xsl:variable [as="_TYPE_"]>
+                        <target-xsl:value-of select="_LITTERAL-ATOMIC_" />
+     
+    ATTENTION :
+        generate:variable => target-xsl:variable
+        generate:use-variable => intermediate-xsl:variable
+        VOIR DANS CHAQUE CE QUE JE VEUX (cf. plus bas)
+             (@select? | @use-select? | @value? | @compute?)
+             
+    
+    ACTUELLEMENT Je rermplace directement le select par @generate:variable/@select
+    Don j'obtiens à l'arrivé un select="femme" qui sera interpreté comme du XPath (./femme)
+    d'ou cet affreux concat(''''
+    
+    IL FAUT : préciser ici si ce que je veux
+    - Construire une expression XPath qui deviendra le @select de la target-xsl:variable
+    - OU obtenir une valeur qui sera la VALEUR de le target-xsl:variable.
+        TOUT N'est pas sérializable, éléments, séquences non primitives...
+        
+        Dans ce cas, il faut prévoir une fonction :
+        # SI [not($valeur instance of xs:anyAtomicType)]
+            => ALORS message erreur - impossible de sérialiser 
+                AU MOMENT DE LA GENREATION DE L'INTER            <=================\
+                PLUS SIMPLE et perti                                               I
+        # SINON                                                                    I
+            => representation lexicale de la valeur                                I
+             =>( évalue dans le sequence constructor et pas dans un select         I
+                pour autocaster si la variable est typée)                          I
+                                                                                   I
+        On génère intermediate-variable avec la sequence en question               I
+        @name = generate:leNomDeLaVar                                              I
+                                                                                   I
+        Récuperation pour serialization via une fx (OU PLUS SIMPLE cf. ici  >>=====/  )
+        
+        
+     ## CAS DES IF / WHEN FAISANT APPEL A DES VARIABLES "USED"
+     =========================================================
+     
+     Si l'exécution d'un <xsl:if ou d'un <xsl:when est conditionné par une valeur
+     évaluée durant la génération, il peut être opportun de le "compiler"
+     - Si la condition est évaluée comme vraie, copier directement les instructions
+     - Si la condition est évaluée comme fausse, supprimer le bloc
+     
+     <intermediate-xsl:if test="_expression cible
+    
+    
+            

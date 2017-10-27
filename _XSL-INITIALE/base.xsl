@@ -6,97 +6,31 @@
     exclude-result-prefixes="xs"
     version="3.0">
     
-    <!--
-        Prépa : Syntaxe V2
-        
-        Je veux :
-        =========
-        
-        - Un use-var global $clients (sur lequel itérer)
-            => clarifier generate:use-variable / genrate:variable, generate:use-import
-        - Introduction des ID
-            => On peut conserver la convention d'annoter au dessus 
-        - <generate:iterate /@for : Mathhieu n'aime pas trop
-            - (pourquoi pas tout simplement <generate:for-each / @select ?)
-            - Virer le @name ou le rendre facultatif ? (moi j'aime bien)
-        
-        
-         
-         CALRIFIER : 
-         ===========
-         
-         => Quand et comment on évalue les expressions ?
-         
-         => Comment on identifie les éléments cibles ?
-            - ID systématique ?
-            - Pour certains éléments, alternative à l'ID (ex: @name pour les templates )
-            - Conservation d'un comportement par défaut basé sur le sibling ?
-                (Attention au risque de confusion)
-            Valable aussi bien pour les generate:remove, g
-         
-         => generate:template, changer la sysntaxe
-            - Il faut clarifier le fait qu'on reprend (copy ?) un template existant
-            - Clarifier également le fait qu'on remplace le match / des variables / des params
-                   [ <generate:with-variable ... > ] ?
-            - S
-            
-         Est-ce qu'on fait des PI ou on reste en XML
-         - J'aime pas trop les PI (contenu considéré comme simple texte, a parser soi-même... )
-         - En mettre partout dans les templates
-         
-         
-        ##CAS DES VARIABLES
-        ===================
-         
-        ATTENTION :
-            generate:variable => target-xsl:variable
-            generate:use-variable => intermediate-xsl:variable
-            VOIR DANS CHAQUE CE QUE JE VEUX (cf. plus bas)
-                 (@select? | @use-select? | @value? | @compute?)
-                 
-        
-        ACTUELLEMENT Je rermplace directement le select par @generate:variable/@select
-        Don j'obtiens à l'arrivé un select="femme" qui sera interpreté comme du XPath (./femme)
-        d'ou cet affreux concat(''''
-        
-        IL FAUT : préciser ici si ce que je veux
-        - Construire une expression XPath qui deviendra le @select de la target-xsl:variable
-        - OU obtenir une valeur qui sera la VALEUR de le target-xsl:variable.
-            TOUT N'est pas sérializable, éléments, séquences non primitives...
-            
-            Dans ce cas, il faut prévoir une fonction :
-            # SI [not($valeur instance of xs:anyAtomicType)]
-                => ALORS message erreur - impossible de sérialiser 
-                    AU MOMENT DE LA GENREATION DE L'INTER            <=================\
-                    PLUS SIMPLE et perti                                               I
-            # SINON                                                                    I
-                => representation lexicale de la valeur                                I
-                 =>( évalue dans le sequence constructor et pas dans un select         I
-                    pour autocaster si la variable est typée)                          I
-                                                                                       I
-            On génère intermediate-variable avec la sequence en question               I
-            @name = generate:leNomDeLaVar                                              I
-                                                                                       I
-            Récuperation pour serialization via une fx (OU PLUS SIMPLE cf. ici  >>=====/  )
-            
-            
-                    
-        -->
-    <?test-pi toto="titi"?>
     
-    
-   
-    
+    <!-- V2: désignation par un ID ? -->
     <!-- On ne veut pas de cet import dans la XSL finale -->
     <generate:remove/>
     <xsl:import href="../_IMPORTS/fonctions.xsl"/>
     
+    
+    <!-- V2: 
+        pas de changement, pà priori...
+        Ce serait bien qu'on puisse faire d'une pierre deux coups.
+        MAIS il faut que ça reste simple et clair
+    -->
     <!-- En revanche, on a besoin dans le contexte de la géneration -->
     <generate:use-import href="../_IMPORTS/fonctions.xsl"/>
   
    
     
-    
+    <!-- V2: 
+        sortir la variable clients avant, ce serait cool
+        
+        for-each (name ?) (le name est une variable USED)
+            copy-template?
+            syntaxe interieure
+            syntaxe du statut de la variable
+    -->
     <generate:iterate for="doc('../clients.xml')//client" name="client">
         <generate:template>
             <generate:match xpath="*[prenom = '{$generate:client/prenom}']"/>
@@ -118,7 +52,7 @@
     </xsl:template>
     
     
-    
+    <!-- V2: todo -->
     <generate:remove/>
     <xsl:template match="comment()" priority="1">
         <xsl:message>FOUND COMMENT ! : <xsl:value-of select="."/></xsl:message>
