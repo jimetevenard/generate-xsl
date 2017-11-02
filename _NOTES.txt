@@ -1,14 +1,6 @@
 
-Citation Spec W3C :
-===================
-
-> Cette spécification utilise le préfixe xsl: pour référencer les éléments de
-> l'espace de noms XSLT. Cependant, les feuilles de style XSLT sont libres
-> d'utiliser n'importe quel préfixe, à condition qu'il y ait une déclaration
-> d'espace de noms liant le préfixe à l'URI de l'espace de noms XSLT.
-
-// Yes !
-Hop là, ceci n'a rien à voir avec ce que je veux faire !!!
+RAPPEL : CE FICHIER EST GITé !!
+Ne pas hésiter à sharper tout ce qui est obselète !!!
 
 
 EVAL
@@ -61,21 +53,49 @@ http://www.saxonica.com/html/documentation/xsl-elements/evaluate.html
      
      
     ## CAS DES VARIABLES
-    ===================
+    ====================
     
     [A Valider] théorisation des variables en génération :
-     - USED : évaluée et utilisée pendant la génération (intermediate-xsl:variable)
-     - COMPUTED : Dont la construction est générée et effectivement évaluée dans la xsl cible
-                 (target-xsl:variable select="_GENERATED-XPATH_") 
-     - GENERATED : évaluée et inferrée pendant la génération pour utilisation dans la xsl cible
-            // Remarque : Possible uniquement pour les instances de xs:anyAtomicType
-            (NON, POSSIBLE POUR TOUT !! Mais attention, il n'est pas pertinent de séralizer
-             un gros document... mais ça, c'est la responsabilité du dèv)
-            XPATH => Séralisation gnérique ??
-            Message ou flag ?
+    
+    ### USED :
+     évaluée et utilisée pendant la génération.
+     N'est pas retranscrite dans la XSL Générée
+     --------------------------------------------------------------------------
+     | PROP S-V2 : 
+     |   <generate:use-variable @name [@select] >
+     |      [content]
+     |    <generate:use-variable/>
+     --------------------------------------------------------------------------
+     | NOTE D'IMPLEM : intermediate-xsl:variable)                             |
+     --------------------------------------------------------------------------
+     
+    ### GENERATED :
+     Dont la construction est générée.
+     Effectivement évaluée lors de l'éxécution de la XSL Générée
+     Utilisation dans la XSL Générée
+     --------------------------------------------------------------------------
+     | PROP S-V2 : 
+     |    <generate:variable @name {@mode | @generated}??? [@select] >
+     |       [content]
+     |    <generate:variable/>
+     --------------------------------------------------------------------------
+     | NOTE D'IMPLEM : target-xsl:variable select="_GENERATED-XPATH_")        |
+     --------------------------------------------------------------------------
+                 
+    ### COMPUTED :
+     évaluée pendant la génération, pour utilisation dans la xsl cible
+     LA VALEUR EST DONC "SERIALISEE" 
+     
+     Aucun souci pour les instances de xs:anyAtomicType
+     (récupérable à l'identique si la variable est typée)
             
-                   <target-xsl:variable [as="_TYPE_"]>
-                        <target-xsl:value-of select="_LITTERAL-ATOMIC_" />
+     En revanche perte inévitable d'une partie de l'information pour les types complexes / nodes
+           
+           <target-xsl:variable [as="_TYPE_"]>
+                <target-xsl:value-of select="fn:serialize(_$VAR_)" />     
+                     
+@@@@@@@@@@@@@@@@@@@@@@@  NOOPE ! pas de fn:serialise, faire un copy-of
+                         On veut copier les items, pas en faire des xs:string à base de &lt;element/&gt;
      
     ATTENTION :
         generate:variable => target-xsl:variable

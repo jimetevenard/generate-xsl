@@ -6,41 +6,33 @@
     exclude-result-prefixes="xs"
     version="3.0">
     
-    
-    <!-- V2: désignation par un ID ? -->
-    <!-- On ne veut pas de cet import dans la XSL finale -->
-    <generate:remove/>
-    <xsl:import href="../_IMPORTS/fonctions.xsl"/>
-    
-    
-    <!-- V2: 
-        pas de changement, pà priori...
-        Ce serait bien qu'on puisse faire d'une pierre deux coups.
-        MAIS il faut que ça reste simple et clair
+    <!--
+        ## V2
+        =====
+        
+        cf. diff avec commit 2acf8b3d91de8ed9d91c09f33f8480bd90cb00fd
     -->
-    <!-- En revanche, on a besoin dans le contexte de la géneration -->
+    
+    
+    <generate:remove id="fxs"/>
+    <xsl:import href="../_IMPORTS/fonctions.xsl" generate:id="fxs"/>
+    
+    <!-- TODO d'une pierre deux coups ? -->
     <generate:use-import href="../_IMPORTS/fonctions.xsl"/>
   
    
     
-    <!-- V2: 
-        sortir la variable clients avant, ce serait cool
-        
-        for-each (name ?) (le name est une variable USED)
-            copy-template?
-            syntaxe interieure
-            syntaxe du statut de la variable
-    -->
-    <generate:iterate for="doc('../clients.xml')//client" name="client">
-        <generate:template>
-            <generate:match xpath="*[prenom = '{$generate:client/prenom}']"/>
-            <generate:variable name="genre" select="concat('''',if (metier:isFemme(.)) then 'femme' else 'homme','''')" />
-            <!-- 
-               
-            -->
-        </generate:template>
-    </generate:iterate>
-    <xsl:template match="client">
+    <generate:use-variable select="doc('../clients.xml')//client" name="clients"/>
+    <generate:for-each select="$clients" name="client" >
+        <generate:copy-template name="tplClient">
+            <generate:set-match xpath="*[prenom = '{$generate:client/prenom}']"/>
+            <generate:with-variable
+                name="genre"
+                select="if (metier:isFemme(.)) then 'femme' else 'homme'"
+                evaluate="yes" />
+        </generate:copy-template>
+    </generate:for-each>
+    <xsl:template match="client" name="tplClient">
         <xsl:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'" />
         <xsl:variable name="uneAutreVariable" select="'toto'"/>
         <xsl:copy>
@@ -51,11 +43,13 @@
         </xsl:copy>
     </xsl:template>
     
-    
-    <!-- V2: todo -->
-    <generate:remove/>
-    <xsl:template match="comment()" priority="1">
-        <xsl:message>FOUND COMMENT ! : <xsl:value-of select="."/></xsl:message>
+
+    <generate:remove id="unTemplatePeuUtile"/>
+    <xsl:template match="comment()" priority="1" generate:id="unTemplatePeuUtile">
+        <xsl:message>
+            <xsl:text>COMMENT FOUND : </xsl:text>
+            <xsl:value-of select="."/>
+        </xsl:message>
     </xsl:template>
     
     <!-- identity -->
