@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-11-02T17:12:05.402+01:00-->
+<!--INTERMEDIATE Generated at 2017-11-03T11:40:45.667+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
@@ -38,7 +38,16 @@
             <xsl:variable name="client">
                <xsl:copy-of select="."/>
             </xsl:variable>
-        
+            <target-xsl:template match="*[prenom = '{$client/prenom}']" name="tplClient">
+               <target-xsl:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
+               <target-xsl:variable name="uneAutreVariable" select="'toto'"/>
+               <target-xsl:copy>
+                  <target-xsl:attribute name="genre">
+                     <target-xsl:value-of select="$genre"/>
+                  </target-xsl:attribute>
+                  <target-xsl:apply-templates select="node() | @*"/>
+               </target-xsl:copy>
+            </target-xsl:template>
          </xsl:for-each>
          <target-xsl:template match="client" name="tplClient">
             <target-xsl:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
