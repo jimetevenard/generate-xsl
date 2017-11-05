@@ -25,7 +25,7 @@
     <generate:use-variable select="doc('../clients.xml')//client" name="clients"/>
     <generate:for-each select="$clients" name="client" >
         <generate:copy-template name="tplClient">
-            <generate:set-match value="*[prenom = '{$client/prenom}']"/>
+            <generate:set-match value="*[prenom = '{$client/prenom}']" />
             <generate:redefine-variable
                 name="genre"
                 select="if (metier:isFemme(.)) then 'femme' else 'homme'"

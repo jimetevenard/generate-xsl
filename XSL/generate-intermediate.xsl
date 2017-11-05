@@ -112,9 +112,7 @@
     <xsl:template match="generate:for-each" mode="generate-target">
         <intermediate-xsl:for-each select="{@select}">
             <xsl:if test="@name">
-                <intermediate-xsl:variable name="{@name}">
-                    <intermediate-xsl:copy-of select="." />
-                </intermediate-xsl:variable>
+                <intermediate-xsl:variable name="{@name}" select="." />
             </xsl:if>
             <xsl:apply-templates mode="generate-target">
                 <xsl:with-param name="generate-block" select="." tunnel="yes" />
@@ -130,6 +128,12 @@
                     <xsl:sequence select="//xsl:template[@generate:id = current()/@id]"/>
                 </xsl:when>
                 <xsl:when test="@name">
+                    <!--
+                        TODO :
+                        ======
+                        
+                        ATTENTION A LA DUPLICATION DU @name !!! 
+                    -->
                     <xsl:sequence select="//xsl:template[@name = current()/@name]"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -247,17 +251,25 @@
             
             ATTENTION, distinguer le cas Local/Global variable...
             ATTENTION, Quid du distingo redefine-variable/with-varialbe
+            
+            BIEN PRECISER les contours du $generate-block, qui se veut le "scope" de la variable
          -->
         <xsl:param name="generate-block" tunnel="yes" />
         <xsl:variable name="this" select="."/>
         <xsl:variable
             name="generate:redefinition"
             select="$generate-block//generate:redefine-variable[(@name = $this/@name) or (@id = $this/@generate:id)]"
-            as="element(generate:redefine-variable)"
+            as="element(generate:redefine-variable)?"
         />
         <xsl:choose>
             <xsl:when test="exists($generate:redefinition)">
-                
+                <!--
+                    IDEM que plus bas MAIS en réedéfiszant la valeur CONTENT ou @select
+                    ATTENTION : Veiller dans la variable générée à ce qu'il n'y ait pas de @select 
+                    s'il y a un CONTENT et vice-versa !
+                    (notemment si la variablere originale est définie par l'un et la
+                    redéfinition est définie par l'autre)
+                --> 
             </xsl:when>
             <xsl:otherwise>
                 <target-xsl:variable>
