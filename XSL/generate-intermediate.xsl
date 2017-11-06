@@ -128,12 +128,6 @@
                     <xsl:sequence select="//xsl:template[@generate:id = current()/@id]"/>
                 </xsl:when>
                 <xsl:when test="@name">
-                    <!--
-                        TODO :
-                        ======
-                        
-                        ATTENTION A LA DUPLICATION DU @name !!! 
-                    -->
                     <xsl:sequence select="//xsl:template[@name = current()/@name]"/>
                 </xsl:when>
                 <xsl:otherwise>
@@ -159,17 +153,6 @@
         <xsl:attribute name="{$attName}" select="@value" />
     </xsl:template>
     
-    <xsl:template match="generate:with-variable" mode="generate-target">
-        <!-- TODO OOO -->
-        <!--
-            Remarque :
-            On parle ici des variables de premier niveau (scope = tempate)
-            
-            Vraiment utile ou doublon avec generate:redefine-variable ?
-            Dans tous les cas, si la variable existe, mutualiser avec redefine
-         -->
-        
-    </xsl:template>
     
     <xsl:template match="generate:with-param" mode="generate-target">
         <!-- TODO OOO -->
@@ -179,25 +162,12 @@
     </xsl:template>
     
     <xsl:template match="generate:redefine-variable" mode="generate-target">
-        <!-- TODO OOO -->
         <!--
             Cf. template des xsl:variable
          -->
     </xsl:template>
     
-    <!-- ============== OLDIE !! ================== -->
-    <xsl:template match="generate:template" mode="generate-target">
-        <xsl:param name="iterate-node" tunnel="yes" />
-        <xsl:param name="template-node" tunnel="yes" />
-        <target-xsl:template>
-            <xsl:apply-templates select="$template-node/@*" mode="generated-template"/>
-            <xsl:apply-templates select="generate:*" mode="generated-template-attributes"/>
-            <xsl:apply-templates select="generate:*" mode="generate-target"/>
-            <xsl:apply-templates select="$template-node/node()" mode="generated-template">
-                <xsl:with-param name="generate-instruction" select="$iterate-node" tunnel="yes"/>
-            </xsl:apply-templates>
-        </target-xsl:template>
-    </xsl:template>
+
     
     <!-- ============== OLDIE !! ================== -->
     <!--<xsl:template match="(generate:match|generate:name|generate:priority|generate:mode|generate:as)" mode="generated-template-attributes">
@@ -213,15 +183,12 @@
     </xsl:template>
     -->
     
-    <!-- ============== OLDIE !! ================== -->
+    <!-- ============== NEW :) ================== -->
     <xsl:template match="generate:variable" mode="generate-target">
-        <!-- 
-            @select, mon beau @select... Mais je peux avoir du contenu aussi, oh !
-            Je suis un sequence constructor moi, monsieur !
-        -->
-        <xsl:param name="iterate-node" tunnel="yes" />
-        <intermediate-xsl:variable name="generate:{@name}" select="{@select}"/>
-        <target-xsl:variable name="{@name}" select="{concat('{$generate:',@name,'}')}"/>
+        <xsl:call-template name="generated-variable">
+            <xsl:with-param name="name" select="@name" />
+            <xsl:with-param name="definition" select="." />
+        </xsl:call-template>
     </xsl:template>
     
     
@@ -231,26 +198,31 @@
         =============
     -->
     
-    <!-- ============== OLDIE !! ================== -->
-    <xsl:template match="xsl:*" mode="generate-target generated-template"> 
-        <xsl:element name="target-xsl:{local-name()}" namespace="generate::generate-target-stylesheet">
-            <xsl:apply-templates select="node() | @*" mode="#current" />
-        </xsl:element>
+    <xsl:template match="xsl:template/@name" mode="generated-template">
+        <!--
+            On supprime les @name pour éviter toute duplication
+            TODO :
+                Un peu radical, idéalement il ne faudrait les supprimer que si l'attribut est
+                effectivement doublonné... (comment ?)
+        -->
     </xsl:template>
     
-    <!-- ============== WIP WIP WIP !! ================== -->
+    <!-- ============== NEW :) ================== -->
+    <xsl:template match="xsl:*" mode="generate-target generated-template"> 
+        <xsl:variable name="ref" select="//generate:*[@id = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
+        <xsl:variable name="isRemoved" as="xs:boolean" select="local-name($ref) = 'remove' or $ref/@keep-original = 'no'" />
+        
+        <xsl:if test="not($isRemoved)">
+            <xsl:element name="target-xsl:{local-name()}" namespace="generate::generate-target-stylesheet">
+                <xsl:apply-templates select="node() | @*" mode="#current" />
+            </xsl:element>
+        </xsl:if>
+    </xsl:template>
+    
+    <!-- ============== NEW :) ================== -->
     <xsl:template match="xsl:variable" mode="generated-template">
         <!--
-            TO BE NEW :
-            
-            Actuellement OLDIE, ce tempate ne fais rien s'il rencontre une variable redéfinie.
-            La variable était autrefois redéfinissable uniquement au top level,
-            On la génbérait en traitant le generate:variable.
-            
-            DESORMAIS, il faudrait donc le traiter ici
-            
             ATTENTION, distinguer le cas Local/Global variable...
-            ATTENTION, Quid du distingo redefine-variable/with-varialbe
             
             BIEN PRECISER les contours du $generate-block, qui se veut le "scope" de la variable
          -->
@@ -263,13 +235,10 @@
         />
         <xsl:choose>
             <xsl:when test="exists($generate:redefinition)">
-                <!--
-                    IDEM que plus bas MAIS en réedéfiszant la valeur CONTENT ou @select
-                    ATTENTION : Veiller dans la variable générée à ce qu'il n'y ait pas de @select 
-                    s'il y a un CONTENT et vice-versa !
-                    (notemment si la variablere originale est définie par l'un et la
-                    redéfinition est définie par l'autre)
-                --> 
+                <xsl:call-template name="generated-variable">
+                    <xsl:with-param name="name" select="$this/@name" />
+                    <xsl:with-param name="definition" select="$generate:redefinition" />
+                </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
                 <target-xsl:variable>
@@ -279,12 +248,31 @@
         </xsl:choose>
     </xsl:template>
     
-    <!-- ============== OLDIE !! ================== -->
-    <!-- elements to remove -->
-    <xsl:template match="xsl:template[preceding-sibling::element()[1]/self::element(generate:iterate)]" mode="generate-target"/>
-    <xsl:template match="xsl:*[preceding-sibling::element()[1]/self::element(generate:remove)]" mode="generate-target"/>
     
     
+    <!--
+        ============= YEPAAA ! ================
+        
+        
+    -->
+    <xsl:template name="generated-variable">
+        <xsl:param name="name" as="xs:string" required="yes" />
+        <xsl:param name="definition" as="element()" required="yes"></xsl:param>
+        <target-xsl:variable>
+            <xsl:attribute name="name" select="$name"></xsl:attribute>
+            <xsl:choose>
+                <xsl:when test="exists($definition/@select) and not($definition/@evaluate = 'yes')">
+                    <xsl:attribute name="select" select="$definition/@select" />
+                </xsl:when>
+                <xsl:when test="exists($definition/@select) and $definition/@evaluate = 'yes'">
+                    <intermediate-xsl:copy-of select="{$definition/@select}" />
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:apply-templates select="$definition/node()" mode="generate-target" />  
+                </xsl:otherwise>
+            </xsl:choose>
+        </target-xsl:variable>  
+    </xsl:template>
     
     <!-- 
         ### IDENTITY FOR OTHER NODES

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-11-05T19:40:07.391+01:00-->
+<!--INTERMEDIATE Generated at 2017-11-06T16:06:45.027+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
@@ -36,8 +36,11 @@
          <xsl:variable name="clients" select="doc('../clients.xml')//client"/>
          <xsl:for-each select="$clients">
             <xsl:variable name="client" select="."/>
-            <target-xsl:template match="*[prenom = '{$client/prenom}']" name="tplClient">
-        
+            <target-xsl:template match="*[prenom = '{$client/prenom}']">
+               <target-xsl:variable name="toto" select="count(//toto)"/>
+               <target-xsl:variable name="genre">
+                  <xsl:copy-of select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
+               </target-xsl:variable>
                <target-xsl:variable name="uneAutreVariable" select="'toto'"/>
                <target-xsl:copy>
                   <target-xsl:attribute name="genre">
@@ -47,23 +50,14 @@
                </target-xsl:copy>
             </target-xsl:template>
          </xsl:for-each>
-         <target-xsl:template match="client" name="tplClient">
-            <target-xsl:variable name="genre" select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
-            <target-xsl:variable name="uneAutreVariable" select="'toto'"/>
-            <target-xsl:copy>
-               <target-xsl:attribute name="genre">
-                  <target-xsl:value-of select="$genre"/>
-               </target-xsl:attribute>
-               <target-xsl:apply-templates select="node() | @*"/>
-            </target-xsl:copy>
-         </target-xsl:template>
+    
     
 
     
     
     
          <!-- identity -->
-         <target-xsl:template match="node() | @*">
+         <target-xsl:template match="node() | @*" name="baseIdentity">
             <target-xsl:copy>
                <target-xsl:apply-templates select="node() | @*"/>
             </target-xsl:copy>

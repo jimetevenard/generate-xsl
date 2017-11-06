@@ -14,8 +14,8 @@
     -->
     
     
-    <generate:remove id="fxs"/>
-    <xsl:import href="../_IMPORTS/fonctions.xsl" generate:id="fxs"/>
+    <generate:remove id="fonctions-metier"/>
+    <xsl:import href="../_IMPORTS/fonctions.xsl" generate:id="fonctions-metier"/>
     
     <!-- TODO d'une pierre deux coups ? -->
     <generate:use-import href="../_IMPORTS/fonctions.xsl"/>
@@ -24,12 +24,13 @@
     
     <generate:use-variable select="doc('../clients.xml')//client" name="clients"/>
     <generate:for-each select="$clients" name="client" >
-        <generate:copy-template name="tplClient">
+        <generate:copy-template name="tplClient" keep-original="no">
             <generate:set-match value="*[prenom = '{$client/prenom}']" />
             <generate:redefine-variable
                 name="genre"
                 select="if (metier:isFemme(.)) then 'femme' else 'homme'"
                 evaluate="yes" />
+            <generate:variable name="toto" select="count(//toto)"></generate:variable>
         </generate:copy-template>
     </generate:for-each>
     <xsl:template match="client" name="tplClient">
@@ -44,8 +45,8 @@
     </xsl:template>
     
 
-    <generate:remove id="unTemplatePeuUtile"/>
-    <xsl:template match="comment()" priority="1" generate:id="unTemplatePeuUtile">
+    <generate:remove id="un-template-peu-utile"/>
+    <xsl:template match="comment()" priority="1" generate:id="un-template-peu-utile">
         <xsl:message>
             <xsl:text>COMMENT FOUND : </xsl:text>
             <xsl:value-of select="."/>
@@ -53,7 +54,7 @@
     </xsl:template>
     
     <!-- identity -->
-    <xsl:template match="node() | @*">
+    <xsl:template match="node() | @*" name="baseIdentity">
         <xsl:copy>
             <xsl:apply-templates select="node() | @*"></xsl:apply-templates>
         </xsl:copy>

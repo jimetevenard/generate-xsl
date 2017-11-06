@@ -1,33 +1,6 @@
 
-RAPPEL : CE FICHIER EST GITé !!
-Ne pas hésiter à sharper tout ce qui est obselète !!!
-
-
-EVAL
-====
-
-https://stackoverflow.com/questions/9565358/how-to-eval-an-xsl-constructed-xpath-expression
-@Chistophe
-
-http://www.saxonica.com/html/documentation/xsl-elements/evaluate.html
-
-=======================================================
-=======================  V2 ===========================
-
-    Prépa : Syntaxe V2
-            
-    Je veux :
-    =========
-    
-    - Un use-var global $clients (sur lequel itérer)
-        => clarifier generate:use-variable / genrate:variable, generate:use-import
-    - Introduction des ID
-        => On peut conserver la convention d'annoter au dessus 
-    - <generate:iterate /@for : Mathhieu n'aime pas trop
-        - (pourquoi pas tout simplement <generate:for-each / @select ?)
-        - Virer le @name ou le rendre facultatif ? (moi j'aime bien)
-    
-    
+     
+     
      
      CALRIFIER : 
      ===========
@@ -81,10 +54,14 @@ http://www.saxonica.com/html/documentation/xsl-elements/evaluate.html
      --------------------------------------------------------------------------
      | NOTE D'IMPLEM : target-xsl:variable select="_GENERATED-XPATH_")        |
      --------------------------------------------------------------------------
+     
+     ==> C-A-D : La valeur du @select DEVIENt le @select de la var finale
                  
-    ### COMPUTED :
+    ### COMPUTED / EVALUATED :
      évaluée pendant la génération, pour utilisation dans la xsl cible
      LA VALEUR EST DONC "SERIALISEE" 
+     
+     ===> le @select est evalué comme xPath ou
      
      Aucun souci pour les instances de xs:anyAtomicType
      (récupérable à l'identique si la variable est typée)
