@@ -19,6 +19,12 @@
     
     <!-- TODO d'une pierre deux coups ? -->
     <generate:use-import href="../_IMPORTS/fonctions.xsl"/>
+    
+    
+    <xsl:variable name="a-random-var" select="concat('toto','tata')" generate:evaluate="yes"/>
+    
+    
+    
   
    
     
@@ -41,6 +47,9 @@
                 <xsl:value-of select="$genre"/>
             </xsl:attribute>
             <xsl:apply-templates select="node() | @*"></xsl:apply-templates>
+            <xsl:call-template name="conditional-processes">
+                <xsl:with-param name="monClient" select="."/>
+            </xsl:call-template>
         </xsl:copy>
     </xsl:template>
     
@@ -51,6 +60,27 @@
             <xsl:text>COMMENT FOUND : </xsl:text>
             <xsl:value-of select="."/>
         </xsl:message>
+    </xsl:template>
+    
+    <xsl:template name="conditional-processes">
+        <xsl:param name="monClient" />
+        <xsl:if test="true()" generate:evaluate="yes" >
+            <xsl:message>Dude, looks like I'll always do this</xsl:message>
+        </xsl:if>
+        <xsl:if test="false()" generate:evaluate="yes">
+            <xsl:message>Dude, looks like I'll never do that</xsl:message>
+        </xsl:if>
+        <xsl:choose generate:evaluate="yes">
+            <xsl:when test="metier:isFemme($monClient)">
+                <xsl:message>Une cliente</xsl:message>
+            </xsl:when>
+            <xsl:when test="not(metier:isFemme($monClient)) and  (string-length($monClient/prenom) > 6)">
+                <xsl:message>Un client avec un prenom long...</xsl:message>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:message>Un client autre...</xsl:message>
+            </xsl:otherwise>
+        </xsl:choose>
     </xsl:template>
     
     <!-- identity -->

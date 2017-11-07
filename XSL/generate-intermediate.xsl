@@ -136,12 +136,16 @@
             </xsl:choose>
         </xsl:variable>
         <target-xsl:template>
+            <!-- 
+                TODO
+                ====
+                VIRER CE MODE generated-template QUI NE SERT A RIEN !
+            -->
             <xsl:apply-templates select="$template/@*" mode="generated-template"/>
             <xsl:apply-templates select="generate:*" mode="generated-template-attributes"/>
             <xsl:apply-templates select="generate:*" mode="generate-target"/>
             <xsl:apply-templates select="$template/node()" mode="generated-template"/>
-                
-            
+    
         </target-xsl:template>
     </xsl:template>
     
@@ -219,18 +223,50 @@
         </xsl:if>
     </xsl:template>
     
+    
+    <!-- ====== NEW :) evaluate if ===== -->
+    <xsl:template match="xsl:if[@generate:evaluate = 'yes']" mode="#all">
+        <intermediate-xsl:if test="{@test}">
+            <xsl:apply-templates mode="#current" />
+        </intermediate-xsl:if>
+    </xsl:template>
+    
+    
+    <!-- ====== NEW :) evaluate choose ===== -->
+    <xsl:template match="xsl:choose[@generate:evaluate = 'yes']" mode="#all">
+        <intermediate-xsl:choose>
+            <xsl:apply-templates mode="evaluate-choose"></xsl:apply-templates>
+        </intermediate-xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="xsl:when" mode="evaluate-choose">
+        <intermediate-xsl:when test="{@test}">
+            <xsl:apply-templates mode="generate-target" />
+        </intermediate-xsl:when>
+    </xsl:template>
+    
+    <xsl:template match="xsl:otherwise" mode="evaluate-choose">
+        <intermediate-xsl:otherwise>
+            <xsl:apply-templates mode="generate-target" />
+        </intermediate-xsl:otherwise>
+    </xsl:template>
+    
     <!-- ============== NEW :) ================== -->
-    <xsl:template match="xsl:variable" mode="generated-template">
+    <xsl:template match="xsl:variable" mode="#all">
         <!--
             ATTENTION, distinguer le cas Local/Global variable...
             
             BIEN PRECISER les contours du $generate-block, qui se veut le "scope" de la variable
+            
+            Améliorer la gestion $scope... Qui n'est utile que pour le @name
+            l'ID doit fonctionner tout le temps, sans notion de scope car il est unique.
          -->
         <xsl:param name="generate-block" tunnel="yes" />
+        <xsl:variable name="scope" select="if ($generate-block) then $generate-block else (/*)"/>
         <xsl:variable name="this" select="."/>
         <xsl:variable
             name="generate:redefinition"
-            select="$generate-block//generate:redefine-variable[(@name = $this/@name) or (@id = $this/@generate:id)]"
+            select="$scope//generate:redefine-variable[(@name = $this/@name) or (@id = $this/@generate:id)]"
             as="element(generate:redefine-variable)?"
         />
         <xsl:choose>
@@ -238,6 +274,12 @@
                 <xsl:call-template name="generated-variable">
                     <xsl:with-param name="name" select="$this/@name" />
                     <xsl:with-param name="definition" select="$generate:redefinition" />
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:when test="@generate:evaluate = 'yes'">
+                <xsl:call-template name="generated-variable">
+                    <xsl:with-param name="name" select="$this/@name" />
+                    <xsl:with-param name="evaluate" select="true()"></xsl:with-param>
                 </xsl:call-template>
             </xsl:when>
             <xsl:otherwise>
@@ -257,15 +299,20 @@
     -->
     <xsl:template name="generated-variable">
         <xsl:param name="name" as="xs:string" required="yes" />
-        <xsl:param name="definition" as="element()" required="yes"></xsl:param>
+        <xsl:param name="definition" as="element()?" />
+        <xsl:param name="evaluate" as="xs:boolean" select="$definition/@evaluate = 'yes'"/>
         <target-xsl:variable>
             <xsl:attribute name="name" select="$name"></xsl:attribute>
             <xsl:choose>
-                <xsl:when test="exists($definition/@select) and not($definition/@evaluate = 'yes')">
+                <xsl:when test="exists($definition/@select) and not($evaluate)">
                     <xsl:attribute name="select" select="$definition/@select" />
                 </xsl:when>
-                <xsl:when test="exists($definition/@select) and $definition/@evaluate = 'yes'">
+                <xsl:when test="exists($definition/@select) and $evaluate">
                     <intermediate-xsl:copy-of select="{$definition/@select}" />
+                </xsl:when>
+                <xsl:when test="$evaluate">
+                    <!-- from <xsl:variable generate:evaluate="yes" -->
+                    <intermediate-xsl:copy-of select="{@select}" />
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="$definition/node()" mode="generate-target" />  

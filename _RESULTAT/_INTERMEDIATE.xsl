@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-11-06T16:06:45.027+01:00-->
+<!--INTERMEDIATE Generated at 2017-11-07T14:40:12.748+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
@@ -30,6 +30,14 @@
     
     <!-- TODO d'une pierre deux coups ? -->
     
+    
+    
+         <target-xsl:variable name="a-random-var">
+            <xsl:copy-of select="concat('toto','tata')"/>
+         </target-xsl:variable>
+    
+    
+    
   
    
     
@@ -47,6 +55,9 @@
                      <target-xsl:value-of select="$genre"/>
                   </target-xsl:attribute>
                   <target-xsl:apply-templates select="node() | @*"/>
+                  <target-xsl:call-template name="conditional-processes">
+                     <target-xsl:with-param name="monClient" select="."/>
+                  </target-xsl:call-template>
                </target-xsl:copy>
             </target-xsl:template>
          </xsl:for-each>
@@ -55,6 +66,27 @@
 
     
     
+    
+         <target-xsl:template name="conditional-processes">
+            <target-xsl:param name="monClient"/>
+            <xsl:if test="true()">
+               <target-xsl:message>Dude, looks like I'll always do this</target-xsl:message>
+            </xsl:if>
+            <xsl:if test="false()">
+               <target-xsl:message>Dude, looks like I'll never do that</target-xsl:message>
+            </xsl:if>
+            <xsl:choose>
+               <xsl:when test="metier:isFemme($monClient)">
+                  <target-xsl:message>Une cliente</target-xsl:message>
+               </xsl:when>
+               <xsl:when test="not(metier:isFemme($monClient)) and  (string-length($monClient/prenom) &gt; 6)">
+                  <target-xsl:message>Un client avec un prenom long...</target-xsl:message>
+               </xsl:when>
+               <xsl:otherwise>
+                  <target-xsl:message>Un client autre...</target-xsl:message>
+               </xsl:otherwise>
+            </xsl:choose>
+         </target-xsl:template>
     
          <!-- identity -->
          <target-xsl:template match="node() | @*" name="baseIdentity">
