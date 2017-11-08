@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-11-07T14:40:12.748+01:00-->
+<!--INTERMEDIATE Generated at 2017-11-07T17:35:17.04+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
@@ -22,13 +22,17 @@
         =====
         
         cf. diff avec commit 2acf8b3d91de8ed9d91c09f33f8480bd90cb00fd
+        
+distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(),'/@',name()),//@generate:*/concat(parent::node()/name(),'/@',name())))
     -->
-    
+   
     
     
     
     
     <!-- TODO d'une pierre deux coups ? -->
+    
+    
     
     
     
@@ -76,10 +80,10 @@
                <target-xsl:message>Dude, looks like I'll never do that</target-xsl:message>
             </xsl:if>
             <xsl:choose>
-               <xsl:when test="metier:isFemme($monClient)">
+               <xsl:when test="false()">
                   <target-xsl:message>Une cliente</target-xsl:message>
                </xsl:when>
-               <xsl:when test="not(metier:isFemme($monClient)) and  (string-length($monClient/prenom) &gt; 6)">
+               <xsl:when test="true()">
                   <target-xsl:message>Un client avec un prenom long...</target-xsl:message>
                </xsl:when>
                <xsl:otherwise>

@@ -11,14 +11,18 @@
         =====
         
         cf. diff avec commit 2acf8b3d91de8ed9d91c09f33f8480bd90cb00fd
+        
+distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(),'/@',name()),//@generate:*/concat(parent::node()/name(),'/@',name())))
     -->
-    
+   
     
     <generate:remove id="fonctions-metier"/>
     <xsl:import href="../_IMPORTS/fonctions.xsl" generate:id="fonctions-metier"/>
     
     <!-- TODO d'une pierre deux coups ? -->
     <generate:use-import href="../_IMPORTS/fonctions.xsl"/>
+    
+    
     
     
     <xsl:variable name="a-random-var" select="concat('toto','tata')" generate:evaluate="yes"/>
@@ -71,10 +75,10 @@
             <xsl:message>Dude, looks like I'll never do that</xsl:message>
         </xsl:if>
         <xsl:choose generate:evaluate="yes">
-            <xsl:when test="metier:isFemme($monClient)">
+            <xsl:when test="false()">
                 <xsl:message>Une cliente</xsl:message>
             </xsl:when>
-            <xsl:when test="not(metier:isFemme($monClient)) and  (string-length($monClient/prenom) > 6)">
+            <xsl:when test="true()">
                 <xsl:message>Un client avec un prenom long...</xsl:message>
             </xsl:when>
             <xsl:otherwise>

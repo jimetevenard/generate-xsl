@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--TARGET Generated at 2017-11-07T14:15:49.727+01:00-->
+<!--TARGET Generated at 2017-11-07T16:23:00.008+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate="http://jimetevenard.com/ns/generate-xsl"
@@ -1412,17 +1412,7 @@
    <xsl:template name="conditional-processes">
       <xsl:param name="monClient"/>
       <xsl:message>Dude, looks like I'll always do this</xsl:message>
-      <xsl:choose>
-         <xsl:when test="metier:isFemme($monClient)">
-            <xsl:message>Une cliente</xsl:message>
-         </xsl:when>
-         <xsl:when test="not(metier:isFemme($monClient)) and  (string-length($monClient/prenom) &gt; 6)">
-            <xsl:message>Un client avec un prenom long...</xsl:message>
-         </xsl:when>
-         <xsl:otherwise>
-            <xsl:message>Un client autre...</xsl:message>
-         </xsl:otherwise>
-      </xsl:choose>
+      <xsl:message>Un client avec un prenom long...</xsl:message>
    </xsl:template>
    <xsl:template match="node() | @*" name="baseIdentity">
       <xsl:copy>
