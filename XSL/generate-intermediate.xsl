@@ -149,10 +149,10 @@
                 ====
                 VIRER CE MODE generated-template QUI NE SERT A RIEN !
             -->
-            <xsl:apply-templates select="$template/@*" mode="generated-template"/>
+            <xsl:apply-templates select="$template/@*" mode="template-attributes"/>
             <xsl:apply-templates select="generate:*" mode="generated-template-attributes"/>
             <xsl:apply-templates select="generate:*" mode="generate-target"/>
-            <xsl:apply-templates select="$template/node()" mode="generated-template"/>
+            <xsl:apply-templates select="$template/node()" mode="generate-target"/>
     
         </target-xsl:template>
     </xsl:template>
@@ -164,6 +164,7 @@
         <xsl:variable name="attName" select="substring(local-name(.),5)"/>
         <xsl:attribute name="{$attName}" select="@value" />
     </xsl:template>
+    
     
     
     <xsl:template match="generate:with-param" mode="generate-target">
@@ -210,7 +211,7 @@
         =============
     -->
     
-    <xsl:template match="xsl:template/@name" mode="generated-template">
+    <xsl:template match="xsl:template/@name" mode="template-attributes">
         <!--
             On supprime les @name pour éviter toute duplication
             TODO :
@@ -220,7 +221,7 @@
     </xsl:template>
     
     <!-- ============== NEW :) ================== -->
-    <xsl:template match="xsl:*" mode="generate-target generated-template"> 
+    <xsl:template match="xsl:*" mode="generate-target"> 
         <xsl:variable name="ref" select="//generate:*[@id = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
         <xsl:variable name="isRemoved" as="xs:boolean" select="$ref[local-name() = 'remove'] or $ref/@keep-original = 'no'" />
         
@@ -294,7 +295,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <target-xsl:variable>
-                    <xsl:apply-templates select="node() | @*" mode="generated-template" />          
+                    <xsl:apply-templates select="node() | @*" mode="generate-target" />          
                 </target-xsl:variable>   
             </xsl:otherwise>
         </xsl:choose>
@@ -344,14 +345,11 @@
     </xsl:template>
     
     <!-- ==== OUCH !! ===== -->
-    <xsl:template match="@*" mode="generate-target generated-template">
+    <xsl:template match="@*" mode="generate-target" priority="1">
         <xsl:message>ATT !!</xsl:message>
-        <xsl:attribute name="{name()}" namespace="{namespace-uri()}">
-            <!--<xsl:value-of select="'laloo'"/>-->
-            
-           <xsl:value-of select="concat('{''',replace(.,'''',''''''),'''}')"/>
-            <!-- TRAITER LES { et } ICI -->
-        </xsl:attribute>
+        <xsl:attribute name="{name()}" namespace="{namespace-uri()}">       
+           <xsl:value-of select="concat('{''',replace(.,'''',''''''),'''}')"/>   
+        </xsl:attribute>   
     </xsl:template>
     
     

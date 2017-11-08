@@ -40,7 +40,7 @@ distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(
                 name="genre"
                 select="if (metier:isFemme(.)) then 'femme' else 'homme'"
                 evaluate="yes" />
-            <generate:variable name="toto" select="count(//toto)"></generate:variable>
+            <generate:variable name="toto" select="count(//toto)"  evaluate="yes"></generate:variable>
         </generate:copy-template>
     </generate:for-each>
     <xsl:template match="client" name="tplClient">

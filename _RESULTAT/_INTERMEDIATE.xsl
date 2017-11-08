@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--INTERMEDIATE Generated at 2017-11-07T17:35:17.04+01:00-->
+<!--INTERMEDIATE Generated at 2017-11-08T11:42:28.808+01:00-->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns:generate-target="generate::generate-target-stylesheet"
@@ -15,7 +15,7 @@
    <xsl:template name="init">
       <xsl:comment>TARGET Generated at <xsl:value-of select="current-dateTime()"/>
       </xsl:comment>
-      <target-xsl:stylesheet exclude-result-prefixes="xs" version="3.0">
+      <target-xsl:stylesheet exclude-result-prefixes="{'xs'}" version="{'3.0'}">
     
     <!--
         ## V2
@@ -49,18 +49,20 @@ distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(
          <xsl:for-each select="$clients">
             <xsl:variable name="client" select="."/>
             <target-xsl:template match="*[prenom = '{$client/prenom}']">
-               <target-xsl:variable name="toto" select="count(//toto)"/>
+               <target-xsl:variable name="toto">
+                  <xsl:copy-of select="count(//toto)"/>
+               </target-xsl:variable>
                <target-xsl:variable name="genre">
                   <xsl:copy-of select="if (metier:isFemme(.)) then 'femme' else 'homme'"/>
                </target-xsl:variable>
-               <target-xsl:variable name="uneAutreVariable" select="'toto'"/>
+               <target-xsl:variable name="{'uneAutreVariable'}" select="{'''toto'''}"/>
                <target-xsl:copy>
-                  <target-xsl:attribute name="genre">
-                     <target-xsl:value-of select="$genre"/>
+                  <target-xsl:attribute name="{'genre'}">
+                     <target-xsl:value-of select="{'$genre'}"/>
                   </target-xsl:attribute>
-                  <target-xsl:apply-templates select="node() | @*"/>
-                  <target-xsl:call-template name="conditional-processes">
-                     <target-xsl:with-param name="monClient" select="."/>
+                  <target-xsl:apply-templates select="{'node() | @*'}"/>
+                  <target-xsl:call-template name="{'conditional-processes'}">
+                     <target-xsl:with-param name="{'monClient'}" select="{'.'}"/>
                   </target-xsl:call-template>
                </target-xsl:copy>
             </target-xsl:template>
@@ -71,8 +73,8 @@ distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(
     
     
     
-         <target-xsl:template name="conditional-processes">
-            <target-xsl:param name="monClient"/>
+         <target-xsl:template name="{'conditional-processes'}">
+            <target-xsl:param name="{'monClient'}"/>
             <xsl:if test="true()">
                <target-xsl:message>Dude, looks like I'll always do this</target-xsl:message>
             </xsl:if>
@@ -93,9 +95,9 @@ distinct-values((//generate:*/name(),//generate:*/@*/concat(parent::node()/name(
          </target-xsl:template>
     
          <!-- identity -->
-         <target-xsl:template match="node() | @*" name="baseIdentity">
+         <target-xsl:template match="{'node() | @*'}" name="{'baseIdentity'}">
             <target-xsl:copy>
-               <target-xsl:apply-templates select="node() | @*"/>
+               <target-xsl:apply-templates select="{'node() | @*'}"/>
             </target-xsl:copy>
          </target-xsl:template>
       </target-xsl:stylesheet>
