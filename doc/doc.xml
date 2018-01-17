@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc:doc xmlns:doc="http://jimetevenard.com/ns/generate-xsl/doc">
+
+
+
+
+
+
+
+
+
+    <doc:langElement name="generate:target-block"/>
+
+    <doc:langElement name="generate:use-import"/>
+
+    <doc:langElement name="generate:import|generate:param"/>
+
+    <doc:langElement name="generate:use-variable"/>
+
+    <doc:langElement name="generate:for-each"/>
+
+    <doc:langElement name="generate:if"/>
+
+
+
+    <doc:langElement name="generate:copy-template"/>
+
+    <doc:langElement
+        name="generate:set-match|generate:set-mode|generate:set-priority|generate:set-name|generate:set-as|generate:set-visibility"/>
+
+
+
+    <doc:langElement name="generate:with-param"/>
+
+    <doc:langElement name="generate:redefine-variable"/>
+
+
+    <doc:langElement name="generate:variable"/>
+
+
+
+
+
+    <doc:langAttribute name="xsl:call-template[@generate:evaluate = 'build']"/>
+
+
+
+
+    <!-- 
+        
+        séparation selon l'elt de l'attribut ?
+        ======================================
+        
+        NON, c'est inutile
+        un @generate:evaluate à toujours la même fonction.
+        
+        Juste préciser dans la description s'il y a des subtilités
+    -->
+    <doc:langAttribute name="xsl:if[@generate:evaluate = 'build']"/>
+    <doc:langAttribute name="xsl:if[@generate:evaluate = 'call']"/>
+
+
+    <doc:langAttribute name="xsl:for-each[@generate:evaluate = 'build']"/>
+    <doc:langAttribute name="xsl:for-each[@generate:evaluate = 'call']"/>
+
+
+    <doc:langAttribute name="xsl:choose[@generate:evaluate = 'build']"/>
+    <doc:langAttribute name="xsl:choose[@generate:evaluate = 'call']"/>
+
+
+    <doc:langNode name="xsl:when"><!--Undefined--></doc:langNode>
+
+    <doc:langNode name="xsl:otherwise"><!--Undefined--></doc:langNode>
+
+
+    <doc:langAttribute name="xsl:value-of[@generate:evaluate = 'build']"/>
+    <doc:langAttribute name="xsl:value-of[@generate:evaluate = 'call']"/>
+
+
+
+</doc:doc>
