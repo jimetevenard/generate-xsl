@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doc xmlns="http://jimetevenard.com/ns/generate-xsl/doc">
+
+    <meta>
+        <namespaces>
+            <namespace id="generate" uri="http://jimetevenard.com/ns/generate-xsl"
+                usual-prefix="generate"/>
+        </namespaces>
+        <project repository="#URL-du-repo">Generate XSL</project>
+    </meta>
+    
+    
+
+    <title>Generate XSL</title>
+
+    <section>
+
+        <block> Generate-XSL est framework permettant la pré-compilation d'une transformation XSL, en
+            précalculant certaines évaluations dans un but d'optimisation des performances. </block>
+
+        <block> L'ajout des information de précompilation se fait via un système d'annotations 
+            sous formes d'éléments et d'attributs XMLajoutés à la transformation, exprimés dans le
+            namespace <namespaceRef idRef="generate">Generate-XSL</namespaceRef>.</block>
+        
+        
+        <!-- 
+            TODO, étoffer intro
+            
+        -->
+        <block>TODO principe, but, interêt/avantages...</block>
+        
+        <block>
+            Hello ! 
+            <block>Blop !</block>
+        </block>
+
+       <!-- <toc/> -->
+
+
+
+        <langElement doc-status="pending" name="generate:exemple">
+            <block>Ceci est un exemple de documentation d'élément XML du language</block>
+            <title>Exemple :</title>
+            <block>titi toto... Il peut contenir des <element>template</element> avec des attributs <attribute>name</attribute></block>
+            
+            <block>On peut bien sûr, référencer des langNodes dans cette doc,
+                comme l'élément <langNodeRef nameRef="generate:use-import"/> ou l'attribut <langNodeRef nameRef="generate:evaluate"/></block>
+        </langElement>
+        
+        <langElement doc-status="todo" name="generate:target-block">
+            <block>Le contenu de cet élément seront présentent dans la <definitionRef idRef="xsl-gen">XSL générée</definitionRef></block>
+        </langElement>
+
+        <langElement doc-status="pending" name="generate:use-import">
+            <block>Importe une Transformation XSL externe et la rend visible 
+                dans le <definitionRef idRef="contexte">contexte de génération</definitionRef>.</block>
+            
+            <block>La XSL cible peut être référencée :
+                <case>Via un attribut <attribute>href</attribute> contenant l'URI de la feuille de style importée</case>
+                <case>Via un attribut <attribute>id</attribute>, traité comme aune référence à l'attribut <langNodeRef nameRef="generate:id" /> 
+                d'un import déclaré la <definitionRef idRef="xsl-source">XSL source</definitionRef></case>
+            </block>
+            
+            <block>Les variables, paramètres, templates, fonctions... déclarées dans la
+                XSL importée sont visibles dans le <definitionRef idRef="contexte">contexte de génération</definitionRef></block>
+            
+            <warning>
+                <block>
+                Il appartient au développeur de s'assurer que les expressions XPath exprimées dans la XSL importée
+                sont effectivement evaluables dans le <definitionRef idRef="contexte">contexte de génération</definitionRef>.
+                </block>
+                <block>L'utilisation de <langNodeRef nameRef="generate:use" /> ou
+                    <langNodeRef nameRef="generate:use-variable" /> peut, par exemple, être néscéssaire.</block>
+                
+            </warning>
+        </langElement>
+
+        <langElement doc-status="pending" name="generate:import">
+            Ajoute un élément <element>xsl:import</element> à la <definitionRef idRef="xsl-gen">XSL générée</definitionRef>.
+        </langElement>
+        
+        <langElement doc-status="pending" name="generate:param">
+            Ajoute un élément <element>xsl:param</element> à la <definitionRef idRef="xsl-gen">XSL générée</definitionRef>.
+        </langElement>
+
+        <langElement doc-status="pending" name="generate:use-variable">
+            <block>Définit une variable évaluée et visible dans le <definitionRef idRef="contexte">contexte de génération</definitionRef>.</block>
+            <warning>La/les expressions XPath exprimées pour définir la valeur de la variable
+            doivent être effectivement évaluables dans le contexte de génération.</warning>
+        </langElement>
+
+        <langElement doc-status="todo" name="generate:for-each">
+            <block>Itère sur chaque élément de la séquence exprimée dans l'attribut <attribute>select</attribute>.</block>
+            <block>La valeur de cet attribut est évaluée dans le <definitionRef idRef="contexte">contexte de génération</definitionRef>.</block>
+            <block>A chaque itération :
+                <case>Les éléments <element>xsl:*</element> à l'intérieur du bloc sont dupliqués,
+                en tenat compte des <element>generate:*</element> et <attribute>generate:*</attribute>
+                qu'ils contiennent.</case>
+                <case>les instructions <element>generate:*</element> sont éxécutées.</case>
+            </block>
+        </langElement>
+
+        <langElement doc-status="todo" name="generate:if">
+            <block>Si la condition exprimée dans <attribute>test</attribute> est vraie,
+                <case>Les éléments <element>xsl:*</element> à l'intérieur du bloc sont dupliqués,
+                    en tenat compte des <element>generate:*</element> et <attribute>generate:*</attribute>
+                    qu'ils contiennent.</case>
+                <case>les instructions <element>generate:*</element> sont éxécutées.</case>
+            </block>
+            <block>La valeur de l'attribut <attribute>test</attribute> est évaluée
+                dans le <definitionRef idRef="contexte">contexte de génération</definitionRef>.</block>
+        </langElement>
+
+
+
+        <langElement doc-status="todo" name="generate:copy-template">
+            <block>Duplique dans la <definitionRef idRef="xsl-gen">XSL générée</definitionRef> un <element>xsl:template</element>
+            de la <definitionRef idRef="xsl-source">XSL source</definitionRef> identifié par :
+                <case>Une référence à son éventuel attribut<langNodeRef nameRef="generate:id" />
+                exprimée sous forme d'un attribut <attribute>id</attribute></case>
+                <case>Une référence à son <attribute>name</attribute> exprimée via un
+                    attribut <attribute>name</attribute> sous réserve qu'il soit présent et unique.</case>
+            </block>
+            <info>
+                Cet élément accepte les enfants <langNodeRef nameRef="generate:set-match" />
+                <langNodeRef nameRef="generate:set-mode" /> <langNodeRef nameRef="generate:set-priority" />
+                <langNodeRef nameRef="generate:set-name" /> <langNodeRef nameRef="generate:set-as" />
+                <langNodeRef nameRef="generate:set-visibility" /> 
+                qui permettent de redifinir les attributs correspondant du template.
+            </info>
+        </langElement>
+
+        <langElement name="generate:set-match" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+            de modifier l'attribut correspondant du template.</block>
+        </langElement>
+        
+        <langElement name="generate:set-mode" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+                de modifier l'attribut correspondant du template.</block>
+        </langElement>
+        
+        <langElement name="generate:set-priority" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+                de modifier l'attribut correspondant du template.</block>
+        </langElement>
+        
+        <langElement name="generate:set-name" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+                de modifier l'attribut correspondant du template.</block>
+        </langElement>
+        
+        <langElement name="generate:set-as" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+                de modifier l'attribut correspondant du template.</block>
+        </langElement>
+        
+        <langElement name="generate:set-visibility" >
+            <block>Permet, dans un <langNodeRef nameRef="generate:copy-template" />
+                de modifier l'attribut correspondant du template.</block>
+        </langElement>
+
+
+
+        <langElement doc-status="todo" name="generate:with-param">
+            <block>TODO !</block>
+        </langElement>
+
+        <langElement doc-status="todo" name="generate:redefine-variable">
+            <block>Redéfinit une variable déclarée dans la 
+                <definitionRef idRef="xsl-source">XSL source</definitionRef>
+            identifiée par :
+            <case>Un attribut <attribute>id</attribute>, traité comme référence à l'attribut <langNodeRef nameRef="generate:id"/> de la variable</case>
+                <case>Un attribut <attribute>name</attribute> référençant le nom de la variable.
+                    Dans ce second cas, l'élément <langNodeRef nameRef="generate:redefine-variable"/>
+                    doit être placé dans le <i>scope</i> de la variable.</case>
+            </block>
+        </langElement>
+
+
+        <langElement doc-status="todo" name="generate:variable">
+            <block>Crée une <element>xsl:variable</element> dans la <definitionRef idRef="xsl-gen">XSL générée</definitionRef></block>    
+            <block>L'évaluation ou non de la variable durant
+                la compilation peut être exprimée par
+                l'attribut <langNodeRef nameRef="generate:evaluate" /></block>
+        </langElement>
+
+
+        <langAttribute doc-status="todo" name="generate:use">
+            <block>Associé à un <element>xsl:import</element> ou à une <element>xsl:variable</element>
+                permet de rendre ce·tte dernier·e visible dans
+                le <definitionRef idRef="contexte">contexte de génération</definitionRef>.</block>
+        </langAttribute>
+        
+        <langAttribute doc-status="todo" name="generate:evaluate">
+            <block>Si l'attribut <langNodeRef nameRef="generate:evaluate" /> vaut <b>build</b>,
+                la valeur de la variable est évaluée pendant la compilation
+                et sérializée dans la <definitionRef idRef="xsl-gen">XSL générée</definitionRef>.</block>
+            <block>Si l'attribut <langNodeRef nameRef="generate:evaluate" /> vaut <b>call</b> ...</block>
+        </langAttribute>
+        
+        <!--
+        
+        séparation selon l'elt de l'attribut ?
+        ======================================
+        
+        NON, c'est inutile
+        un @generate:evaluate à toujours la même fonction.
+        
+        Juste préciser dans la description s'il y a des subtilités
+        
+        <langAttribute doc-status="todo" name="xsl:call-template[@generate:evaluate = 'build']"/>
+        
+        <langAttribute doc-status="todo" name="xsl:if[@generate:evaluate = 'build']"/>
+        <langAttribute doc-status="todo" name="xsl:if[@generate:evaluate = 'call']"/>
+
+        <langAttribute doc-status="todo" name="xsl:for-each[@generate:evaluate = 'build']"/>
+        <langAttribute doc-status="todo" name="xsl:for-each[@generate:evaluate = 'call']"/>
+
+        <langAttribute doc-status="todo" name="xsl:choose[@generate:evaluate = 'build']"/>
+        <langAttribute doc-status="todo" name="xsl:choose[@generate:evaluate = 'call']"/>
+
+        <langAttribute doc-status="todo" name="xsl:value-of[@generate:evaluate = 'build']"/>
+        <langAttribute doc-status="todo" name="xsl:value-of[@generate:evaluate = 'call']"/>
+        -->
+        
+        
+        <langAttribute doc-status="todo" name="generate:id"/>
+        
+        <section>
+            <title>Definitions</title>
+            
+            <definition id="contexte">
+                <title>Contexte de génération</title>
+                <block>Bla Bla bla...</block>
+            </definition>
+            
+            <definition id="xsl-source">
+                <title>XSL Source</title>
+                <block>La XSL source (TODO rédiger)</block>
+            </definition>
+            
+            <definition id="xsl-gen">
+                <title>XSL Générée</title>
+                <block>La XSL générée (TODO rédiger)</block>
+            </definition>
+            
+        </section>
+        
+        
+
+    </section>
+
+
+
+</doc>

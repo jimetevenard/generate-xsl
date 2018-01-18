@@ -1,0 +1,61 @@
+header {
+    background-image: url('things.png');
+    background-size: cover;
+    height: 240px;
+    text-align: right;
+    padding-right: 10px;
+}
+header a, header a:visited, header a:hover {
+    color: white;
+    text-shadow: 1px 1px 14px black;
+}
+p.update {
+    color: #777;
+    position: relative;
+    top: 15px;
+}
+main{
+    width: 60%;
+    margin: 40px auto;
+}
+@media(max-width: 800px){
+    main{
+        width: auto;
+        margin: 40px 10px;
+    }
+}
+
+.case {
+    padding-left: 17px;
+    margin: 5px auto 8px;
+}
+code {
+    padding: 1px 3px;
+    background: #f4f4f4;
+}
+code,
+code a, code a:visited,
+a code, a:visited code {
+    color: #379a7f
+}
+code a, a code { text-decoration: underline ;}
+.langNode {
+    margin: 10px 0;
+}
+
+.langNode h1 {
+    font-size: 1.5rem;
+}
+.langNode h2 {
+    font-size: 1.4rem;
+}
+.langNode h3 {
+    font-size: 1.2rem;
+}
+.langNode h4, h5, h6 {
+    font-size: 1.1rem;
+}
+
+section section {
+    margin: 40px 0 15px;
+}
