@@ -39,6 +39,19 @@ a code, a:visited code {
     color: #379a7f
 }
 code a, a code { text-decoration: underline ;}
+.namespace-ref {
+    position: relative;
+}
+.namespace-ref code.uri {
+    position: absolute;
+    width: 250%;
+    display: none;
+    left: 0;
+    bottom: 1.1em;
+}
+.namespace-ref:hover code.uri{
+    display: inline;
+}
 .langNode {
     margin: 10px 0;
 }

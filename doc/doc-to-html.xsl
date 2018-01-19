@@ -49,6 +49,7 @@
             <p class="update">
                 <xsl:text>Révisé le </xsl:text>
                 <xsl:value-of select="format-date(current-date(),'[D01] [MNn] [Y0001]','fr',(),())"/>
+                <!-- bof, c'est pas parcequ'on lance cette transfo que la doc a effectivement été mise à jour... -->
             </p>
             <xsl:apply-templates/>
         </main>
@@ -166,10 +167,12 @@
     </xsl:template>
 
     <xsl:template match="doc:namespaceRef">
-        <a href="#">
+        <xsl:variable name="targetedNamespace" select="(//doc:namespace[@id = current()/@idRef])[1]"/>
+        <a href="#" class="namespace-ref">
             <xsl:attribute name="title"
-                select="(//doc:namespace[@id = current()/@idRef])[1]/concat(@usual-prefix, ':', @uri)"/>
+                select="$targetedNamespace/concat(@usual-prefix, ':', @uri)"/>
             <xsl:apply-templates/>
+            <code class="uri"><xsl:value-of select="$targetedNamespace/@uri"/></code>
         </a>
     </xsl:template>
 
