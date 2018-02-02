@@ -126,7 +126,7 @@
                 <langNodeRef nameRef="generate:set-mode" /> <langNodeRef nameRef="generate:set-priority" />
                 <langNodeRef nameRef="generate:set-name" /> <langNodeRef nameRef="generate:set-as" />
                 <langNodeRef nameRef="generate:set-visibility" /> 
-                qui permettent de redifinir les attributs correspondant du template.
+                qui permettent de redifinir les attributs correspondants du template.
             </info>
         </langElement>
 
@@ -225,7 +225,10 @@
         -->
         
         
-        <langAttribute doc-status="todo" name="generate:id"/>
+        <langAttribute doc-status="todo" name="generate:id">
+            <block>Permet d'attribuer un ID à un élément <element>xsl:*</element>.</block>
+            <block>Cet ID peut être utilisé pour le designer dans une annotation<element>generate:*</element></block>
+        </langAttribute>
         
         <section>
             <title>Definitions</title>
