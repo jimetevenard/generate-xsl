@@ -2,9 +2,12 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:doc="http://jimetevenard.com/ns/generate-xsl/doc" xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:spectrum="internal"
     exclude-result-prefixes="#all" version="3.0">
 
     <xsl:output method="xhtml" indent="yes" omit-xml-declaration="yes"/>
+    
+    <xsl:import href="xsl-xmlspectrum/xmlspectrum.xsl"/>
 
     <xsl:function name="doc:headerTag">
         <xsl:param name="elt" as="element()"/>
@@ -89,13 +92,13 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="doc:block[descendant::element()[not(local-name() = $inlineElements)]]">
+    <xsl:template match="doc:p[descendant::element()[not(local-name() = $inlineElements)]]">
         <div>
             <xsl:apply-templates/>
         </div>
     </xsl:template>
 
-    <xsl:template match="doc:block">
+    <xsl:template match="doc:p">
         <p>
             <xsl:apply-templates/>
         </p>
@@ -135,10 +138,8 @@
             <xsl:value-of select="."/>
         </code>
     </xsl:template>
-
-
-
-
+    
+    
 
     <xsl:template match="doc:langElement | doc:langAttribute">
         <xsl:variable name="langNodeType" select="concat(substring(local-name(), 5), ' ')"/>
@@ -209,6 +210,36 @@
 
             </code>
         </a>
+    </xsl:template>
+    
+    
+    <xsl:template match="doc:code">
+
+            <pre lang="xslt">
+                <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+                <xsl:copy-of select="*"/>    
+                <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+            </pre>
+        
+    </xsl:template>
+    
+    <xsl:template match="*" mode="xml2html">
+        <xsl:text>&lt;</xsl:text>
+        <xsl:value-of select="name()"/>
+        <xsl:apply-templates select="@*" mode="#current" />
+        <xsl:text>&gt;</xsl:text>
+        <xsl:apply-templates select="node()" mode="#current" />
+        <xsl:text>&lt;/</xsl:text>
+        <xsl:value-of select="name()"/>
+        <xsl:text>&gt;</xsl:text>
+    </xsl:template>
+    
+    <xsl:template match="@*" mode="xml2html">
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="name()"/>
+        <xsl:text>="</xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>" </xsl:text>
     </xsl:template>
 
 

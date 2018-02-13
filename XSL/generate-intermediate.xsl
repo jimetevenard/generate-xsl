@@ -121,7 +121,7 @@
 
         
         <xsl:variable name="refIsMatchingRemoveElement" as="xs:boolean" select="$refs[local-name() = 'remove'] and ($refs/tokenize(@mode,'\s+') = ($buildModes, $allBuildMode) or (not($refs/@mode) and $buildModes = $defaultBuildMode))"/>
-        <xsl:sequence select="$contextItem/tokenize(@generate:remove,'\s+') = ($buildModes, $allBuildMode) or $refIsMatchingRemoveElement or $refs/@keep-original = 'no'" />
+        <xsl:sequence select="$contextItem/tokenize(@generate:remove,'\s+') = ($buildModes, $allBuildMode) or $refIsMatchingRemoveElement" />
     </xsl:function>
     
     <xsl:template match="/">
@@ -215,7 +215,7 @@
     </xsl:template>
     
     <xsl:template match="generate:use-import" mode="imports">  
-        <xsl:variable name="targeted-import" select="//xsl:import[@generate:id = current()/@id]" as="element(xsl:import)?"/>
+        <xsl:variable name="targeted-import" select="//xsl:import[@generate:id = current()/@idRef]" as="element(xsl:import)?"/>
         <xsl:variable name="href" select="if (@href) then @href else $targeted-import/@href"/>
             <xsl:choose>
                 <xsl:when test="$href">
@@ -224,7 +224,7 @@
                     </intermediate-xsl:import>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:message>[ERROR] generate:use-import must either have a @href or a @id that reference a unique actual xsl:import.</xsl:message>
+                    <xsl:message>[ERROR] generate:use-import must either have a @href or a @idRef that reference a unique actual xsl:import.</xsl:message>
                 </xsl:otherwise>
             </xsl:choose>
     </xsl:template>
@@ -281,14 +281,14 @@
         <xsl:param name="generate-block" select="." tunnel="yes" />
         <xsl:variable name="targetTemplate" as="element(xsl:template)">
             <xsl:choose>
-                <xsl:when test="@id">
-                    <xsl:sequence select="//xsl:template[@generate:id = current()/@id]"/>
+                <xsl:when test="@idRef">
+                    <xsl:sequence select="//xsl:template[@generate:id = current()/@idRef]"/>
                 </xsl:when>
                 <xsl:when test="@name">
                     <xsl:sequence select="//xsl:template[@name = current()/@name]"/>
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:message>[ERROR] generate:template must have a @id or @name that references an actual template</xsl:message>
+                    <xsl:message>[ERROR] generate:copy-template must have a @idRef or @name that references an actual template</xsl:message>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -420,7 +420,7 @@
 
     <xsl:template match="xsl:*" mode="#all"> 
         <xsl:param tunnel="yes" name="buildModes" select="$defaultBuildMode" as="xs:string*" />
-        <xsl:variable name="ref" as="element()*" select="//generate:*[@id = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
+        <xsl:variable name="ref" as="element()*" select="//generate:*[@idRef = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
         <xsl:variable name="isRemoved" as="xs:boolean" select="generate-utils:is-removed(.,$ref,$buildModes)" />
         
         <xsl:if test="not($isRemoved)">
@@ -550,14 +550,15 @@
         
         <xsl:param name="generate-block" tunnel="yes" /> 
         
-        <xsl:variable name="ref" select="//generate:*[@id = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
+        <xsl:variable name="ref" select="//generate:*[@idRef = current()/@generate:id or @name = current()/self::element(xsl:template)/@name]"/>
         <xsl:variable name="isRemoved" as="xs:boolean" select="generate-utils:is-removed(.,$ref,$buildModes)" />
         
+        <!-- TODO : $scope :: utiliser la fonction dédiée ! -->
         <xsl:variable name="scope" select="if ($generate-block) then $generate-block else (/*)"/>
         <xsl:variable name="this" select="."/>
         <xsl:variable
             name="generate:redefinition"
-            select="$scope//generate:redefine-variable[(@name = $this/@name) or (@id = $this/@generate:id)]"
+            select="$scope//generate:redefine-variable[(@name = $this/@name) or (@idRef = $this/@generate:id)]"
             as="element(generate:redefine-variable)?"
         />
         <xsl:if test="@generate:use = 'yes'">
