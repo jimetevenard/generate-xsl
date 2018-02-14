@@ -1,15 +1,15 @@
-<!DOCTYPE html><html xmlns="http://www.w3.org/1999/xhtml">
-   <link rel="stylesheet" type="text/css" href="theme.css"></link>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
-      <meta name="viewport" content="width=device-width"></meta>
-      <link href="assets/bootstrap.min.css" rel="stylesheet"></link>
-      <link href="assets/doc.css" rel="stylesheet"></link>
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="width=device-width" />
+      <link href="assets/bootstrap.min.css" rel="stylesheet" />
+      <link href="assets/doc.css" rel="stylesheet" />
       <title>Generate XSL</title>
-   
+   </head>
    <body>
-      <header><a href="#URL-du-repo">Generate XSL - Browse source</a></header>
+      <header><a class="project-repo" href="#URL-du-repo">Generate XSL - GitHub</a></header>
       <main>
-         <p class="update">Révisé le 05 Février 2018</p>
+         <p class="update">Révisé le 14 Février 2018</p>
          
          
          
@@ -36,9 +36,21 @@
             
             
             
-            <pre class="spectrum" lang="xslt"><span class="es">&lt;</span><span class="enxsl">xsl:template</span><span class="z"> </span><span class="atn">xmlns</span><span class="atneq">=</span><span class="z">"</span><span class="av">http://jimetevenard.com/ns/generate-xsl/doc</span><span class="z">"</span><span class="z"> </span><span class="atn">xmlns:xsl</span><span class="atneq">=</span><span class="z">"</span><span class="av">http://www.w3.org/1999/XSL/Transform</span><span class="z">"</span><span class="z"> </span><span class="atn">xmlns:xs</span><span class="atneq">=</span><span class="z">"</span><span class="av">http://www.w3.org/2001/XMLSchema</span><span class="z">"</span><span class="z"> </span><span class="atn">xmlns:generate</span><span class="atneq">=</span><span class="z">"</span><span class="av">http://jimetevenard.com/ns/generate-xsl</span><span class="z">"</span><span class="z"> </span><span class="atn">match</span><span class="atneq">=</span><span class="z">"</span><span class="qname">test</span><span class="z">"</span><span class="scx">&gt;</span><span class="txt">
-                 Toto
-            </span><span class="ez">&lt;/</span><span class="clxsl">xsl:template</span><span class="ec">&gt;</span><span class="txt"></span></pre>
+            <pre><span class="elt-name">&lt;xsl:template <span class="attr">match="<span class="attr-value">test</span>" </span>&gt;</span>
+    Toto
+<span class="elt-name">&lt;/xsl:template&gt;</span>
+<span class="elt-name">&lt;xsl:template <span class="attr">match="<span class="attr-value">test2</span>" </span>&gt;</span>
+    <span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span>&gt;</span>
+        Hey, toto !
+        <span class="elt-name">&lt;xsl:attribute <span class="attr">name="<span class="attr-value">zeToto</span>" </span>&gt;</span>
+            du texte.
+        <span class="elt-name">&lt;/xsl:attribute&gt;</span>
+    <span class="elt-name">&lt;/xsl:variable&gt;</span>
+    <span class="elt-name">&lt;xsl:attribute <span class="attr">name="<span class="attr-value">zeToto</span>" </span>&gt;</span>
+        du texte.
+    <span class="elt-name">&lt;/xsl:attribute&gt;</span>
+<span class="elt-name">&lt;/xsl:template&gt;</span>
+</pre>
             
             
             <p>TODO principe, but, interêt/avantages...</p>

@@ -5,7 +5,7 @@ header {
     text-align: right;
     padding-right: 10px;
 }
-header a, header a:visited, header a:hover {
+header a.project-repo, header a.project-repo:visited, header a.project-repo:hover {
     color: white;
     text-shadow: 1px 1px 14px black;
 }
@@ -39,6 +39,22 @@ a code, a:visited code {
     color: #379a7f
 }
 code a, a code { text-decoration: underline ;}
+
+pre {
+    padding: 4px 10px;
+    background: #f4f4f4;
+    font-weight: bold;
+}
+.elt-name {
+    color: #379a7f;
+}
+.attr {
+    color: #700;
+}
+.attr-value {
+    color: #009;
+}
+
 .namespace-ref {
     position: relative;
 }

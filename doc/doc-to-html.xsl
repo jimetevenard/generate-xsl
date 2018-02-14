@@ -7,12 +7,12 @@
 
     <xsl:output method="xhtml" indent="yes" omit-xml-declaration="yes"/>
     
-    <xsl:import href="xsl-xmlspectrum/xmlspectrum.xsl"/>
+    <xsl:import href="doc-code-blocks.xsl"/>
 
     <xsl:function name="doc:headerTag">
         <xsl:param name="elt" as="element()"/>
         <xsl:value-of
-            select="concat('h', string(count($elt/ancestor::element()[doc:title or doc:*[starts-with(local-name(.), 'lang')]])))"
+            select="concat('h', string(count($elt/ancestor::element()[doc:h or doc:*[starts-with(local-name(.), 'lang')]])))"
         />
     </xsl:function>
 
@@ -30,15 +30,15 @@
                 <link href="assets/bootstrap.min.css" rel="stylesheet"/>
                 <link href="assets/doc.css" rel="stylesheet"/>
                 <title>
-                    <xsl:value-of select="(//doc:title)[1]"/>
+                    <xsl:value-of select="(//doc:h)[1]"/>
                 </title>
             </head>
             <body>
                 <header>
-                    <a>
+                    <a class="project-repo">
                         <xsl:variable name="project" select="(//doc:project)[1]"/>
                         <xsl:attribute name="href" select="$project/@repository" />
-                        <xsl:value-of select="$project"/><xsl:text> - Browse source</xsl:text>
+                        <xsl:value-of select="$project"/>
                     </a>
                 </header>
                 <xsl:apply-templates/>
@@ -68,7 +68,7 @@
         <xsl:apply-templates mode="toc" />
     </xsl:template>
     
-    <xsl:template match="doc:title|doc:langElement|doc:langAttribute"  mode="toc">
+    <xsl:template match="doc:h|doc:langElement|doc:langAttribute"  mode="toc">
         <li>
             <a href="#">
             <xsl:choose>
@@ -86,7 +86,7 @@
         </li>
     </xsl:template>
     
-    <xsl:template match="doc:title">
+    <xsl:template match="doc:h">
         <xsl:element name="{doc:headerTag(.)}">
             <xsl:apply-templates/>
         </xsl:element>
@@ -189,7 +189,6 @@
     <xsl:template match="doc:langNodeRef">
         <xsl:variable name="referedLangNode"
             select="(//*[starts-with(local-name(.), 'lang')][@name = current()/@nameRef])[1]"/>
-        <xsl:message>langNodeRef : <xsl:value-of select="$referedLangNode"/></xsl:message>
         <xsl:variable name="langNodeType"
             select="lower-case(substring-after(local-name($referedLangNode), 'lang'))"/>
         <a>
@@ -215,32 +214,17 @@
     
     <xsl:template match="doc:code">
 
-            <pre lang="xslt">
+           <!-- <pre lang="xslt">
                 <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
                 <xsl:copy-of select="*"/>    
                 <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
-            </pre>
+            </pre>-->
+        <pre>
+            <xsl:apply-templates mode="xml2html"></xsl:apply-templates>
+        </pre>
         
     </xsl:template>
     
-    <xsl:template match="*" mode="xml2html">
-        <xsl:text>&lt;</xsl:text>
-        <xsl:value-of select="name()"/>
-        <xsl:apply-templates select="@*" mode="#current" />
-        <xsl:text>&gt;</xsl:text>
-        <xsl:apply-templates select="node()" mode="#current" />
-        <xsl:text>&lt;/</xsl:text>
-        <xsl:value-of select="name()"/>
-        <xsl:text>&gt;</xsl:text>
-    </xsl:template>
-    
-    <xsl:template match="@*" mode="xml2html">
-        <xsl:text> </xsl:text>
-        <xsl:value-of select="name()"/>
-        <xsl:text>="</xsl:text>
-        <xsl:value-of select="."/>
-        <xsl:text>" </xsl:text>
-    </xsl:template>
 
 
 

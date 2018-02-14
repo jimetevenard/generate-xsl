@@ -9,12 +9,12 @@
             <namespace id="generate" uri="http://jimetevenard.com/ns/generate-xsl"
                 usual-prefix="generate"/>
         </namespaces>
-        <project repository="#URL-du-repo">Generate XSL</project>
+        <project repository="#URL-du-repo">Generate XSL - GitHub</project>
     </meta>
     
     
 
-    <title>Generate XSL</title>
+    <h>Generate XSL</h>
 
     <section>
 
@@ -31,9 +31,23 @@
             
         -->
         <code>
+            
             <xsl:template match="test">
                 Toto
             </xsl:template>
+            
+            <xsl:template match="test2">
+                <xsl:variable name="toto">
+                    Hey, toto !
+                    <xsl:attribute name="zeToto">
+                        du texte.
+                    </xsl:attribute>
+                </xsl:variable>
+                <xsl:attribute name="zeToto">
+                    du texte.
+                </xsl:attribute>
+            </xsl:template>
+            
         </code>
         
         
@@ -50,7 +64,7 @@
 
         <langElement doc-status="pending" name="generate:exemple">
             <p>Ceci est un exemple de documentation d'élément XML du language</p>
-            <title>Exemple :</title>
+            <h>Exemple :</h>
             <p>titi toto... Il peut contenir des <element>template</element> avec des attributs <attribute>name</attribute></p>
             
             <p>On peut bien sûr, référencer des langNodes dans cette doc,
@@ -241,20 +255,20 @@
         </langAttribute>
         
         <section>
-            <title>Definitions</title>
+            <h>Definitions</h>
             
             <definition id="contexte">
-                <title>Contexte de génération</title>
+                <h>Contexte de génération</h>
                 <p>Bla Bla bla...</p>
             </definition>
             
             <definition id="xsl-source">
-                <title>XSL Source</title>
+                <h>XSL Source</h>
                 <p>La XSL source (TODO rédiger)</p>
             </definition>
             
             <definition id="xsl-gen">
-                <title>XSL Générée</title>
+                <h>XSL Générée</h>
                 <p>La XSL générée (TODO rédiger)</p>
             </definition>
             
