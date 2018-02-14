@@ -22,6 +22,10 @@
     
     <xsl:template match="*" mode="xml2html">
         <xsl:param name="identation-level" select="0" as="xs:integer" ></xsl:param>
+        <xsl:variable name="hasOnlyText" select="exists(./text()) and (count(./node()) = 1)"/>
+        <xsl:variable name="hasOnlySpaces" select="$hasOnlyText and (normalize-space(./text()) = '')"/>
+        <xsl:variable name="hasOnlyShortText" select="$hasOnlyText and (string-length(normalize-space(./text())) lt 40)"/>
+        <xsl:variable name="isEmpty" select="not(exists(./node())) or $hasOnlySpaces"/>
         
         
         <xsl:call-template name="indentation">
@@ -32,31 +36,55 @@
         <xsl:text>&lt;</xsl:text>
         <xsl:value-of select="name()"/>
         <xsl:apply-templates select="@*" mode="#current" />
-        <xsl:text>&gt;</xsl:text>
+ 
        </span>
-       <xsl:text>&#xa;</xsl:text>
         
-              
-        <xsl:apply-templates select="node()" mode="#current" >
-            <xsl:with-param name="identation-level" select="$identation-level + 1" />
-        </xsl:apply-templates>
+        <xsl:choose>
+            <xsl:when test="$isEmpty">
+                <span class="elt-name">
+                    <xsl:text>/&gt;</xsl:text>
+                </span>
+                <xsl:text>&#xa;</xsl:text>
+            </xsl:when>
+            <xsl:otherwise>
+                <span class="elt-name">
+                    <xsl:text>&gt;</xsl:text>
+                </span>
+                <xsl:choose>
+                    <xsl:when test="$hasOnlyShortText">
+                        <xsl:value-of select="normalize-space(.)"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>&#xa;</xsl:text>
+                        
+                        
+                        <xsl:apply-templates select="node()" mode="#current" >
+                            <xsl:with-param name="identation-level" select="$identation-level + 1" />
+                        </xsl:apply-templates>
+                        
+                        
+                        <xsl:call-template name="indentation">
+                            <xsl:with-param name="counter" select="$identation-level * 4"></xsl:with-param>
+                        </xsl:call-template>
+                    </xsl:otherwise>
+                </xsl:choose>
+                
+                
+                <span class="elt-name">
+                    <xsl:text>&lt;/</xsl:text>
+                    <xsl:value-of select="name()"/>
+                    <xsl:text>&gt;</xsl:text>
+                </span>
+                <xsl:text>&#xa;</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
         
-        
-        <xsl:call-template name="indentation">
-            <xsl:with-param name="counter" select="$identation-level * 4"></xsl:with-param>
-        </xsl:call-template>
-        
-        <span class="elt-name">
-         <xsl:text>&lt;/</xsl:text>
-         <xsl:value-of select="name()"/>
-         <xsl:text>&gt;</xsl:text>
-        </span>
-        <xsl:text>&#xa;</xsl:text>
     </xsl:template>
     
     <xsl:template match="@*" mode="xml2html">
+        <xsl:variable name="class" select="concat('attr', if(starts-with(name(),'generate')) then ' generate' else '')"/>
         <xsl:text> </xsl:text>
-        <span class="attr">
+        <span class="{$class}">
          <xsl:value-of select="name()"/>
          <xsl:text>="</xsl:text>
             <span class="attr-value">

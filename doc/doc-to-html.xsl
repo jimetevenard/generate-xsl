@@ -17,7 +17,7 @@
     </xsl:function>
 
     <xsl:variable name="inlineElements"
-        select="('a', 'img', 'link', 'b', 'i', 'span', 'namespaceRef', 'definitionRef', 'element', 'attribute', 'langNodeRef')"/>
+        select="('a', 'img', 'link', 'b', 'i', 'span', 'namespaceRef', 'definitionRef', 'element', 'attribute', 'langNodeRef', 'code','br')"/>
 
     <xsl:template match="doc:meta">
         <!-- void -->
@@ -118,7 +118,7 @@
     
     
     
-    <xsl:template match="*:a | *:img | *:link | *:b | *:i | *:span | *:section">
+    <xsl:template match="doc:br | doc:code | *:a | *:img | *:link | *:b | *:i | *:span | *:section">
         <xsl:element name="{local-name()}">
             <xsl:apply-templates select="node() | @*"/>
         </xsl:element>
@@ -212,7 +212,7 @@
     </xsl:template>
     
     
-    <xsl:template match="doc:code">
+    <xsl:template match="doc:codeBlock">
 
            <!-- <pre lang="xslt">
                 <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>

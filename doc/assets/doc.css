@@ -49,7 +49,10 @@ pre {
     color: #379a7f;
 }
 .attr {
-    color: #700;
+    color: #c50c0c;
+}
+.attr.generate {
+    color: #f7990c;
 }
 .attr-value {
     color: #009;
