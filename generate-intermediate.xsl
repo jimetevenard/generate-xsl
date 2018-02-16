@@ -614,20 +614,45 @@
                 <xsl:when test="exists($definition/@select) and not($evaluate)">
                     <xsl:attribute name="select" select="$definition/@select" />
                 </xsl:when>
-                <xsl:when test="exists($definition/@select) and $evaluate">
-                    <!-- TODO : COPY-OF/VALUE-OF ? -->
-                    <intermediate-xsl:copy-of select="{$definition/@select}" />
+                <xsl:when test="exists($definition/@select) and $evaluate">  
+                    <xsl:call-template name="evaluate-select">
+                        <xsl:with-param name="select-xpath" select="$definition/@select" />
+                    </xsl:call-template>   
                 </xsl:when>
                 <xsl:when test="$evaluate">
-                    <!-- from <xsl:variable generate:build="build" -->
-                    <!-- TODO : COPY-OF/VALUE-OF ? -->
-                    <intermediate-xsl:value-of select="{@select}" />
+                    <!-- from <xsl:variable generate:build="[matching mode(s)]" -->            
+                    <xsl:call-template name="evaluate-select">
+                        <xsl:with-param name="select-xpath" select="@select" />
+                    </xsl:call-template>               
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates select="$definition/node()" mode="generate-target" />  
                 </xsl:otherwise>
             </xsl:choose>
         </target-xsl:variable>  
+    </xsl:template>
+    
+    <xsl:template name="evaluate-select">
+        <xsl:param name="select-xpath" as="xs:string" required="yes" />
+        
+        <!-- 
+            TODO :
+            Encore très incomplet...
+            Ici on fait un value-of des attributs pour eviter que l'attribut apparaise dans la <xsl:variable
+            Le m^me problème pourrait se poser pour d'autres types.
+            
+            Cf. doc XSLT sur le copy-of et sa faon de traiter les different types
+            pour identifier les cas à traiter.
+        -->
+        
+        <intermediate-xsl:choose>
+            <intermediate-xsl:when test="{$select-xpath} instance of attribute()+">
+                <intermediate-xsl:value-of select="{$select-xpath}" />
+            </intermediate-xsl:when>
+            <intermediate-xsl:otherwise>
+                <intermediate-xsl:copy-of select="{$select-xpath}" />
+            </intermediate-xsl:otherwise>
+        </intermediate-xsl:choose>
     </xsl:template>
     
     <!-- 
