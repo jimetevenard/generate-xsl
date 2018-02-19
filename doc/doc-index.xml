@@ -88,7 +88,7 @@
                     nameRef="generate:evaluate"/></p>
         </langElement>
 
-        <langElement doc-status="todo" name="generate:target-p">
+        <langElement doc-status="todo" name="generate:target-block">
             <p>Le contenu de cet élément seront présentent dans la <definitionRef idRef="xsl-gen"
                     >XSL générée</definitionRef></p>
         </langElement>
