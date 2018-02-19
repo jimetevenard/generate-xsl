@@ -96,7 +96,6 @@
     
     <xsl:template name="indentation">
         <xsl:param name="counter"/>
-        <xsl:message>counter is <xsl:value-of select="$counter"/></xsl:message>
         <xsl:variable name="espace" select="'&#160;'"/> 
         <xsl:if test="$counter gt 0">
             <xsl:value-of select="$espace"/>

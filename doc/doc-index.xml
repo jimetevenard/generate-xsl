@@ -10,12 +10,33 @@
         </namespaces>
         <project repository="#URL-du-repo">Generate XSL - GitHub</project>
     </meta>
+    
+    <!--
+        TODOs
+        =====
+            
+        * étoffer intro : principe, but, interêt/avantages...
+        * vocalulaire :
+          * "Génération" / "(pré) compilation" ?
+          * ...
+        * Définition du "contexte d'éxécution" (juste quelques lignes...)
+        
+        * Présentation finale
+          * TOC
+          * structure html (les section, le systeme de <h> est il pertinent ?
+            
+    -->
+    
+    
 
 
 
     <h>Generate XSL</h>
+    <!-- ========== -->
 
     <section>
+
+        <h>Introduction</h>
 
         <p> Generate-XSL est un langage d'annotions permettant de décrire la pré-compilation d'une
             transformation XSL, en pré-calculant certaines évaluations dans un but d'optimisation
@@ -28,6 +49,8 @@
         <p>Après compilation, on obtient une XSLT générée dans laquelle la valeur des variables, le
             résultat des appels de fonction, des appels de templates ou des structures de boucles et
             conditions annoté(e)s sont sérialisés.</p>
+        
+        <p>Il est également possible de prégénrer des templates spécifiques aux données attentues.</p>
 
         <p>L'objectif principal de ce système d'annotation est d'optimiser le traitement d'une XSLT
             sans affecter son fonctionnement d'origine.<br/> Ainsi cette XSLT reste maintenable et
@@ -40,41 +63,125 @@
         <p>Le code suivant :</p>
         <codeBlock>
             <xsl:choose generate:build="#all">
-                <xsl:when test="foo:someComplexXPath()/that/return/true()">
-                    <xsl:value-of select="Yep !"/>
+                <xsl:when test="foo:someXPath()[that/returns]/true()">
+                    <xsl:value-of select="'Yep !'"/>
                 </xsl:when>
                 <xsl:otherwhise>
-                    <xsl:value-of select="Nope !"/>
+                    <xsl:value-of select="'Nope !'"/>
                 </xsl:otherwhise>
             </xsl:choose>
         </codeBlock>
         <p>Devient, après compilation :</p>
         <codeBlock>
-            <xsl:value-of select="Yep !"/>
+            <xsl:value-of select="'Yep !'"/>
         </codeBlock>
 
         <p>Dans cet exemple, on a exprimé par l'attribut <langNodeRef nameRef="generate:build"/> la
             volonté de pré-évaluer ce <element>xsl:choose</element>.<br/> Ainsi, les différents
-                <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le 
-            cas pertinent est retranscrit dans la <definitionRef idRef="xsl-gen">XSL
+                <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le cas
+            pertinent est retranscrit dans la <definitionRef idRef="xsl-gen">XSL
                 générée</definitionRef>
         </p>
-
-        <!-- 
-            TODO, étoffer intro
-            
-        -->
-
-
-
-
-        <p>TODO principe, but, interêt/avantages...</p>
-
-        <p> Hello ! <p>Blop !</p>
+        
+        <h>Contexte de la pré-compilation</h>
+        
+        <p>
+            La pré-compilation de la XSL est un phase lié au build d'un projet.<br />
+            Elle est donc totalement ignorante des données ou du contexte d'éxécution.
+        </p>
+        
+        <p>
+            L'ensemble du <a href="https://www.w3.org/TR/xpath-30/#context">contexte XPath</a>, variables, paramètres, etc. disponibles pendant
+            la phase de compilation
+            est appelée <definitionRef idRef="contexte">contexte de génération</definitionRef><br />
+            Le développeur qui met en place les annotations doit s'assurer que les expressions
+            XPath évaluées sont effectivement évaluables dans ce contexte.
+        </p>
+        
+        <p>
+            Il peut s'aider en cela des éléments <langNodeRef nameRef="generate:use-import" />,
+            <langNodeRef nameRef="generate:use-variable" /> et <langNodeRef nameRef="generate:use-param" />,
+            ainsi que de l'attribut <langNodeRef nameRef="generate:use" /> pour rendre visibles des variables, des paramètres ou des
+            imports (et donc les variables globales, les paramètres et les fonctions qu'ils déclarent) dans le contexte de génération.
         </p>
 
-        <!-- <toc/> -->
+        <h>Compliler une transformation XSL</h>
 
+        <section>
+            <h>Par l'ajout d'attributs <attribute>generate:*</attribute> aux instructions
+                    <element>xsl:*</element></h>
+
+            <langAttribute doc-status="todo" name="generate:build">
+                <p>Cet attribut sert à indiquer que l'on souhaite pré-compiler l'instruction.</p>
+                <p>Il peut s'ajouter :
+                    <case>
+                        <h>
+                            Sur les éléments <element>xsl:variable</element>
+                        </h>
+                        <p>Le resultat généré est alors une copie de l'instruction <element>xsl:variable</element>
+                        dont le contenu est un <code>sequence constructor</code> équivalent à la sérialisation
+                            du resultat de l'évaluation de l'attribut <attribute>select</attribute> ou du contenu initial de 
+                            l'élément <element>xsl:variable</element>
+                        </p>
+                    </case>
+                    <case>
+                        <h>Sur les éléments <element>xsl:value-of</element></h>
+                        <p>TODO vérifier l'implémentation...</p>
+                    </case>
+                    <case>
+                        <h>Sur les éléments <element>xsl:call-template</element></h>
+                        <p>
+                            Nous avons la possibilité de pré-compiler un appel de template
+                            nommé de type <code>&lt;xsl:call-template name="foo" /&gt;</code>
+                        </p>
+                        <p>
+                            Le résultat dans la xsl-générée est la serialisation de la séquence
+                            de retour du template.
+                        </p>
+                        <p>
+                            Peut être complété par un attribut <langNodeRef nameRef="generate:use-build-mode" />.<br />
+                            Les paramètres spécifés s'appliquent<br />
+                            TODO compléter ou écrire un paragraphe dédié.
+                        </p>
+                    </case>
+                    <case>
+                        <h>Sur les éléments <element>xsl:with-param</element></h>
+                        <p>Comportement identique au cas des <element>xsl:variable</element> décrit ci-dessus</p>
+                    </case>
+                    <case>
+                        <h>Sur les éléments <element>xsl:if</element> et <element>xsl:choose</element>></h>
+                        <p>Le(s) attributs <attribute>test</attribute> correspondant alors sont évalués.</p>
+                        <p>Les blocs de codes pertinents sont reprodutis dans la XSL générée.</p>
+                    </case>
+                    <case>
+                        <h>Sur les éléments <element>xsl:for-each</element></h>
+                        <p>Le contenu de bloc est reproduit et décliné pour chaque élément de la séquence 
+                        spécifiée en <attribute>select</attribute></p>
+                    </case>
+                </p>
+
+                <p>La valeur de l'attribut correspond au(x) mode(s) de génération dans lesquels la
+                    valeur de l'instruction doit être calculée.</p>
+            </langAttribute>
+
+            <langAttribute doc-status="todo" name="generate:use">
+                <p>Associé à un <element>xsl:import</element> ou à une
+                        <element>xsl:variable</element> permet de rendre ce·tte dernier·e visible
+                    dans le <definitionRef idRef="contexte">contexte de
+                    génération</definitionRef>.</p>
+            </langAttribute>
+
+            <langAttribute doc-status="todo" name="generate:id">
+                <p>Permet d'attribuer un ID à un élément <element>xsl:*</element>.</p>
+                <p>Cet ID peut être utilisé pour le designer dans une
+                        annotation<element>generate:*</element></p>
+            </langAttribute>
+            
+            <langAttribute doc-status="todo" name="generate:use-build-mode">
+                <p>Permet de spécifier le mode de génération à utiliser lors de la précompilation d'un appel de template.</p>
+            </langAttribute>
+
+        </section>
 
 
         <langElement doc-status="pending" name="generate:exemple">
@@ -116,6 +223,13 @@
                         nameRef="generate:use-variable"/> peut, par exemple, être néscéssaire.</p>
 
             </warning>
+        </langElement>
+        
+        <langElement doc-status="pending" name="generate:use-param">
+            <p>
+                Permet d'utilser un paramètre visible uniquement dans le <definitionRef idRef="contexte">contexte de génération.</definitionRef>
+            </p>
+            <warning>TODO, non implémenté !</warning>
         </langElement>
 
         <langElement doc-status="pending" name="generate:import"> Ajoute un élément
@@ -233,51 +347,7 @@
         </langElement>
 
 
-        <langAttribute doc-status="todo" name="generate:use">
-            <p>Associé à un <element>xsl:import</element> ou à une <element>xsl:variable</element>
-                permet de rendre ce·tte dernier·e visible dans le <definitionRef idRef="contexte"
-                    >contexte de génération</definitionRef>.</p>
-        </langAttribute>
 
-        <langAttribute doc-status="todo" name="generate:build">
-            <p>TODO : tout ceci est FAUX FAUX FAUX !</p>
-            <p>Si l'attribut <langNodeRef nameRef="generate:build"/> vaut <b>build</b>, la valeur de
-                la variable est évaluée pendant la compilation et sérializée dans la <definitionRef
-                    idRef="xsl-gen">XSL générée</definitionRef>.</p>
-            <p>Si l'attribut <langNodeRef nameRef="generate:build"/> vaut <b>call</b> ...</p>
-        </langAttribute>
-
-        <!--
-        
-        séparation selon l'elt de l'attribut ?
-        ======================================
-        
-        NON, c'est inutile
-        un @generate:evaluate à toujours la même fonction.
-        
-        Juste préciser dans la description s'il y a des subtilités
-        
-        <langAttribute doc-status="todo" name="xsl:call-template[@generate:evaluate = 'build']"/>
-        
-        <langAttribute doc-status="todo" name="xsl:if[@generate:evaluate = 'build']"/>
-        <langAttribute doc-status="todo" name="xsl:if[@generate:evaluate = 'call']"/>
-
-        <langAttribute doc-status="todo" name="xsl:for-each[@generate:evaluate = 'build']"/>
-        <langAttribute doc-status="todo" name="xsl:for-each[@generate:evaluate = 'call']"/>
-
-        <langAttribute doc-status="todo" name="xsl:choose[@generate:evaluate = 'build']"/>
-        <langAttribute doc-status="todo" name="xsl:choose[@generate:evaluate = 'call']"/>
-
-        <langAttribute doc-status="todo" name="xsl:value-of[@generate:evaluate = 'build']"/>
-        <langAttribute doc-status="todo" name="xsl:value-of[@generate:evaluate = 'call']"/>
-        -->
-
-
-        <langAttribute doc-status="todo" name="generate:id">
-            <p>Permet d'attribuer un ID à un élément <element>xsl:*</element>.</p>
-            <p>Cet ID peut être utilisé pour le designer dans une
-                    annotation<element>generate:*</element></p>
-        </langAttribute>
 
         <section>
             <h>Definitions</h>

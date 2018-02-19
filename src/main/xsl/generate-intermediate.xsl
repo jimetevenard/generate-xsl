@@ -10,6 +10,17 @@
     xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
     version="3.0">
     
+    
+    <!--
+       TODO :
+       ======
+       
+       * element <generate:use-param name=" ... " />
+        
+    
+        
+      -->
+    
     <!-- set true to ignore comments -->
     <xsl:param name="generate:skip-comments" select="false()" as="xs:boolean" />
     

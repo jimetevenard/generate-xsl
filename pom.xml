@@ -9,6 +9,7 @@
   <groupId>com.jimetevenard.xml</groupId>
   <artifactId>generate-xsl</artifactId>
   <version>0.1-SNAPSHOT</version>
+  
   <packaging>jar</packaging>
   
   <name>generateXSL</name>
@@ -25,18 +26,19 @@
   
   <build>
     <resources>
-      <!--<resource>
+      <resource>
         <directory>src/main/xsl</directory>
         <targetPath>generateXSL/xsl</targetPath>
-      </resource>-->
+      </resource>
     </resources>
     <plugins>
       
+      <!--
       <plugin>
         <groupId>io.xspec.maven</groupId>
         <artifactId>xspec-maven-plugin</artifactId>
         <dependencies>
-<!--          <dependency>
+          <dependency>
             <groupId>extern.net.sf.saxon</groupId>
             <artifactId>saxonee</artifactId>
             <type>jar</type>
@@ -61,23 +63,9 @@
             </goals>
           </execution>
         </executions>
-      </plugin>-->
-<!--      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <descriptors>
-            <descriptor>src/assembly/jar-with-dependency-with-catalog-assembly.xml</descriptor>
-          </descriptors>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>compile</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>-->
+      </plugin>
+      -->
+
     </plugins>
   </build>
 </project>

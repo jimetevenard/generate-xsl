@@ -9,7 +9,11 @@
    <body>
       <header><a class="project-repo" href="#URL-du-repo">Generate XSL - GitHub</a></header>
       <main>
-         <p class="update">Révisé le 14 Février 2018</p>
+         <p class="update">Révisé le 19 Février 2018</p>
+         
+         
+         
+         
          
          
          
@@ -19,7 +23,11 @@
          <h1>Generate XSL</h1>
          
          
+         
          <section>
+            
+            
+            <h2>Introduction</h2>
             
             
             <p> Generate-XSL est un langage d'annotions permettant de décrire la pré-compilation
@@ -44,6 +52,9 @@
             </p>
             
             
+            <p>Il est également possible de prégénrer des templates spécifiques aux données attentues.</p>
+            
+            
             <p>L'objectif principal de ce système d'annotation est d'optimiser le traitement d'une
                XSLT
                sans affecter son fonctionnement d'origine.<br /> Ainsi cette XSLT reste maintenable et
@@ -58,42 +69,205 @@
             
             <p>Le code suivant :</p>
             <pre><span class="elt-name">&lt;xsl:choose <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span></span><span class="elt-name">&gt;</span>
-    <span class="elt-name">&lt;xsl:when <span class="attr">test="<span class="attr-value">foo:someComplexXPath()/that/return/true()</span>" </span></span><span class="elt-name">&gt;</span>
-        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">Yep !</span>" </span></span><span class="elt-name">/&gt;</span>
+    <span class="elt-name">&lt;xsl:when <span class="attr">test="<span class="attr-value">foo:someXPath()[that/returns]/true()</span>" </span></span><span class="elt-name">&gt;</span>
+        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
     <span class="elt-name">&lt;/xsl:when&gt;</span>
     <span class="elt-name">&lt;xsl:otherwhise</span><span class="elt-name">&gt;</span>
-        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">Nope !</span>" </span></span><span class="elt-name">/&gt;</span>
+        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Nope !'</span>" </span></span><span class="elt-name">/&gt;</span>
     <span class="elt-name">&lt;/xsl:otherwhise&gt;</span>
 <span class="elt-name">&lt;/xsl:choose&gt;</span>
 </pre>
             <p>Devient, après compilation :</p>
-            <pre><span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">Yep !</span>" </span></span><span class="elt-name">/&gt;</span>
+            <pre><span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
 </pre>
             
             <p>Dans cet exemple, on a exprimé par l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> la
                volonté de pré-évaluer ce <code class="element node">&lt;xsl:choose/&gt;</code>.<br /> Ainsi, les différents
-               <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le 
-               cas pertinent est retranscrit dans la <a href="#definition-xsl-gen">XSL
+               <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le cas
+               pertinent est retranscrit dans la <a href="#definition-xsl-gen">XSL
                   générée</a>
                
             </p>
             
             
+            <h2>Contexte de la pré-compilation</h2>
             
             
-            
-            
-            
-            <p>TODO principe, but, interêt/avantages...</p>
-            
-            
-            <div> Hello ! 
-               <p>Blop !</p>
+            <p>
+               La pré-compilation de la XSL est un phase lié au build d'un projet.<br />
+               Elle est donc totalement ignorante des données ou du contexte d'éxécution.
                
-            </div>
+            </p>
             
             
+            <p>
+               L'ensemble du <a href="https://www.w3.org/TR/xpath-30/#context" target="_blank">contexte XPath</a>, variables, paramètres, etc. disponibles pendant
+               la phase de compilation
+               est appelée <a href="#definition-contexte">contexte de génération</a><br />
+               Le développeur qui met en place les annotations doit s'assurer que les expressions
+               XPath évaluées sont effectivement évaluables dans ce contexte.
+               
+            </p>
             
+            
+            <p>
+               Il peut s'aider en cela des éléments <a href="#langnode-generate:use-import"><code class="element ref node">&lt;generate:use-import/&gt;</code></a>,
+               <a href="#langnode-generate:use-variable"><code class="element ref node">&lt;generate:use-variable/&gt;</code></a> et <a href="#langnode-generate:use-param"><code class="element ref node">&lt;generate:use-param/&gt;</code></a>,
+               ainsi que de l'attribut <a href="#langnode-generate:use"><code class="attribute ref node">@generate:use</code></a> pour rendre visibles des variables, des paramètres ou des
+               imports (et donc les variables globales, les paramètres et les fonctions qu'ils déclarent)
+               dans le contexte de génération.
+               
+            </p>
+            
+            
+            <h2>Compliler une transformation XSL</h2>
+            
+            
+            <section>
+               
+               <h3>Par l'ajout d'attributs <code class="attribute node">@generate:*</code> aux instructions
+                  <code class="element node">&lt;xsl:*/&gt;</code></h3>
+               
+               
+               <div class="langAttribute card langNode" id="langnode-generate:build">
+                  <div class="card-body">
+                     <h3 class="card-title">Attribute <code>generate:build</code></h3>
+                     
+                     <p>Cet attribut sert à indiquer que l'on souhaite pré-compiler l'instruction.</p>
+                     
+                     <div>Il peut s'ajouter :
+                        
+                        <div class="case">
+                           
+                           <h4>
+                              Sur les éléments <code class="element node">&lt;xsl:variable/&gt;</code>
+                              
+                           </h4>
+                           
+                           <p>Le resultat généré est alors une copie de l'instruction <code class="element node">&lt;xsl:variable/&gt;</code>
+                              dont le contenu est un <code>sequence constructor</code> équivalent à la sérialisation
+                              du resultat de l'évaluation de l'attribut <code class="attribute node">@select</code> ou du contenu initial de 
+                              l'élément <code class="element node">&lt;xsl:variable/&gt;</code>
+                              
+                           </p>
+                           
+                        </div>
+                        
+                        <div class="case">
+                           
+                           <h4>Sur les éléments <code class="element node">&lt;xsl:value-of/&gt;</code></h4>
+                           
+                           <p>TODO vérifier l'implémentation...</p>
+                           
+                        </div>
+                        
+                        <div class="case">
+                           
+                           <h4>Sur les éléments <code class="element node">&lt;xsl:call-template/&gt;</code></h4>
+                           
+                           <p>
+                              Nous avons la possibilité de pré-compiler un appel de template
+                              nommé de type <code>&lt;xsl:call-template name="foo" /&gt;</code>
+                              
+                           </p>
+                           
+                           <p>
+                              Le résultat dans la xsl-générée est la serialisation de la séquence
+                              de retour du template.
+                              
+                           </p>
+                           
+                           <p>
+                              Peut être complété par un attribut <a href="#langnode-generate:use-build-mode"><code class="attribute ref node">@generate:use-build-mode</code></a>.<br />
+                              Les paramètres spécifés s'appliquent<br />
+                              TODO compléter ou écrire un paragraphe dédié.
+                              
+                           </p>
+                           
+                        </div>
+                        
+                        <div class="case">
+                           
+                           <h4>Sur les éléments <code class="element node">&lt;xsl:with-param/&gt;</code></h4>
+                           
+                           <p>Comportement identique au cas des <code class="element node">&lt;xsl:variable/&gt;</code> décrit ci-dessus
+                           </p>
+                           
+                        </div>
+                        
+                        <div class="case">
+                           
+                           <h4>Sur les éléments <code class="element node">&lt;xsl:if/&gt;</code> et <code class="element node">&lt;xsl:choose/&gt;</code>&gt;
+                           </h4>
+                           
+                           <p>Le(s) attributs <code class="attribute node">@test</code> correspondant alors sont évalués.
+                           </p>
+                           
+                           <p>Les blocs de codes pertinents sont reprodutis dans la XSL générée.</p>
+                           
+                        </div>
+                        
+                        <div class="case">
+                           
+                           <h4>Sur les éléments <code class="element node">&lt;xsl:for-each/&gt;</code></h4>
+                           
+                           <p>Le contenu de bloc est reproduit et décliné pour chaque élément de la séquence 
+                              spécifiée en <code class="attribute node">@select</code></p>
+                           
+                        </div>
+                        
+                     </div>
+                     
+                     
+                     <p>La valeur de l'attribut correspond au(x) mode(s) de génération dans lesquels la
+                        valeur de l'instruction doit être calculée.
+                     </p>
+                     
+                  </div>
+               </div>
+               
+               
+               <div class="langAttribute card langNode" id="langnode-generate:use">
+                  <div class="card-body">
+                     <h3 class="card-title">Attribute <code>generate:use</code></h3>
+                     
+                     <p>Associé à un <code class="element node">&lt;xsl:import/&gt;</code> ou à une
+                        <code class="element node">&lt;xsl:variable/&gt;</code> permet de rendre ce·tte dernier·e visible
+                        dans le <a href="#definition-contexte">contexte de
+                           génération</a>.
+                     </p>
+                     
+                  </div>
+               </div>
+               
+               
+               <div class="langAttribute card langNode" id="langnode-generate:id">
+                  <div class="card-body">
+                     <h3 class="card-title">Attribute <code>generate:id</code></h3>
+                     
+                     <p>Permet d'attribuer un ID à un élément <code class="element node">&lt;xsl:*/&gt;</code>.
+                     </p>
+                     
+                     <p>Cet ID peut être utilisé pour le designer dans une
+                        annotation<code class="element node">&lt;generate:*/&gt;</code></p>
+                     
+                  </div>
+               </div>
+               
+               
+               <div class="langAttribute card langNode" id="langnode-generate:use-build-mode">
+                  <div class="card-body">
+                     <h3 class="card-title">Attribute <code>generate:use-build-mode</code></h3>
+                     
+                     <p>Permet de spécifier le mode de génération à utiliser lors de la précompilation d'un
+                        appel de template.
+                     </p>
+                     
+                  </div>
+               </div>
+               
+               
+            </section>
             
             
             
@@ -116,9 +290,9 @@
             </div>
             
             
-            <div class="langElement card langNode" id="langnode-generate:target-p">
+            <div class="langElement card langNode" id="langnode-generate:target-block">
                <div class="card-body">
-                  <h2 class="card-title">Element <code>generate:target-p</code></h2>
+                  <h2 class="card-title">Element <code>generate:target-block</code></h2>
                   
                   <p>Le contenu de cet élément seront présentent dans la <a href="#definition-xsl-gen">XSL générée</a></p>
                   
@@ -162,6 +336,21 @@
                      
                      
                   </div>
+                  
+               </div>
+            </div>
+            
+            
+            <div class="langElement card langNode" id="langnode-generate:use-param">
+               <div class="card-body">
+                  <h2 class="card-title">Element <code>generate:use-param</code></h2>
+                  
+                  <p>
+                     Permet d'utilser un paramètre visible uniquement dans le <a href="#definition-contexte">contexte de génération.</a>
+                     
+                  </p>
+                  
+                  <div class="alert alert-warning">TODO, non implémenté !</div>
                   
                </div>
             </div>
@@ -403,50 +592,6 @@
             
             
             
-            <div class="langAttribute card langNode" id="langnode-generate:use">
-               <div class="card-body">
-                  <h2 class="card-title">Attribute <code>generate:use</code></h2>
-                  
-                  <p>Associé à un <code class="element node">&lt;xsl:import/&gt;</code> ou à une <code class="element node">&lt;xsl:variable/&gt;</code>
-                     permet de rendre ce·tte dernier·e visible dans le <a href="#definition-contexte">contexte de génération</a>.
-                  </p>
-                  
-               </div>
-            </div>
-            
-            
-            <div class="langAttribute card langNode" id="langnode-generate:build">
-               <div class="card-body">
-                  <h2 class="card-title">Attribute <code>generate:build</code></h2>
-                  
-                  <p>TODO : tout ceci est FAUX FAUX FAUX !</p>
-                  
-                  <p>Si l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> vaut <b>build</b>, la valeur de
-                     la variable est évaluée pendant la compilation et sérializée dans la <a href="#definition-xsl-gen">XSL générée</a>.
-                  </p>
-                  
-                  <p>Si l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> vaut <b>call</b> ...
-                  </p>
-                  
-               </div>
-            </div>
-            
-            
-            
-            
-            
-            <div class="langAttribute card langNode" id="langnode-generate:id">
-               <div class="card-body">
-                  <h2 class="card-title">Attribute <code>generate:id</code></h2>
-                  
-                  <p>Permet d'attribuer un ID à un élément <code class="element node">&lt;xsl:*/&gt;</code>.
-                  </p>
-                  
-                  <p>Cet ID peut être utilisé pour le designer dans une
-                     annotation<code class="element node">&lt;generate:*/&gt;</code></p>
-                  
-               </div>
-            </div>
             
             
             <section>

@@ -22,6 +22,7 @@
     <xsl:template match="doc:meta">
         <!-- void -->
     </xsl:template>
+    
 
     <xsl:template match="/">
         <html>
@@ -120,7 +121,11 @@
     
     <xsl:template match="doc:br | doc:code | *:a | *:img | *:link | *:b | *:i | *:span | *:section">
         <xsl:element name="{local-name()}">
-            <xsl:apply-templates select="node() | @*"/>
+            <xsl:copy-of select="@*"></xsl:copy-of>
+            <xsl:if test="local-name() = 'a'">
+                <xsl:attribute name="target" select="'_blank'" />
+            </xsl:if>
+            <xsl:apply-templates select="node()"/>
         </xsl:element>
     </xsl:template>
 
