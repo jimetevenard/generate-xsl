@@ -57,6 +57,9 @@ pre {
 .attr-value {
     color: #009;
 }
+.comment {
+    color: hotpink;
+}
 
 .namespace-ref {
     position: relative;

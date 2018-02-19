@@ -5,7 +5,7 @@
     exclude-result-prefixes="#all" version="3.0">
  
     
-    <xsl:template match="text()" mode="xml2html">
+    <xsl:template match="text()|comment()" mode="xml2html">
         <xsl:param name="identation-level" select="0" as="xs:integer" ></xsl:param>
         
         <xsl:variable name="content" select="normalize-space(.)"/>
@@ -14,8 +14,19 @@
                 <xsl:with-param name="counter" select="$identation-level * 4"></xsl:with-param>
             </xsl:call-template>
             
-            <xsl:value-of select="$content"/>
-            
+            <xsl:choose>
+                <xsl:when test="./self::comment()">
+                    <span class="comment">
+                       <xsl:text>&lt;!-- </xsl:text>
+                        <xsl:value-of select="$content"/>
+                        <xsl:text> --&gt;</xsl:text>
+                    </span>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$content"/>
+                </xsl:otherwise>
+            </xsl:choose>
+
             <xsl:text>&#xa;</xsl:text>
         </xsl:if>
     </xsl:template>

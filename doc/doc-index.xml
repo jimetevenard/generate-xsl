@@ -104,6 +104,69 @@
             ainsi que de l'attribut <langNodeRef nameRef="generate:use" /> pour rendre visibles des variables, des paramètres ou des
             imports (et donc les variables globales, les paramètres et les fonctions qu'ils déclarent) dans le contexte de génération.
         </p>
+        
+        <h>Modes de pré-compilation</h>
+        
+        <p>
+            Comme en XSLT, la notion de modes existe dans la pré-compilation XSLT.           
+        </p>
+        
+        <p>En effet, considérons la cas suivant :</p>
+        
+        <codeBlock>
+            <xsl:template match="/">
+                <!-- appel de template pré-compilé -->
+                <xsl:call-template generate:build="#all" generate:use-build-mode="call-foo" name="foo" />
+            </xsl:template>
+            
+            <xsl:template name="foo">
+                <xsl:sequence generate:build="call-foo" select="someXPath" />
+            </xsl:template>
+        </codeBlock>
+        
+        <p>
+            Dans le présent exemple, il est souhaité que l'élément <element>xsl:sequence</element> du template
+            foo ne soit pré-compilé que dans le cadre d'un appel lui même pré-compilé de ce template.
+        </p>
+        
+        <p>
+            Il se pourrait en effet que ce template soit appellé ailleurs dans la XSLT, indépendamment du
+            processus de pré-compilation.
+        </p>
+        
+        <p>
+            Ici, l'élement <element>xsl:sequence</element> ne sera pré-compilé que dans le mode <code>call-foo</code>,
+            mode que nous avons spécifié via l'attribut <langNodeRef nameRef="generate:use-build-mode" /> de <element>xsl:call-template</element>
+        </p>
+        
+        <h>Implémentation XSLT</h>
+        
+        <p>
+            Le présent projet est une implémentation en XSLT de ce système d'annotations.
+        </p>
+        <p>
+            Son utilisation se fait en deux étapes :
+            
+            <case>
+            <p>La transformation <code>generate.xsl</code> prend en entrée la transformation XSL source,
+            et produit en sortie une XSL intermédiaire.</p>
+            </case>
+            
+            <case>
+                <p>
+                    Cette XSL intermédiaire doit ensuite être appellée sans entrée (template inital "init"),
+                    et produit en sortie la XSL pré-compilée.<br />
+                    Si des paramètres ont été annotés comme visibles dans le contexte de génération, ils peuvent être passés
+                    à cette XSL intermédiaire.
+                </p>
+                
+            </case>          
+        </p>
+        
+        <info>
+            <h>Remarque :</h>
+            <p>En l'absence d'annotations, la XSL générée est identique (Du point de vue du XDM) à la XSL source.</p>
+        </info>
 
         <h>Compliler une transformation XSL</h>
 
@@ -180,6 +243,17 @@
             <langAttribute doc-status="todo" name="generate:use-build-mode">
                 <p>Permet de spécifier le mode de génération à utiliser lors de la précompilation d'un appel de template.</p>
             </langAttribute>
+            
+            <info>
+                <h>Remarque :</h>
+                <p>
+                    Une bonne pratique, pour faciliter la maintenance des XSL annotées, est de placer systématiquement
+                    les attributs <attribute>generate:*</attribute> en premier dans l'élément.
+                </p>
+                <p>
+                    Ainsi, ils attireront plus facilement l'attention d'un développeurs n'ayany pas travaillé sur l'annotation de la XSL
+                </p>
+            </info>
 
         </section>
 
