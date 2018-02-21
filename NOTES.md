@@ -4,6 +4,12 @@ NOTES
 Placer les nouvelles notes sous cette ligne
 
 
+DOC : Introduction du &lt;langNodeSet /&gt;
+===========================================
+
+Rassembler les langNodes dont l'importance ne nécéssite pas
+un bloc entier dans la doc
+
 Structure de la doc des langNodes
 =================================
 

@@ -4,15 +4,16 @@ header {
     height: 240px;
     text-align: right;
     padding-right: 10px;
+    position: relative;
 }
-header a.project-repo, header a.project-repo:visited, header a.project-repo:hover {
-    color: white;
-    text-shadow: 1px 1px 14px black;
-}
+
 p.update {
     color: #777;
     position: relative;
     top: 15px;
+}
+a.project-repo {
+    padding-left: 1.3em;
 }
 main{
     width: 60%;
@@ -84,6 +85,9 @@ pre {
 .langNode {
     margin: 10px 0;
 }
+.langNode.tiny {
+    margin: 0;
+}
 
 .langNode h1 {
     font-size: 1.5rem;
@@ -97,6 +101,7 @@ pre {
 .langNode h4, h5, h6 {
     font-size: 1.1rem;
 }
+
 
 section section {
     margin: 40px 0 15px;

@@ -2,7 +2,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     xmlns:doc="http://jimetevenard.com/ns/generate-xsl/doc" xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:spectrum="internal"
     exclude-result-prefixes="#all" version="3.0">
 
     <xsl:output method="xhtml" indent="yes" omit-xml-declaration="yes"/>
@@ -36,11 +35,7 @@
             </head>
             <body>
                 <header>
-                    <a class="project-repo">
-                        <xsl:variable name="project" select="(//doc:project)[1]"/>
-                        <xsl:attribute name="href" select="$project/@repository" />
-                        <xsl:value-of select="$project"/>
-                    </a>
+                    
                 </header>
                 <xsl:apply-templates/>
             </body>
@@ -54,6 +49,13 @@
                 <xsl:text>Révisé le </xsl:text>
                 <xsl:value-of select="format-date(current-date(),'[D01] [MNn] [Y0001]','fr',(),())"/>
                 <!-- bof, c'est pas parcequ'on lance cette transfo que la doc a effectivement été mise à jour... -->
+            
+               
+                <a class="project-repo" target="_blank">
+                    <xsl:variable name="project" select="(//doc:project)[1]"/>
+                    <xsl:attribute name="href" select="$project/@repository" />
+                    <xsl:value-of select="$project"/>
+                </a>
             </p>
             <xsl:apply-templates/>
         </main>
@@ -118,16 +120,20 @@
     </xsl:template>
     
     
-    
     <xsl:template match="doc:br | doc:code | doc:li | doc:ul | *:a | *:img | *:link | *:b | *:i | *:span | *:section">
         <xsl:element name="{local-name()}">
             <xsl:copy-of select="@*"></xsl:copy-of>
-            <xsl:if test="local-name() = 'a'">
+            <xsl:if test="local-name() = 'a' and @href and not(starts-with(@href,'#'))">
                 <xsl:attribute name="target" select="'_blank'" />
             </xsl:if>
             <xsl:apply-templates select="node()"/>
         </xsl:element>
     </xsl:template>
+
+
+
+
+
 
     <xsl:template match="doc:element">
         <code class="element node">
@@ -145,11 +151,21 @@
     </xsl:template>
     
     
+    
+    
+    
+    
+    <xsl:function name="doc:langNodeHtmlID" as="xs:string">
+        <xsl:param name="langNode" as="element()?" />
+        <xsl:value-of select="concat('langnode-', escape-html-uri($langNode/@name))"/>
+    </xsl:function>
 
     <xsl:template match="doc:langElement | doc:langAttribute">
         <xsl:variable name="langNodeType" select="concat(substring(local-name(), 5), ' ')"/>
+        <xsl:variable name="id" select="doc:langNodeHtmlID(.)"/>
         <div class="{local-name()} card langNode">
-            <xsl:attribute name="id" select="concat('langnode-', escape-html-uri(@name))"/>
+            <xsl:call-template name="langNodeAtts" />
+            <xsl:attribute name="id" select="$id"/>
             <div class="card-body">
                 <xsl:element name="{doc:headerTag(.)}">
                     <xsl:attribute name="class" select="'card-title'"/>
@@ -161,6 +177,36 @@
                 <xsl:apply-templates/>
             </div>
         </div>
+    </xsl:template>
+    
+    <xsl:template match="doc:langElement | doc:langAttribute" mode="inSet">
+        <xsl:variable name="langNodeType" select="concat(substring(local-name(), 5), ' ')"/>
+        <xsl:variable name="id" select="doc:langNodeHtmlID(.)"/>
+        <li class="{local-name()} tiny langNode">
+            <xsl:attribute name="id" select="$id"/>   
+            <xsl:value-of select="$langNodeType"/>
+            <code>
+                <xsl:value-of select="@name"/>
+            </code>           
+        </li>
+    </xsl:template>
+    
+    <xsl:template match="doc:langNodeSet">
+        <xsl:variable name="langNodes" select="(doc:langElement | doc:langAttribute)"/>
+        <div class="{local-name()} card langNode">
+            <xsl:call-template name="langNodeAtts" />
+            <div class="card-body">
+                <ul class="card-title">
+                    <xsl:apply-templates select="$langNodes" mode="inSet"/>
+                </ul>
+                <xsl:apply-templates select="*[not(self::node() = $langNodes)]"/>
+            </div>
+        </div>
+    </xsl:template>
+    
+    <xsl:template name="langNodeAtts">
+        <xsl:attribute name="data-doc-status" select="@doc-status" />
+        <xsl:attribute name="data-implem-status" select="@implem-status" />
     </xsl:template>
 
 
@@ -194,11 +240,14 @@
     <xsl:template match="doc:langNodeRef">
         <xsl:variable name="referedLangNode"
             select="(//*[starts-with(local-name(.), 'lang')][@name = current()/@nameRef])[1]"/>
+        <xsl:if test="not(exists($referedLangNode))">
+            <xsl:message>WARNING : No langNode named "<xsl:value-of select="current()/@nameRef"/>" found</xsl:message>
+        </xsl:if>
         <xsl:variable name="langNodeType"
             select="lower-case(substring-after(local-name($referedLangNode), 'lang'))"/>
         <a>
             <xsl:attribute name="href"
-                select="concat('#langnode-', escape-html-uri($referedLangNode/@name))"/>
+                select="concat('#', doc:langNodeHtmlID($referedLangNode))"/>
             <code class="{$langNodeType} ref node">
                 <xsl:choose>
                     <xsl:when test="$langNodeType = 'attribute'">
@@ -215,6 +264,9 @@
             </code>
         </a>
     </xsl:template>
+    
+    
+    
     
     
     <xsl:template match="doc:codeBlock">
