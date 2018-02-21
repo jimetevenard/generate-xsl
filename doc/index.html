@@ -9,7 +9,7 @@
    <body>
       <header><a class="project-repo" href="#URL-du-repo">Generate XSL - GitHub</a></header>
       <main>
-         <p class="update">Révisé le 20 Février 2018</p>
+         <p class="update">Révisé le 21 Février 2018</p>
          
          
          
@@ -209,6 +209,77 @@
                </p>
                
             </div>
+            
+            
+            
+            
+            <h2>Syntaxe du langage d'annotations</h2>
+            
+            
+            <ul>
+               
+               <li>
+                  Compiler des instructions XSLT
+                  
+                  <ul>
+                     
+                     <li>Compiler une instruction par l’ajout de l’attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a></li>
+                     
+                     <li>Dupliquer un template avec l’élément <a href="#langnode-generate:copy-template"><code class="element ref node">&lt;generate:copy-template/&gt;</code></a></li>
+                     
+                     <li>Modifier les templace avec les éléments <a href="#langnode-generate:set-match"><code class="element ref node">&lt;generate:set-match/&gt;</code></a>, <a href="#langnode-generate:set-mode"><code class="element ref node">&lt;generate:set-mode/&gt;</code></a>, <a href="#langnode-generate:set-priority"><code class="element ref node">&lt;generate:set-priority/&gt;</code></a>, <a href="#langnode-generate:set-name"><code class="element ref node">&lt;generate:set-name/&gt;</code></a>, <a href="#langnode-generate:set-as"><code class="element ref node">&lt;generate:set-as/&gt;</code></a>, <a href="#langnode-generate:set-visibility"><code class="element ref node">&lt;generate:set-visibility/&gt;</code></a>, <a href="#langnode-generate:redefine-variable"><code class="element ref node">&lt;generate:redefine-variable/&gt;</code></a> et <a href="#langnode-generate:with-param"><code class="element ref node">&lt;generate:with-param/&gt;</code></a></li>
+                     
+                  </ul>
+                  
+               </li>
+               
+               <li>
+                  Elements de structure du langage d’annotations
+                  
+                  <ul>
+                     
+                     <li>Generer des variables (globales?(copy-template?)) avec l’élément <a href="#langnode-generate:variable"><code class="element ref node">&lt;generate:variable/&gt;</code></a></li>
+                     
+                     <li>Redefinir une variable existante avec <a href="#langnode-generate:redefine-variable"><code class="element ref node">&lt;generate:redefine-variable/&gt;</code></a></li>
+                     
+                     <li>Générer des imports avec l’élément <a href="#langnode-generate:import"><code class="element ref node">&lt;generate:import/&gt;</code></a></li>
+                     
+                     <li>Générer des parms globaux avec l’élément <a href="#langnode-generate:param"><code class="element ref node">&lt;generate:param/&gt;</code></a></li>
+                     
+                     <li>Ajouter un bloc de code avec l’élément <a href="#langnode-generate:target-block"><code class="element ref node">&lt;generate:target-block/&gt;</code></a></li>
+                     
+                     <li>Structures de controle : éléments <a href="#langnode-generate:if"><code class="element ref node">&lt;generate:if/&gt;</code></a>, <a href="#langnode-generate:for-each"><code class="element ref node">&lt;generate:for-each/&gt;</code></a> et <a href="#langnode-"><code class=" ref node"></code></a></li>
+                     
+                  </ul>
+                  
+               </li>
+               
+               <li>
+                  Utiliser des variables et paramètres dans le contexte de génération
+                  
+                  <ul>
+                     
+                     <li>l’attribut <a href="#langnode-generate:use"><code class="attribute ref node">@generate:use</code></a></li>
+                     
+                     <li>les éléments <a href="#langnode-generate:use-variable"><code class="element ref node">&lt;generate:use-variable/&gt;</code></a>, <a href="#langnode-generate:use-import"><code class="element ref node">&lt;generate:use-import/&gt;</code></a> et <a href="#langnode-generate:use-param"><code class="element ref node">&lt;generate:use-param/&gt;</code></a></li>
+                     
+                  </ul>
+                  
+               </li>
+               
+               <li>
+                  Identifier une instruction xsl
+                  
+                  <ul>
+                     
+                     <li>Ajout d’un identifiant par l’attribut <a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a></li>
+                     
+                  </ul>
+                  
+               </li>
+               
+            </ul>
+            
             
             
             <h2>Compliler une transformation XSL</h2>

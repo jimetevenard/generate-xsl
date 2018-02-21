@@ -61,6 +61,7 @@
 
         <h>Exemple : </h>
         <p>Le code suivant :</p>
+        
         <codeBlock>
             <xsl:choose generate:build="#all">
                 <xsl:when test="foo:someXPath()[that/returns]/true()">
@@ -167,7 +168,47 @@
             <h>Remarque :</h>
             <p>En l'absence d'annotations, la XSL générée est identique (Du point de vue du XDM) à la XSL source.</p>
         </info>
-
+           
+        <!-- ###################################################################################################################################### -->
+        
+        <h>Syntaxe du langage d'annotations</h>
+        
+        <ul>
+            <li>
+                Compiler des instructions XSLT
+                <ul>
+                    <li>Compiler une instruction par l’ajout de l’attribut <langNodeRef nameRef="generate:build" /></li>
+                    <li>Dupliquer un template avec l’élément <langNodeRef nameRef="generate:copy-template" /></li>
+                    <li>Modifier les templace avec les éléments <langNodeRef nameRef="generate:set-match" />, <langNodeRef nameRef="generate:set-mode" />, <langNodeRef nameRef="generate:set-priority" />, <langNodeRef nameRef="generate:set-name" />, <langNodeRef nameRef="generate:set-as" />, <langNodeRef nameRef="generate:set-visibility" />, <langNodeRef nameRef="generate:redefine-variable" /> et <langNodeRef nameRef="generate:with-param" /></li>
+                </ul>
+            </li>
+            <li>
+                Elements de structure du langage d’annotations
+                <ul>
+                    <li>Generer des variables (globales?(copy-template?)) avec l’élément <langNodeRef nameRef="generate:variable" /></li>
+                    <li>Redefinir une variable existante avec <langNodeRef nameRef="generate:redefine-variable" /></li>
+                    <li>Générer des imports avec l’élément <langNodeRef nameRef="generate:import" /></li>
+                    <li>Générer des parms globaux avec l’élément <langNodeRef nameRef="generate:param" /></li>
+                    <li>Ajouter un bloc de code avec l’élément <langNodeRef nameRef="generate:target-block" /></li>
+                    <li>Structures de controle : éléments <langNodeRef nameRef="generate:if" />, <langNodeRef nameRef="generate:for-each" /> et <langNodeRef nameRef="generate:choose" /></li>
+                </ul>
+            </li>
+            <li>
+                Utiliser des variables et paramètres dans le contexte de génération
+                <ul>
+                    <li>l’attribut <langNodeRef nameRef="generate:use" /></li>
+                    <li>les éléments <langNodeRef nameRef="generate:use-variable" />, <langNodeRef nameRef="generate:use-import" /> et <langNodeRef nameRef="generate:use-param" /></li>
+                </ul>
+            </li>
+            <li>
+                Identifier une instruction xsl
+                <ul>
+                    <li>Ajout d’un identifiant par l’attribut <langNodeRef nameRef="generate:id" /></li>
+                </ul>
+            </li>
+        </ul>
+        
+        
         <h>Compliler une transformation XSL</h>
 
         <section>

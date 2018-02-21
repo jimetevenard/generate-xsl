@@ -119,7 +119,7 @@
     
     
     
-    <xsl:template match="doc:br | doc:code | *:a | *:img | *:link | *:b | *:i | *:span | *:section">
+    <xsl:template match="doc:br | doc:code | doc:li | doc:ul | *:a | *:img | *:link | *:b | *:i | *:span | *:section">
         <xsl:element name="{local-name()}">
             <xsl:copy-of select="@*"></xsl:copy-of>
             <xsl:if test="local-name() = 'a'">

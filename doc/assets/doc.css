@@ -24,6 +24,13 @@ main{
         margin: 40px 10px;
     }
 }
+section > h2, main > h2 {
+    margin-top: 34px;
+    margin-bottom: 20px;
+}
+li {
+    margin: 0.4em 0;
+}
 
 .case {
     padding-left: 17px;
