@@ -1,71 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  
-  <groupId>com.jimetevenard.xml</groupId>
-  <artifactId>generate-xsl</artifactId>
-  <version>0.1-SNAPSHOT</version>
-  
-  <packaging>jar</packaging>
-  
-  <name>generateXSL</name>
-  
 
-  
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  
-  <dependencies>
-   
-  </dependencies>
-  
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/xsl</directory>
-        <targetPath>generateXSL/xsl</targetPath>
-      </resource>
-    </resources>
-    <plugins>
-      
-      <!--
-      <plugin>
-        <groupId>io.xspec.maven</groupId>
-        <artifactId>xspec-maven-plugin</artifactId>
-        <dependencies>
-          <dependency>
-            <groupId>extern.net.sf.saxon</groupId>
-            <artifactId>saxonee</artifactId>
-            <type>jar</type>
-            <version>9.7.0.13</version>
-            <!-\-<version>9.5.1.5</version>-\->
-          </dependency>
-          <dependency>
-            <groupId>extern.net.sf.saxon</groupId>
-            <artifactId>saxonee-license</artifactId>
-            <version>9.7</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <catalogFile>${project.basedir}/catalog.xml</catalogFile>
-          <generateSurefireReport>true</generateSurefireReport>
-        </configuration>
-        <executions>
-          <execution>
-            <phase>test</phase>
-            <goals>
-              <goal>run-xspec</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      -->
+	<groupId>com.jimetevenard.xml</groupId>
+	<artifactId>generate-xsl</artifactId>
+	<version>0.1-SNAPSHOT</version>
 
-    </plugins>
-  </build>
+	<packaging>jar</packaging>
+
+	<name>generateXSL</name>
+
+
+
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>net.sf.saxon</groupId>
+			<artifactId>Saxon-HE</artifactId>
+			<version>9.8.0-8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.xmlresolver</groupId>
+			<artifactId>xmlresolver</artifactId>
+			<version>0.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>2.10.0</version>
+			<type>pom</type>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/xsl</directory>
+				<targetPath>generateXSL/xsl</targetPath>
+			</resource>
+		</resources>
+		<plugins>
+
+			<!-- <plugin> <groupId>io.xspec.maven</groupId> <artifactId>xspec-maven-plugin</artifactId> 
+				<dependencies> <dependency> <groupId>extern.net.sf.saxon</groupId> <artifactId>saxonee</artifactId> 
+				<type>jar</type> <version>9.7.0.13</version> <!-\-<version>9.5.1.5</version>-\-> 
+				</dependency> <dependency> <groupId>extern.net.sf.saxon</groupId> <artifactId>saxonee-license</artifactId> 
+				<version>9.7</version> </dependency> </dependencies> <configuration> <catalogFile>${project.basedir}/catalog.xml</catalogFile> 
+				<generateSurefireReport>true</generateSurefireReport> </configuration> <executions> 
+				<execution> <phase>test</phase> <goals> <goal>run-xspec</goal> </goals> </execution> 
+				</executions> </plugin> -->
+
+		</plugins>
+	</build>
 </project>

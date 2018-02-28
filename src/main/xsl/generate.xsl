@@ -53,6 +53,9 @@
             xmlns:generate-target="generate::generate-target-stylesheet"
             version="3.0">
             
+            <!-- the intermediate XSL will not necessarily be outputed near the source XSL -->
+            <xsl:attribute name="xml:base" select="document-uri(.)"></xsl:attribute>
+            
             <!-- 
                 On reproduit à l'indentique les déclarations de préfixes.
                 Sinon, ca peut poser des problèmes avec les fonctions importées

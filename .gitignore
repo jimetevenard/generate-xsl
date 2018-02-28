@@ -1,3 +1,5 @@
 target/
 catalog.xml
-
+.classpath
+.project
+.settings/
