@@ -8,7 +8,7 @@
             <namespace id="generate" uri="http://jimetevenard.com/ns/generate-xsl"
                 usual-prefix="generate"/>
         </namespaces>
-        <project repository="#URL-du-repo">Generate XSL - GitHub</project>
+        <project repository="https://github.com/jimetevenard/generate-xsl">Generate XSL - GitHub</project>
     </meta>
     
     <!--
