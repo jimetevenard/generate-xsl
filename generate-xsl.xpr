@@ -10,6 +10,21 @@
                         <scenarioAssociation-array>
                             <scenarioAssociation>
                                 <field name="url">
+                                    <String>docs/doc-index.xml</String>
+                                </field>
+                                <field name="scenarioIds">
+                                    <list>
+                                        <String>doc To HTLML</String>
+                                    </list>
+                                </field>
+                                <field name="scenarioTypes">
+                                    <list>
+                                        <String>XSL</String>
+                                    </list>
+                                </field>
+                            </scenarioAssociation>
+                            <scenarioAssociation>
+                                <field name="url">
                                     <String>doc/doc-index.xml</String>
                                 </field>
                                 <field name="scenarioIds">
@@ -23,70 +38,6 @@
                                     </list>
                                 </field>
                             </scenarioAssociation>
-                            
-                           
-                           
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>generalte-xsl.xsl</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>generalte-xsl</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>_RESULTAT/resultat.xsl</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>base</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>resultat.xsl</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>base</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            <scenarioAssociation>
-                                <field name="url">
-                                    <String>base.xsl</String>
-                                </field>
-                                <field name="scenarioIds">
-                                    <list>
-                                        <String>base</String>
-                                    </list>
-                                </field>
-                                <field name="scenarioTypes">
-                                    <list>
-                                        <String>XML</String>
-                                    </list>
-                                </field>
-                            </scenarioAssociation>
-                            
                         </scenarioAssociation-array>
                     </entry>
                     <entry>
@@ -115,7 +66,7 @@
                                     <String></String>
                                 </field>
                                 <field name="inputXSLURL">
-                                    <String>${pdu}/doc/doc-to-html.xsl</String>
+                                    <String>${pdu}/docs/doc-to-html.xsl</String>
                                 </field>
                                 <field name="inputXMLURL">
                                     <String>${currentFileURL}</String>
@@ -136,10 +87,10 @@
                                     <Boolean>true</Boolean>
                                 </field>
                                 <field name="outputFile">
-                                    <File>${pd}/doc/index.html</File>
+                                    <File>${pd}/docs/index.html</File>
                                 </field>
                                 <field name="outputResource">
-                                    <String>${pd}/doc/index.html</String>
+                                    <String>${pd}/docs/index.html</String>
                                 </field>
                                 <field name="openOtherLocationInBrowser">
                                     <Boolean>false</Boolean>

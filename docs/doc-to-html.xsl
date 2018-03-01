@@ -4,7 +4,7 @@
     xmlns:doc="http://jimetevenard.com/ns/generate-xsl/doc" xmlns="http://www.w3.org/1999/xhtml"
     exclude-result-prefixes="#all" version="3.0">
 
-    <xsl:output method="xhtml" indent="yes" omit-xml-declaration="yes"/>
+    <xsl:output method="html" indent="yes" html-version="5.0" />
     
     <xsl:import href="doc-code-blocks.xsl"/>
 

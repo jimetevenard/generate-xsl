@@ -1,10 +1,10 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
    <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-      <meta name="viewport" content="width=device-width" />
-      <link href="assets/bootstrap.min.css" rel="stylesheet" />
-      <link href="assets/doc.css" rel="stylesheet" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta name="viewport" content="width=device-width">
+      <link href="assets/bootstrap.min.css" rel="stylesheet">
+      <link href="assets/doc.css" rel="stylesheet">
       <title>Generate XSL</title>
    </head>
    <body>
@@ -58,7 +58,7 @@
             
             <p>L'objectif principal de ce système d'annotation est d'optimiser le traitement d'une
                XSLT
-               sans affecter son fonctionnement d'origine.<br /> Ainsi cette XSLT reste maintenable et
+               sans affecter son fonctionnement d'origine.<br> Ainsi cette XSLT reste maintenable et
                testable, et des test comparés de la <a href="#definition-xsl-source">XSL
                   source</a> et de la <a href="#definition-xsl-gen">XSL
                   générée</a> permettent d'identifier facilement les éventuels effets de
@@ -71,12 +71,12 @@
             <p>Le code suivant :</p>
             
             <pre><span class="elt-name">&lt;xsl:choose <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span></span><span class="elt-name">&gt;</span>
-    <span class="elt-name">&lt;xsl:when <span class="attr">test="<span class="attr-value">foo:someXPath()[that/returns]/true()</span>" </span></span><span class="elt-name">&gt;</span>
-        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
-    <span class="elt-name">&lt;/xsl:when&gt;</span>
-    <span class="elt-name">&lt;xsl:otherwhise</span><span class="elt-name">&gt;</span>
-        <span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Nope !'</span>" </span></span><span class="elt-name">/&gt;</span>
-    <span class="elt-name">&lt;/xsl:otherwhise&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:when <span class="attr">test="<span class="attr-value">foo:someXPath()[that/returns]/true()</span>" </span></span><span class="elt-name">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;/xsl:when&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:otherwhise</span><span class="elt-name">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Nope !'</span>" </span></span><span class="elt-name">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;/xsl:otherwhise&gt;</span>
 <span class="elt-name">&lt;/xsl:choose&gt;</span>
 </pre>
             <p>Devient, après compilation :</p>
@@ -84,7 +84,7 @@
 </pre>
             
             <p>Dans cet exemple, on a exprimé par l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> la
-               volonté de pré-évaluer ce <code class="element node">&lt;xsl:choose/&gt;</code>.<br /> Ainsi, les différents
+               volonté de pré-évaluer ce <code class="element node">&lt;xsl:choose/&gt;</code>.<br> Ainsi, les différents
                <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le cas
                pertinent est retranscrit dans la <a href="#definition-xsl-gen">XSL
                   générée</a>
@@ -96,7 +96,7 @@
             
             
             <p>
-               La pré-compilation de la XSL est une phase lié au build d'un projet.<br />
+               La pré-compilation de la XSL est une phase lié au build d'un projet.<br>
                Elle est donc totalement ignorante des données ou du contexte d'éxécution.
                
             </p>
@@ -105,7 +105,7 @@
             <p>
                L'ensemble du <a href="https://www.w3.org/TR/xpath-30/#context" target="_blank">contexte XPath</a>, variables, paramètres, etc. disponibles pendant
                la phase de compilation
-               est appelée <a href="#definition-contexte">contexte de génération</a><br />
+               est appelée <a href="#definition-contexte">contexte de génération</a><br>
                Le développeur qui met en place les annotations doit s'assurer que les expressions
                XPath évaluées sont effectivement évaluables dans ce contexte.
                
@@ -134,11 +134,11 @@
             <p>En effet, considérons la cas suivant :</p>
             
             <pre><span class="elt-name">&lt;xsl:template <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name">&gt;</span>
-    <span class="comment">&lt;!-- appel de template pré-compilé --&gt;</span>
-    <span class="elt-name">&lt;xsl:call-template <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr generate">generate:use-build-mode="<span class="attr-value">call-foo</span>" </span> <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- appel de template pré-compilé --&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:call-template <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr generate">generate:use-build-mode="<span class="attr-value">call-foo</span>" </span> <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name">/&gt;</span>
 <span class="elt-name">&lt;/xsl:template&gt;</span>
 <span class="elt-name">&lt;xsl:template <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name">&gt;</span>
-    <span class="elt-name">&lt;xsl:sequence <span class="attr generate">generate:build="<span class="attr-value">call-foo</span>" </span> <span class="attr">select="<span class="attr-value">someXPath</span>" </span></span><span class="elt-name">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:sequence <span class="attr generate">generate:build="<span class="attr-value">call-foo</span>" </span> <span class="attr">select="<span class="attr-value">someXPath</span>" </span></span><span class="elt-name">/&gt;</span>
 <span class="elt-name">&lt;/xsl:template&gt;</span>
 </pre>
             
@@ -189,7 +189,7 @@
                   
                   <p>
                      Cette XSL intermédiaire doit ensuite être appellée sans entrée (template inital "init"),
-                     et produit en sortie la XSL pré-compilée.<br />
+                     et produit en sortie la XSL pré-compilée.<br>
                      Si des paramètres ont été annotés comme visibles dans le contexte de génération, ils
                      peuvent être passés
                      à cette XSL intermédiaire.
@@ -241,7 +241,7 @@
             
             <p>
                Les éléments <code class="element node">&lt;generate:*/&gt;</code> doivent être des enfants de la racine <code class="element node">&lt;xsl:stylesheet/&gt;</code>
-               ou d'autres éléments <code class="element node">&lt;generate:*/&gt;</code>.<br />
+               ou d'autres éléments <code class="element node">&lt;generate:*/&gt;</code>.<br>
                Ceci pour ne pas perturber le comportement de la XSLT.
                
             </p>
@@ -431,8 +431,8 @@
                            </p>
                            
                            <p>
-                              Peut être complété par un attribut <a href="#langnode-generate:use-build-mode"><code class="attribute ref node">@generate:use-build-mode</code></a>.<br />
-                              Les paramètres spécifés s'appliquent<br />
+                              Peut être complété par un attribut <a href="#langnode-generate:use-build-mode"><code class="attribute ref node">@generate:use-build-mode</code></a>.<br>
+                              Les paramètres spécifés s'appliquent<br>
                               TODO compléter ou écrire un paragraphe dédié.
                               
                            </p>
@@ -822,12 +822,12 @@
                      </p>
                      
                      <p>Cet identifiant peut être utilisé pour le designer dans une
-                        annotation<code class="element node">&lt;generate:*/&gt;</code>.<br />
+                        annotation<code class="element node">&lt;generate:*/&gt;</code>.<br>
                         Exemple :
                         
                      </p>
                      <pre><span class="elt-name">&lt;xsl:template <span class="attr generate">generate:id="<span class="attr-value">bar</span>" </span> <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name">&gt;</span>
-    <span class="comment">&lt;!-- (...) --&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- (...) --&gt;</span>
 <span class="elt-name">&lt;/xsl:template&gt;</span>
 <span class="elt-name">&lt;generate:remove <span class="attr">idRef="<span class="attr-value">bar</span>" </span></span><span class="elt-name">/&gt;</span>
 </pre>
