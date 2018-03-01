@@ -16,4 +16,4 @@ le traitement d'une XSLT sans affecter son fonctionnement d'origine.
 Ainsi cette XSLT reste maintenable et testable, et des tests comparés sur la XSL source
 et la XSL générée permettent d'identifier facilement les éventuels effets de bord de la pré-compilation.
 
-[Documentation détaillée](http://woop.jimetevenard.com/)
+[Documentation détaillée](http://jimetevenard.github.io/generate-xsl/)

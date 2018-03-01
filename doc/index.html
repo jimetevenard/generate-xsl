@@ -9,7 +9,7 @@
    <body>
       <header></header>
       <main>
-         <p class="update">Révisé le 22 Février 2018<a class="project-repo" target="_blank" href="#URL-du-repo">Generate XSL - GitHub</a></p>
+         <p class="update">Révisé le 01 Mars 2018<a class="project-repo" target="_blank" href="#URL-du-repo">Generate XSL - GitHub</a></p>
          
          
          
@@ -205,11 +205,20 @@
                
                <h3>Remarque :</h3>
                
-               <p>En l'absence d'annotations, la XSL générée est identique (Du point de vue du XDM)
-                  à la XSL source.
-               </p>
+               <p>En l'absence d'annotations, la XSL générée est identique (Au sens XML) à la XSL source.</p>
                
             </div>
+            
+            
+            <h2>Lanceur Java</h2>
+            
+            
+            <p>Une interface Java <code>com.jimetevenard.xslt.api.XSLGenerator</code> est fournie dans ce projet pour intégrer generate XSL à votre application.
+            </p>
+            
+            
+            <p>Une implémentation de cette interface basée sur Saxon PE (<code>com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator</code>) de cette interface est également fournie dans ce projet. 
+            </p>
             
             
             
@@ -372,7 +381,7 @@
                <h3>Compiler des instructions XSLT</h3>
                
                
-               <div class="langAttribute card langNode" id="langnode-generate:build">
+               <div class="langAttribute card langNode" data-doc-status="ok" data-implem-status="NA" id="langnode-generate:build">
                   <div class="card-body">
                      <h3 class="card-title">Attribute <code>generate:build</code></h3>
                      
@@ -469,7 +478,7 @@
                   </div>
                </div>
                
-               <div class="langElement card langNode" id="langnode-generate:copy-template">
+               <div class="langElement card langNode" data-doc-status="ok" data-implem-status="NA" id="langnode-generate:copy-template">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:copy-template</code></h3>
                      
@@ -477,7 +486,7 @@
                         <code class="element node">&lt;xsl:template/&gt;</code> de la <a href="#definition-xsl-source">XSL
                            source</a> identifié par : 
                         <div class="case">Une référence à son éventuel
-                           attribut<a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a> exprimée sous forme d'un
+                           attribut<a href="#langnode-"><code class=" ref node"></code></a> exprimée sous forme d'un
                            attribut <code class="attribute node">@id</code></div>
                         
                         <div class="case">Une référence à son <code class="attribute node">@name</code> exprimée via un attribut
@@ -500,7 +509,7 @@
                </div>
                
                
-               <div class="langNodeSet card langNode">
+               <div class="langNodeSet card langNode" data-doc-status="ok" data-implem-status="NA">
                   <div class="card-body">
                      <ul class="card-title">
                         <li class="langElement tiny langNode" id="langnode-generate:set-match">Element <code>generate:set-match</code></li>
@@ -517,7 +526,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:with-param">
+               <div class="langElement card langNode" data-doc-status="todo" data-implem-status="0" id="langnode-generate:with-param">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:with-param</code></h3>
                      
@@ -539,7 +548,7 @@
                <h3>Modifer la structure de la XSLT</h3>
                
                
-               <div class="langElement card langNode" id="langnode-generate:variable">
+               <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:variable">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:variable</code></h3>
                      
@@ -553,7 +562,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:redefine-variable">
+               <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:redefine-variable">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:redefine-variable</code></h3>
                      
@@ -574,7 +583,7 @@
                
                
                
-               <div class="langElement card langNode" id="langnode-generate:import">
+               <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:import">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:import</code></h3> Ajoute un élément
                      <code class="element node">&lt;xsl:import/&gt;</code> à la <a href="#definition-xsl-gen">XSL
@@ -583,7 +592,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:param">
+               <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:param">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:param</code></h3> Ajoute un élément
                      <code class="element node">&lt;xsl:param/&gt;</code> global à la <a href="#definition-xsl-gen">XSL
@@ -592,7 +601,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:target-block">
+               <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:target-block">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:target-block</code></h3>
                      
@@ -611,7 +620,7 @@
                
                
                
-               <div class="langAttribute card langNode" id="langnode-generate:use-build-mode">
+               <div class="langAttribute card langNode" data-doc-status="tocomplete" data-implem-status="NA" id="langnode-generate:use-build-mode">
                   <div class="card-body">
                      <h3 class="card-title">Attribute <code>generate:use-build-mode</code></h3>
                      
@@ -638,7 +647,7 @@
                
                
                
-               <div class="langElement card langNode" id="langnode-generate:for-each">
+               <div class="langElement card langNode" data-doc-status="old" data-implem-status="NA" id="langnode-generate:for-each">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:for-each</code></h3>
                      
@@ -664,7 +673,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:if">
+               <div class="langElement card langNode" data-doc-status="old" data-implem-status="NA" id="langnode-generate:if">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:if</code></h3>
                      
@@ -688,7 +697,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:choose">
+               <div class="langElement card langNode" data-doc-status="todo" data-implem-status="0" id="langnode-generate:choose">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:choose</code></h3>
                      
@@ -708,7 +717,7 @@
                <h3>Utiliser des variables et paramètres dans le contexte de génération</h3>
                
                
-               <div class="langAttribute card langNode" id="langnode-generate:use">
+               <div class="langAttribute card langNode" data-doc-status="tocomplete" data-implem-status="NA" id="langnode-generate:use">
                   <div class="card-body">
                      <h3 class="card-title">Attribute <code>generate:use</code></h3>
                      
@@ -723,7 +732,7 @@
                
                
                
-               <div class="langElement card langNode" id="langnode-generate:use-import">
+               <div class="langElement card langNode" data-doc-status="pending" data-implem-status="NA" id="langnode-generate:use-import">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:use-import</code></h3>
                      
@@ -764,7 +773,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:use-param">
+               <div class="langElement card langNode" data-doc-status="pending" data-implem-status="NA" id="langnode-generate:use-param">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:use-param</code></h3>
                      
@@ -779,7 +788,7 @@
                </div>
                
                
-               <div class="langElement card langNode" id="langnode-generate:use-variable">
+               <div class="langElement card langNode" data-doc-status="pending" data-implem-status="NA" id="langnode-generate:use-variable">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:use-variable</code></h3>
                      
@@ -804,7 +813,7 @@
                <h3>Identifier une instruction XSL</h3>
                
                
-               <div class="langAttribute card langNode" id="langnode-generate:id">
+               <div class="langAttribute card langNode" data-doc-status="todo" data-implem-status="NA" id="langnode-generate:id">
                   <div class="card-body">
                      <h3 class="card-title">Attribute <code>generate:id</code></h3>
                      

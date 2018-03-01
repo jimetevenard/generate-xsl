@@ -1,9 +1,15 @@
 package com.jimetevenard.xslt.api;
 
-import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator;
 import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator.GenerationException;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
+
+/**
+ * Generate the compled XSLT for a given source XSLT
+ * 
+ * @author ext-jetevenard
+ *
+ */
 public interface XSLGenerator {
 	
 	/**

@@ -1,25 +1,17 @@
 package com.jimetevenard.xslt.implSaxon;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.xml.namespace.QName;
 
 import org.apache.logging.log4j.Logger;
 
 import com.jimetevenard.xslt.api.XSLGenerator;
-import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator.GenerationException;
 import com.jimetevenard.xslt.utils.ConfigMap;
-import com.jimetevenard.xslt.utils.GenerateXslUtils;
 import com.jimetevenard.xslt.utils.ParamsMap;
-
 
 import net.sf.saxon.s9api.SaxonApiException;
 
 public class SaxonXSLTGenerator implements XSLGenerator {
 	
-	private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd-HH-mm-ss");
 	
 	
 	private  Logger log;
@@ -51,9 +43,8 @@ public class SaxonXSLTGenerator implements XSLGenerator {
 	public void compile(ParamsMap params, String sourceXSLTPath, String generatedXSLTPath,
 			String intermediateXSLTPath) throws GenerationException {
 		
-		// Version avec intermediate écrit sous forme de fichier
+		// Version avec intermediate serialisé dans un fichier
 		
-		String now = dateFormatter.format(LocalDateTime.now());
 		
 
 		

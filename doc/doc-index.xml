@@ -166,8 +166,14 @@
         
         <info>
             <h>Remarque :</h>
-            <p>En l'absence d'annotations, la XSL générée est identique (Du point de vue du XDM) à la XSL source.</p>
+            <p>En l'absence d'annotations, la XSL générée est identique (Au sens XML) à la XSL source.</p>
         </info>
+        
+        <h>Lanceur Java</h>
+        
+        <p>Une interface Java <code>com.jimetevenard.xslt.api.XSLGenerator</code> est fournie dans ce projet pour intégrer generate XSL à votre application.</p>
+        
+        <p>Une implémentation de cette interface basée sur Saxon PE (<code>com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator</code>) de cette interface est également fournie dans ce projet. </p>
            
         <!-- ###################################################################################################################################### -->
         

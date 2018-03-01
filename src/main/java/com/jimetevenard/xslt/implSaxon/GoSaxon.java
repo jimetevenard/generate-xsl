@@ -2,7 +2,6 @@ package com.jimetevenard.xslt.implSaxon;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.transform.stream.StreamSource;
@@ -18,7 +17,6 @@ import net.sf.saxon.s9api.DocumentBuilder;
 import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XsltCompiler;
@@ -117,16 +115,16 @@ public class GoSaxon {
 		
 		
 		XsltExecutable intermediateXsltExecutable = compiler.compile(new StreamSource(new File(config.get(ConfigMap.XSL_PATH))));
-		XsltTransformer intermediateXsltTransfomrer = generateXsltExecutable.load();
+		XsltTransformer intermediateXsltTransfomrer = intermediateXsltExecutable.load();
 		
 		String fileOutput = config.get(ConfigMap.OUTPUT_PATH);
 		if (fileOutput != null && !(fileOutput.isEmpty())) {
-			generalXsltTransfomrer.setDestination(fileDestination(fileOutput));
+			intermediateXsltTransfomrer.setDestination(fileDestination(fileOutput));
 		}
 
 		if (params != null) {
 			for (Entry<javax.xml.namespace.QName, String> e : params.entrySet()) {
-				generalXsltTransfomrer.setParameter(new QName(e.getKey()), new XdmAtomicValue(e.getValue()));
+				intermediateXsltTransfomrer.setParameter(new QName(e.getKey()), new XdmAtomicValue(e.getValue()));
 			}
 		}
 
