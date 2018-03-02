@@ -64,9 +64,9 @@ public class GoSaxon {
 	private  XsltTransformer generalXsltTransfomrer;
 	private  boolean ready = false;
 	
-	public GoSaxon(String catalogPath) {
+	public GoSaxon(String catalogPath, boolean useLicensedSaxonEdition) {
 		try {
-			proc = new Processor(false); // false => licensed Saxon
+			proc = new Processor(useLicensedSaxonEdition); 
 			compiler = proc.newXsltCompiler();
 			docBuilder = proc.newDocumentBuilder();
 			

@@ -19,13 +19,16 @@ public class SaxonXSLTGenerator implements XSLGenerator {
 	private GoSaxon saxonCompiler;
 	
 	
+	public SaxonXSLTGenerator(Logger log, String catalogPath){
+		this(log, catalogPath, false); // Use Saxon HE by default
+	}
 
-	public SaxonXSLTGenerator(Logger log, String catalogPath) {
+	public SaxonXSLTGenerator(Logger log, String catalogPath, boolean useLicensedSaxonEdition) {
 		super();
 		this.log = log;
 		log.debug("We create the generator with catalog" + catalogPath);
 		
-		saxonCompiler = new GoSaxon(catalogPath);
+		saxonCompiler = new GoSaxon(catalogPath, useLicensedSaxonEdition);
 		
 		
 	}
