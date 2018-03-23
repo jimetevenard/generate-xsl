@@ -4,12 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map.Entry;
 
+import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 
 import org.xmlresolver.Resolver;
 
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.GenerateXslUtils;
+import com.jimetevenard.xslt.utils.IntermediateXdm;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 import net.sf.saxon.s9api.Destination;
@@ -85,8 +87,12 @@ public class GoSaxon {
 		}
 	}
 	
-	
 	public  void generateIntermediate(ConfigMap config) throws SaxonApiException, IOException{
+		generateIntermediate(config, null);
+	}
+	
+	
+	public  void generateIntermediate(ConfigMap config, IntermediateXdm intermediateXdm) throws SaxonApiException, IOException{
 		
 		checkState();
 		
@@ -95,10 +101,14 @@ public class GoSaxon {
 		generalXsltTransfomrer.setSource(doc.asSource());
 		
 		
-		// prévoir aussi une XDMDestination (en dehors de la méthode)
 		String fileOutput = config.get(ConfigMap.OUTPUT_PATH);
+		
 		if (fileOutput != null && !(fileOutput.isEmpty())) {
 			generalXsltTransfomrer.setDestination(fileDestination(fileOutput));
+		} else if (intermediateXdm != null) {
+			generalXsltTransfomrer.setDestination(intermediateXdm.getDestination());
+		} else {
+			throw new IllegalArgumentException("You must provide either a file path or a com.jimetevenard.xslt.utils.IntermediateXdm to hold the intermediate-xsl.");
 		}
 
 		// pas de params...
@@ -111,10 +121,23 @@ public class GoSaxon {
 	
 	public void executeIntermediate(ConfigMap config, ParamsMap params) throws SaxonApiException, IOException{
 		
+		executeIntermediate(config, params, null);
+	}
+	
+	public void executeIntermediate(ConfigMap config, ParamsMap params, IntermediateXdm intermediateXdm) throws SaxonApiException, IOException{
+		
 		checkState();
 		
+		Source intermediateXSL;
+		if(config.get(ConfigMap.XSL_PATH) != null && !(config.get(ConfigMap.XSL_PATH).isEmpty())){
+			intermediateXSL = new StreamSource(new File(config.get(ConfigMap.XSL_PATH)));
+		} else if(intermediateXdm != null){
+			intermediateXSL = intermediateXdm.getSource();
+		} else {
+			throw new IllegalArgumentException("You must provide either a file path or a com.jimetevenard.xslt.utils.IntermediateXdm that holds the intermediate-xsl.");
+		}
 		
-		XsltExecutable intermediateXsltExecutable = compiler.compile(new StreamSource(new File(config.get(ConfigMap.XSL_PATH))));
+		XsltExecutable intermediateXsltExecutable = compiler.compile(intermediateXSL);
 		XsltTransformer intermediateXsltTransfomrer = intermediateXsltExecutable.load();
 		
 		String fileOutput = config.get(ConfigMap.OUTPUT_PATH);

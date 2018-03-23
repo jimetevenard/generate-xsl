@@ -6,9 +6,11 @@ import org.apache.logging.log4j.Logger;
 
 import com.jimetevenard.xslt.api.XSLGenerator;
 import com.jimetevenard.xslt.utils.ConfigMap;
+import com.jimetevenard.xslt.utils.IntermediateXdm;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 import net.sf.saxon.s9api.SaxonApiException;
+import net.sf.saxon.s9api.XdmDestination;
 
 public class SaxonXSLTGenerator implements XSLGenerator {
 	
@@ -36,9 +38,33 @@ public class SaxonXSLTGenerator implements XSLGenerator {
 	@Override
 	public void compile(ParamsMap params, String sourceXSLTPath, String generatedXSLTPath) throws GenerationException {
 		
-		// TODO : Version avec intermediate en mémoire
+		IntermediateXdm intermediateXdm = new IntermediateXdm();
 		
-		throw new RuntimeException("This method does nothing, and is proud of it.");
+		// Version avec intermediate en mémoire
+
+
+		// Generate intermediate
+		
+		config.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
+		log.info("Generating Intermediate XSL");
+		try {
+			saxonCompiler.generateIntermediate(config, intermediateXdm);
+		} catch (SaxonApiException | IOException e) {
+			throw new GenerationException("An error occured compiling to intermediate XSL", e);
+		}
+
+		// Hop, on génére la xsl finale
+		config.put(ConfigMap.SOURCE_PATH, null);
+		config.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
+
+		log.info("Executing Intermediate XSL ");
+		try {
+			saxonCompiler.executeIntermediate(config, params, intermediateXdm);
+		} catch (SaxonApiException | IOException e) {
+			throw new GenerationException("An error occured while processing intermediate XSL", e);
+
+		}
+		
 
 	}
 	
