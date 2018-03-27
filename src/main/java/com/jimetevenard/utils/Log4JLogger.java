@@ -1,6 +1,6 @@
 package com.jimetevenard.utils;
 
-import org.apache.logging.log4j.core.Logger;
+import org.apache.logging.log4j.Logger;
 
 
 public  class Log4JLogger implements AnyLogger {
@@ -29,7 +29,7 @@ public  class Log4JLogger implements AnyLogger {
 	}
 
 	@Override
-	public void warning(String msg) {
+	public void warn(String msg) {
 		this.l.warn(msg);			
 	}
 

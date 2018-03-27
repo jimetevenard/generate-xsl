@@ -13,7 +13,7 @@ import com.jimetevenard.xslt.utils.ParamsMap;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XdmDestination;
 
-public class SaxonXSLTGenerator implements XSLGenerator {
+public class SaxonXSLTGenerator extends XSLGenerator {
 	
 	
 	
@@ -21,6 +21,7 @@ public class SaxonXSLTGenerator implements XSLGenerator {
 	private ConfigMap config = new ConfigMap();
 	private GoSaxon saxonCompiler;
 	
+	public static final String LICENCED_PROP = "com.jimetevenard.generate-xsl:licenced-saxon";
 	
 	public SaxonXSLTGenerator(AnyLogger log, String catalogPath){
 		this(log, catalogPath, false); // Use Saxon HE by default

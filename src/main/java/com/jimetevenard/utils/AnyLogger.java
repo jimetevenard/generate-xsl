@@ -6,7 +6,7 @@ public interface AnyLogger {
 	
 	public void info(String msg);
 	
-	public void warning(String msg);
+	public void warn(String msg);
 	
 	public void error(String msg);
 

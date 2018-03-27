@@ -2,6 +2,7 @@ package com.jimetevenard.xslt.implSaxon;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Map.Entry;
 
 import javax.xml.transform.Source;
@@ -72,8 +73,9 @@ public class GoSaxon {
 			compiler = proc.newXsltCompiler();
 			docBuilder = proc.newDocumentBuilder();
 			
-			
-			generateXsltExecutable = compiler.compile(new StreamSource(new File(GenerateXslUtils.generateXslPath)));
+			StreamSource generateXslStream = new StreamSource(GenerateXslUtils.generateXslAsStream());
+			generateXslStream.setSystemId(GenerateXslUtils.generateXslPath());
+			generateXsltExecutable = compiler.compile(generateXslStream);
 			generalXsltTransfomrer = generateXsltExecutable.load();
 			
 			System.setProperty("xml.catalog.files", catalogPath);
@@ -83,6 +85,7 @@ public class GoSaxon {
 			ready = true;
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block
+			// TODO il faudrait la thrower pour la traiter ailleurs
 			e.printStackTrace();
 		}
 	}
