@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Logger;
 
+import com.jimetevenard.utils.AnyLogger;
 import com.jimetevenard.xslt.api.XSLGenerator;
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.IntermediateXdm;
@@ -16,16 +17,16 @@ public class SaxonXSLTGenerator implements XSLGenerator {
 	
 	
 	
-	private  Logger log;
+	private  AnyLogger log;
 	private ConfigMap config = new ConfigMap();
 	private GoSaxon saxonCompiler;
 	
 	
-	public SaxonXSLTGenerator(Logger log, String catalogPath){
+	public SaxonXSLTGenerator(AnyLogger log, String catalogPath){
 		this(log, catalogPath, false); // Use Saxon HE by default
 	}
 
-	public SaxonXSLTGenerator(Logger log, String catalogPath, boolean useLicensedSaxonEdition) {
+	public SaxonXSLTGenerator(AnyLogger log, String catalogPath, boolean useLicensedSaxonEdition) {
 		super();
 		this.log = log;
 		log.debug("We create the generator with catalog" + catalogPath);
