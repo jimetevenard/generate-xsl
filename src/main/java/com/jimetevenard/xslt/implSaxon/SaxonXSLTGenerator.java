@@ -18,11 +18,12 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 	
 	
 	private  AnyLogger log;
-	private ConfigMap config = new ConfigMap();
 	private GoSaxon saxonCompiler;
 	
-	public static final String LICENCED_PROP = "com.jimetevenard.generate-xsl:licenced-saxon";
 	
+
+
+
 	public SaxonXSLTGenerator(AnyLogger log, String catalogPath){
 		this(log, catalogPath, false); // Use Saxon HE by default
 	}
@@ -46,22 +47,23 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 
 
 		// Generate intermediate
-		
-		config.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
-		log.info("Generating Intermediate XSL");
+		ConfigMap configSetp1 = new ConfigMap();
+		configSetp1.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
+		log.info("Generating Intermediate XSL for " + sourceXSLTPath);
 		try {
-			saxonCompiler.generateIntermediate(config, intermediateXdm);
+			saxonCompiler.generateIntermediate(configSetp1, intermediateXdm);
 		} catch (SaxonApiException | IOException e) {
 			throw new GenerationException("An error occured compiling to intermediate XSL", e);
 		}
 
 		// Hop, on génére la xsl finale
-		config.put(ConfigMap.SOURCE_PATH, null);
-		config.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
+		ConfigMap configStep2 = new ConfigMap();
+		configStep2.put(ConfigMap.SOURCE_PATH, null);
+		configStep2.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
 
-		log.info("Executing Intermediate XSL ");
+		log.info("Executing Intermediate XSL for : " + generatedXSLTPath);
 		try {
-			saxonCompiler.executeIntermediate(config, params, intermediateXdm);
+			saxonCompiler.executeIntermediate(configStep2, params, intermediateXdm);
 		} catch (SaxonApiException | IOException e) {
 			throw new GenerationException("An error occured while processing intermediate XSL", e);
 
@@ -76,32 +78,33 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 		
 		// Version avec intermediate serialisé dans un fichier
 		
-		
+		// TODO à supprimer
 
 		
 
 
 
 		// Generate intermediate
-		
-		config.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
-		config.put(ConfigMap.OUTPUT_PATH, intermediateXSLTPath);
+		ConfigMap configSetp1 = new ConfigMap();
+		configSetp1.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
+		configSetp1.put(ConfigMap.OUTPUT_PATH, intermediateXSLTPath);
 
 		log.info("Generating Intermediate XSL");
 		try {
-			saxonCompiler.generateIntermediate(config);
+			saxonCompiler.generateIntermediate(configSetp1);
 		} catch (SaxonApiException | IOException e) {
 			throw new GenerationException("An error occured compiling to intermediate XSL", e);
 		}
 
 		// Hop, on génére la xsl finale
-		config.put(ConfigMap.XSL_PATH, intermediateXSLTPath);
-		config.put(ConfigMap.SOURCE_PATH, null);
-		config.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
+		ConfigMap configStep2 = new ConfigMap();
+		configStep2.put(ConfigMap.XSL_PATH, intermediateXSLTPath);
+		configStep2.put(ConfigMap.SOURCE_PATH, null);
+		configStep2.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
 
 		log.info("Executing Intermediate XSL ");
 		try {
-			saxonCompiler.executeIntermediate(config, params);
+			saxonCompiler.executeIntermediate(configStep2, params);
 		} catch (SaxonApiException | IOException e) {
 			throw new GenerationException("An error occured while processing intermediate XSL", e);
 
@@ -123,6 +126,10 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 		 */
 		private static final long serialVersionUID = 1L;
 
+	}
+	
+	public GoSaxon getSaxonCompiler() {
+		return saxonCompiler;
 	}
 
 }

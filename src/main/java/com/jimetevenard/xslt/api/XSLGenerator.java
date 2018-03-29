@@ -1,6 +1,7 @@
 package com.jimetevenard.xslt.api;
 
 import com.jimetevenard.utils.AnyLogger;
+import com.jimetevenard.xslt.implSaxon.SaxonProcessorHolder;
 import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator;
 import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator.GenerationException;
 import com.jimetevenard.xslt.utils.ParamsMap;
@@ -18,7 +19,7 @@ public abstract class XSLGenerator {
 	public static XSLGenerator newInstance(AnyLogger log, String catalogPath){
 		// TODO choix d'une autre implementation (System.property, service provider...)
 		
-	boolean useLicensedSaxonEdition = Boolean.parseBoolean(System.getProperty(SaxonXSLTGenerator.LICENCED_PROP));
+	boolean useLicensedSaxonEdition = Boolean.parseBoolean(System.getProperty(SaxonProcessorHolder.LICENCED_PROP));
 	return new SaxonXSLTGenerator(log, catalogPath, useLicensedSaxonEdition);
 		
 	}

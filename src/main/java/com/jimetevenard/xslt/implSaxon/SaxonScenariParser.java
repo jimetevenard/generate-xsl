@@ -35,6 +35,9 @@ public class SaxonScenariParser extends ScenariParser {
 	private XPathSelector paramsSelector;
 	private XPathSelector paramNameSelector;
 	private XPathSelector paramSelectSelector;
+	private XdmNode scenariFileNode;
+
+	
 
 	public SaxonScenariParser(String confPath) {
 		this.configurationScenariFile = new File(confPath);
@@ -43,9 +46,9 @@ public class SaxonScenariParser extends ScenariParser {
 	public void parse() throws SaxonApiException, URISyntaxException {
 		initSaxon();
 
-		XdmNode config = builder.build(configurationScenariFile);
+		scenariFileNode = builder.build(configurationScenariFile);
 
-		allConfSelector.setContextItem(config);
+		allConfSelector.setContextItem(scenariFileNode);
 		XdmValue allScenari = allConfSelector.evaluate();
 		constructScenari(allScenari);
 
@@ -54,9 +57,14 @@ public class SaxonScenariParser extends ScenariParser {
 	public Set<GenerationScenario> getScenari() {
 		return scenari;
 	}
+	
+	public XdmNode getScenariFileNode() {
+		return scenariFileNode;
+	}
 
 	private void initSaxon() throws SaxonApiException {
-		processor = new Processor(true);
+		SaxonProcessorHolder.setLicensed(Boolean.parseBoolean(System.getProperty(SaxonProcessorHolder.LICENCED_PROP)));
+		processor = SaxonProcessorHolder.getInstance().getProcessor();
 		builder = processor.newDocumentBuilder();
 		xPathCompiler = processor.newXPathCompiler();
 
@@ -91,7 +99,8 @@ public class SaxonScenariParser extends ScenariParser {
 		XdmValue params = getVal(paramsSelector, scenario);
 		for (XdmItem param : params) {
 			QName paramQName = new QName(getVal(paramNameSelector, param).toString(), (XdmNode) param);
-			paramsMap.put(paramQName.getStructuredQName().toJaxpQName(), "Une String ???? Nope !");
+			String paramSelect = getVal(paramSelectSelector, param).toString();
+			paramsMap.put(paramQName.getStructuredQName().toJaxpQName(), paramSelect);
 		}
 
 		return paramsMap;
