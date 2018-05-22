@@ -4,6 +4,15 @@ import java.util.HashMap;
 
 import javax.xml.namespace.QName;
 
+
+/**
+ * This class simply holds a Xslt Parameter.
+ * 
+ * 
+ * 
+ * @author jetevenard
+ *
+ */
 public class ParamsMap extends HashMap<QName, String>{
 
 	/**

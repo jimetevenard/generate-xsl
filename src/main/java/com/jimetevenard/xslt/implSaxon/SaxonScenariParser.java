@@ -6,8 +6,8 @@ import java.net.URISyntaxException;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.jimetevenard.xslt.api.GenerationScenario;
-import com.jimetevenard.xslt.api.ScenariParser;
+import com.jimetevenard.xslt.GenerationScenario;
+import com.jimetevenard.xslt.ScenariParser;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 import net.sf.saxon.s9api.DocumentBuilder;

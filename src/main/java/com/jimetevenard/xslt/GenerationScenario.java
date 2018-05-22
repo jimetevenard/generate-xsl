@@ -1,7 +1,14 @@
-package com.jimetevenard.xslt.api;
+package com.jimetevenard.xslt;
 
 import com.jimetevenard.xslt.utils.ParamsMap;
 
+/**
+ * Represents a generating scenario
+ * (i.e. the path to the source XSL, the generated XSL target path, and the parameters to apply)
+ * 
+ * @author jetevenard
+ *
+ */
 public class GenerationScenario {
 
 	private String name;

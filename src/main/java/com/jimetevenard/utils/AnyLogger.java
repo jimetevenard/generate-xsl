@@ -1,5 +1,13 @@
 package com.jimetevenard.utils;
 
+/**
+ * 
+ * Interface for representing a Logger.
+ * 
+ * 
+ * @author jetevenard
+ *
+ */
 public interface AnyLogger {
 	
 	public void debug(String msg);

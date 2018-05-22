@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 
 import com.jimetevenard.utils.AnyLogger;
-import com.jimetevenard.xslt.api.XSLGenerator;
+import com.jimetevenard.xslt.XSLGenerator;
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.IntermediateXdm;
 import com.jimetevenard.xslt.utils.ParamsMap;

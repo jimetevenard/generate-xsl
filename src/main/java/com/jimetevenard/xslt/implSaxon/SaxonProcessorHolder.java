@@ -1,7 +1,13 @@
 package com.jimetevenard.xslt.implSaxon;
 
 import net.sf.saxon.s9api.Processor;
-
+/**
+ * Holds the Saxon Processor instance,
+ * witch is shared between SaxonScenariParser and SaxonXSLTGenerator
+ * 
+ * @author jetevenard
+ *
+ */
 public class SaxonProcessorHolder {
 	
 	private static SaxonProcessorHolder instance;
