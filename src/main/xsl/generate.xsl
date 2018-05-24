@@ -268,7 +268,13 @@
                 
                 <xsl:variable name="targeted-template" select="(//xsl:template[@name = current()/@name])[1]" as="element(xsl:template)?"/>
                 
-                <intermediate-xsl:variable name="{generate-id(.)}-genId" ><intermediate-xsl:number /></intermediate-xsl:variable>
+                <intermediate-xsl:variable name="{generate-id(.)}-genId" >
+                    <intermediate-xsl:try>
+                        <intermediate-xsl:number />
+                        <intermediate-xsl:catch select="'unique'"/>
+                    </intermediate-xsl:try>
+                    
+                </intermediate-xsl:variable>
                 <intermediate-xsl:variable name="{generate-id(.)}-templateGenerationID" select="concat('template-',{concat('''',tokenize(@name,':')[last()],'''')},'-call-{generate-id(.)}-',${generate-id(.)}-genId)"/>
                 
                 <target-xsl:variable name="{concat('{$',generate-id(.),'-templateGenerationID}')}">
