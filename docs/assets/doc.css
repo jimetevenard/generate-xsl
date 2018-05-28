@@ -33,6 +33,11 @@ li {
     margin: 0.4em 0;
 }
 
+img {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .case {
     padding-left: 17px;
     margin: 5px auto 8px;
