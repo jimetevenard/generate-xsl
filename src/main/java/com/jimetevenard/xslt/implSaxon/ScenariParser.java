@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.jimetevenard.xslt.GenerationScenario;
-import com.jimetevenard.xslt.ScenariParser;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 import net.sf.saxon.s9api.DocumentBuilder;
@@ -21,7 +20,7 @@ import net.sf.saxon.s9api.XdmItem;
 import net.sf.saxon.s9api.XdmNode;
 import net.sf.saxon.s9api.XdmValue;
 
-public class SaxonScenariParser extends ScenariParser {
+public class ScenariParser {
 
 	private Set<GenerationScenario> scenari = new HashSet<>();
 	private File configurationScenariFile;
@@ -39,7 +38,7 @@ public class SaxonScenariParser extends ScenariParser {
 
 	
 
-	public SaxonScenariParser(String confPath) {
+	public ScenariParser(String confPath) {
 		this.configurationScenariFile = new File(confPath);
 	}
 

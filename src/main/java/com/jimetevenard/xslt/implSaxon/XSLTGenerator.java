@@ -2,19 +2,16 @@ package com.jimetevenard.xslt.implSaxon;
 
 import java.io.IOException;
 
-import org.apache.logging.log4j.Logger;
 
 import com.jimetevenard.utils.AnyLogger;
 import com.jimetevenard.xslt.GenerationException;
-import com.jimetevenard.xslt.XSLGenerator;
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.IntermediateXdm;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 import net.sf.saxon.s9api.SaxonApiException;
-import net.sf.saxon.s9api.XdmDestination;
 
-public class SaxonXSLTGenerator extends XSLGenerator {
+public class XSLTGenerator {
 	
 	
 	
@@ -25,11 +22,11 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 
 
 
-	public SaxonXSLTGenerator(AnyLogger log, String catalogPath){
+	public XSLTGenerator(AnyLogger log, String catalogPath){
 		this(log, catalogPath, false); // Use Saxon HE by default
 	}
 
-	public SaxonXSLTGenerator(AnyLogger log, String catalogPath, boolean useLicensedSaxonEdition) {
+	public XSLTGenerator(AnyLogger log, String catalogPath, boolean useLicensedSaxonEdition) {
 		super();
 		this.log = log;
 		log.debug("We create the generator with catalog" + catalogPath);
@@ -39,7 +36,6 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 		
 	}
 
-	@Override
 	public void compile(ParamsMap params, String sourceXSLTPath, String generatedXSLTPath) throws GenerationException {
 		
 		IntermediateXdm intermediateXdm = new IntermediateXdm();
@@ -73,7 +69,6 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 
 	}
 	
-	@Override
 	public void compile(ParamsMap params, String sourceXSLTPath, String generatedXSLTPath,
 			String intermediateXSLTPath) throws GenerationException {
 		

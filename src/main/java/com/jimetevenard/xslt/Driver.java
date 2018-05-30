@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.jimetevenard.utils.AnyLogger;
 import com.jimetevenard.xslt.implSaxon.SaxonProcessorHolder;
-import com.jimetevenard.xslt.implSaxon.SaxonScenariParser;
-import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator;
+import com.jimetevenard.xslt.implSaxon.ScenariParser;
+import com.jimetevenard.xslt.implSaxon.XSLTGenerator;
 
 import net.sf.saxon.s9api.SaxonApiException;
 
@@ -39,9 +39,9 @@ public class Driver {
 	public void launch() throws GenerationException{
 		
 	
-		System.setProperty(SaxonProcessorHolder.LICENCED_PROP, Boolean.toString(licencedSaxon));
-		XSLGenerator generator = XSLGenerator.newInstance(log, catalog.getAbsolutePath());
-		ScenariParser scenariParser = ScenariParser.newInstance(scenariFile.getAbsolutePath());
+		
+		XSLTGenerator generator = new XSLTGenerator(log, catalog.getAbsolutePath(), licencedSaxon);
+		ScenariParser scenariParser = new ScenariParser(scenariFile.getAbsolutePath());
 		
 		try {
 			
@@ -65,8 +65,8 @@ public class Driver {
 			 *   - Dans la mesure ou ces objets sont très liés, il faudrait les construire ensemble
 			 *    (Sachant que que si on garde la "pseudo" généricité (il faut qu'ils fassent partie de la même implem)
 			 */
-			((SaxonXSLTGenerator) generator).getSaxonCompiler()
-					.setParamsContextItem(((SaxonScenariParser) scenariParser).getScenariFileNode());
+			((XSLTGenerator) generator).getSaxonCompiler()
+					.setParamsContextItem(((ScenariParser) scenariParser).getScenariFileNode());
 
 
 	
