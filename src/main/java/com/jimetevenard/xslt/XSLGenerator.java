@@ -3,7 +3,6 @@ package com.jimetevenard.xslt;
 import com.jimetevenard.utils.AnyLogger;
 import com.jimetevenard.xslt.implSaxon.SaxonProcessorHolder;
 import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator;
-import com.jimetevenard.xslt.implSaxon.SaxonXSLTGenerator.GenerationException;
 import com.jimetevenard.xslt.utils.ParamsMap;
 
 
@@ -56,5 +55,8 @@ public abstract class XSLGenerator {
 	 * @throws GenerationException 
 	 */
 	public abstract void compile(ParamsMap params, String sourceXSLTPath, String generatedXSLTPath, String intermediateXSLTPath) throws GenerationException;
-
+	
+	
+	
+	
 }

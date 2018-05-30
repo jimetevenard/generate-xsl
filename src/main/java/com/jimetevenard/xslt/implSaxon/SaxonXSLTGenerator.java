@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 
 import com.jimetevenard.utils.AnyLogger;
+import com.jimetevenard.xslt.GenerationException;
 import com.jimetevenard.xslt.XSLGenerator;
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.IntermediateXdm;
@@ -114,20 +115,6 @@ public class SaxonXSLTGenerator extends XSLGenerator {
 
 
 
-	public class GenerationException extends Exception {
-
-		public GenerationException(String message, Throwable cause) {
-			super(message, cause);
-			// TODO Auto-generated constructor stub
-		}
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
-	}
-	
 	public GoSaxon getSaxonCompiler() {
 		return saxonCompiler;
 	}
