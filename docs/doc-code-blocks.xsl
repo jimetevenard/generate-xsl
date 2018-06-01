@@ -31,8 +31,9 @@
         </xsl:if>
     </xsl:template>
     
-    <xsl:template match="*" mode="xml2html">
+    <xsl:template match="*" mode="xml2html">  
         <xsl:param name="identation-level" select="0" as="xs:integer" ></xsl:param>
+        <xsl:variable name="class" select="string-join(('elt-name', doc:namespace-class(namespace-uri())),' ')"/>
         <xsl:variable name="hasOnlyText" select="exists(./text()) and (count(./node()) = 1)"/>
         <xsl:variable name="hasOnlySpaces" select="$hasOnlyText and (normalize-space(./text()) = '')"/>
         <xsl:variable name="hasOnlyShortText" select="$hasOnlyText and (string-length(normalize-space(./text())) lt 40)"/>
@@ -43,7 +44,7 @@
             <xsl:with-param name="counter" select="$identation-level * 4"></xsl:with-param>
         </xsl:call-template>
         
-       <span class="elt-name">
+        <span class="{$class}">
         <xsl:text>&lt;</xsl:text>
         <xsl:value-of select="name()"/>
         <xsl:apply-templates select="@*" mode="#current" />
@@ -52,13 +53,13 @@
         
         <xsl:choose>
             <xsl:when test="$isEmpty">
-                <span class="elt-name">
+                <span class="{$class}">
                     <xsl:text>/&gt;</xsl:text>
                 </span>
                 <xsl:text>&#xa;</xsl:text>
             </xsl:when>
             <xsl:otherwise>
-                <span class="elt-name">
+                <span class="{$class}">
                     <xsl:text>&gt;</xsl:text>
                 </span>
                 <xsl:choose>
@@ -81,7 +82,7 @@
                 </xsl:choose>
                 
                 
-                <span class="elt-name">
+                <span class="{$class}">
                     <xsl:text>&lt;/</xsl:text>
                     <xsl:value-of select="name()"/>
                     <xsl:text>&gt;</xsl:text>
@@ -115,6 +116,12 @@
             </xsl:call-template>
         </xsl:if>
     </xsl:template>
+    
+    <xsl:function name="doc:namespace-class">
+        <xsl:param name="namespace" as="xs:anyURI" />
+        <xsl:variable name="query-string" select="replace($namespace,'http://','')" />
+        <xsl:sequence select="replace($query-string,'[^a-z]+','')" />
+    </xsl:function>
 
 
 </xsl:stylesheet>

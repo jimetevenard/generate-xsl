@@ -63,7 +63,7 @@
         
         <codeBlock>
             <xsl:choose generate:build="#all">
-                <xsl:when test="foo:someXPath()[that/returns]/true()">
+                <xsl:when test="true()">
                     <xsl:value-of select="'Yep !'"/>
                 </xsl:when>
                 <xsl:otherwhise>
@@ -117,6 +117,11 @@
             Ici, l'élement <element>xsl:sequence</element> ne sera pré-évalué que dans le mode <code>call-foo</code>,
             mode que nous avons spécifié via l'attribut <langNodeRef nameRef="generate:use-build-mode" /> de <element>xsl:call-template</element>
         </p>
+        
+        <info>
+            Le mode par défault est <b>#default</b><br />
+            <b>#all</b> représente tous les modes de compilation.
+        </info>
         
         
         
@@ -177,11 +182,65 @@
         
         <h>Lanceur Java</h>
         
-        <p>Un lanceur Java basé sur Saxon ...</p>
-        <p>TODO : fichier scenari</p>
-        <p>TODO : lien javadoc</p>
-        <p>TODO : Lien vers le plugin Maven</p>
-        <p>TODO : Classe avec un main() pour lancement rapide en CLI (+ --help/usage)</p>
+        <p>Un lanceur Java basé sur <a href="https://www.saxonica.com">Saxon</a> est fourni pour faciliter la transformation.</p>
+        
+       
+        
+        
+            <p>
+                Son utilisation est basée sur un fichier décrivant des scenari de compilation.<br/>
+                Chaque scénario décrit la compilation d'une XSL :
+                <ul>
+                    <li>Le fichier source</li>
+                    <li>L'emplacement cible pour la XSL compilée</li>
+                    <li>Les paramètres à utiliser</li>
+                </ul>
+            </p>
+            
+            <codeBlock>
+                <scenari>
+                    <scenario name="mon-scenario">      
+                        <source-xsl-path>source.xsl</source-xsl-path>
+                        <target-xsl-path>target-dir/generated.xsl</target-xsl-path>
+                        <params>
+                            <param name="param-qname"
+                                select="concat('to','to')"/>
+                                <!-- <param... />* -->
+                        </params>
+                    </scenario>
+                    
+                    <!-- <scenario... />*  -->
+                   </scenari>
+            </codeBlock>
+            
+            <a href="scenari.xsd">Schéma XSD du fichier de scenari</a>
+        <section>
+            <h>Utilisation standalone</h>
+            
+            <codeBlock>java -jar generate-xsl.jar --help</codeBlock>
+        </section>
+        
+        <section>
+            <h>API pour intégration</h>
+            
+            <p>Le lanceur peut être intégré dans une application.</p>
+            
+            <p>La compilation est pilotée par une instance de la classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" >com.jimetevenard.xslt.Driver</a> </p>
+            
+        </section>
+         
+         <section>
+             <h>Plugin Maven</h>
+             
+             <p>
+                 TODO - cf. <a href="https://github.com/jimetevenard/Maven-XSL-Generator">Maven-XSL-Generator</a><br />
+                   ECRIRE LE README dans le projet !
+             </p>
+             
+                
+             
+         </section>
+      
            
         <!-- ###################################################################################################################################### -->
         
@@ -271,8 +330,11 @@
             <langAttribute implem-status="NA" doc-status="ok" name="generate:build">
                 <p>Cet attribut sert à indiquer que l'on souhaite pré-évaluer l'instruction.</p>
                 
-                <p>La valeur de l'attribut correspond au(x) mode(s) de génération dans lesquels la
-                    valeur de l'instruction doit être calculée.</p>
+                <h>Valeurs :</h>
+                <case>
+                    Mode(s) de génération dans lesquels l'instruction doit être pré-évaluée.
+                </case>
+
                 
                 <p>Il peut s'ajouter :
                     <case>
@@ -284,6 +346,15 @@
                             du resultat de l'évaluation de l'attribut <attribute>select</attribute> ou du contenu initial de 
                             l'élément <element>xsl:variable</element>
                         </p>
+                        
+                        <codeBlock>
+                            <xsl:variable name="foo" generate:build="#all" select="concat('he','llo')"></xsl:variable>
+                        </codeBlock>
+                        
+                        <p>Devient, après compilation :</p>
+                        <codeBlock>
+                            <xsl:variable name="foo">hello</xsl:variable>
+                        </codeBlock>
                     </case>
                     <case>
                         <h>Sur les éléments <element>xsl:value-of</element></h>
@@ -301,9 +372,9 @@
                         </p>
                         <p>
                             Peut être complété par un attribut <langNodeRef nameRef="generate:use-build-mode" />.<br />
-                            Les paramètres spécifiés s'appliquent<br />
-                            TODO compléter ou écrire un paragraphe dédié.
+                            Les paramètres spécifiés s'appliquent<br /> 
                         </p>
+                        <p>TODO exemple</p>
                     </case>
                     <case>
                         <h>Sur les éléments <element>xsl:with-param</element></h>
@@ -312,13 +383,39 @@
                     <case>
                         <h>Sur les éléments <element>xsl:if</element> et <element>xsl:choose</element>></h>
                         <p>Le(s) attributs <attribute>test</attribute> correspondant alors sont évalués.</p>
-                        <p>Les blocs de codes pertinents sont reproduits dans la XSL générée.</p>
+                        
+                        <!-- extype -->
+                        <p>Exemple, le code suivant</p>
+                        <codeBlock>
+                            <xsl:if generate:build="#all" test="true()">
+                                <xsl:message>Hello !</xsl:message>
+                            </xsl:if>
+                        </codeBlock>
+                        
+                        <p>Devient, après compilation :</p>
+                        <codeBlock>
+                            <xsl:message>Hello !</xsl:message>
+                        </codeBlock>
                     </case>
                     <case>
                         <h>Sur les éléments <element>xsl:for-each</element></h>
                         <p>Le contenu de bloc est reproduit et décliné pour chaque élément de la séquence 
                             spécifiée en <attribute>select</attribute></p>
+                        
+                        <codeBlock>
+                            <xsl:for-each generate:build="#all" select="('foo','bar','baz')">
+                                <xsl:message generate:build="#all" select="current()" />
+                            </xsl:for-each>
+                        </codeBlock>
+                        
+                        <p>Devient, après compilation :</p>
+                        <codeBlock>
+                            <xsl:message>foo</xsl:message>
+                            <xsl:message>bar</xsl:message>
+                            <xsl:message>baz</xsl:message>
+                        </codeBlock>
                     </case>
+  
                 </p>
                 
                 
@@ -333,6 +430,17 @@
                         <attribute>name</attribute> sous réserve que celui-ci soit présent et
                         unique.</case>
                 </p>
+                
+                <p>
+                    <h>Attributs et valeurs :</h>
+                    <case>
+                        <attribute>idRef</attribute> : Identifiant (<langNodeRef nameRef="generate:id"/>) du template à cibler
+                    </case>
+                    <case>
+                        <attribute>name</attribute> : Nom du template à cibler
+                    </case>
+                    
+                </p>
                 <info> Cet élément accepte les enfants <langNodeRef nameRef="generate:set-match"/>
                     <langNodeRef nameRef="generate:set-mode"/>
                     <langNodeRef nameRef="generate:set-priority"/>
@@ -340,6 +448,32 @@
                     <langNodeRef nameRef="generate:set-as"/>
                     <langNodeRef nameRef="generate:set-visibility"/> qui permettent de redéfinir les
                     attributs correspondants du template. </info>
+                
+                <p>Exemple, le code suivant :</p>
+                
+                <codeBlock>
+                    <generate:for-each select="('a','p','div')" name="currentElement">
+                        <generate:copy-template idRef="bar">
+                            <generate:set-match value="{$currentElement}" />
+                        </generate:copy-template>
+                    </generate:for-each>
+                    <xsl:template match="*" generate:id="bar">
+                        <xsl:message select="name()" />
+                    </xsl:template>
+                </codeBlock>
+                
+                <p>Devient, après compilation :</p>
+                <codeBlock> 
+                    <xsl:template match="a" >
+                        <xsl:message select="name()" />
+                    </xsl:template>
+                    <xsl:template match="p" >
+                        <xsl:message select="name()" />
+                    </xsl:template>
+                   <xsl:template match="div" >
+                       <xsl:message select="name()" />
+                    </xsl:template>
+                </codeBlock>
             </langElement>
                 
             <langNodeSet names="generate:set-match generate:set-mode generate:set-priority generate:set-name generate:set-as generate:set-visibility"
@@ -375,6 +509,18 @@
                     générée</definitionRef></p>
                 <p>L'évaluation ou non de la variable durant la compilation peut être exprimée par
                     l'attribut <langNodeRef nameRef="generate:build"/></p>
+                
+                <p>Exemple, le code suivant</p>
+                <codeBlock>
+                    <generate:variable name="foo" select="count('foo','bar')"></generate:variable>
+                    <generate:variable name="bar" generate:build="#all" select="count('hello','world')"></generate:variable>
+                </codeBlock>
+                
+                <p>Devient, après compilation :</p>
+                <codeBlock>
+                    <xsl:variable name="foo" select="count('foo','bar')"></xsl:variable>
+                    <xsl:variable name="bar">2</xsl:variable>
+                </codeBlock>
             </langElement>
             
             <langElement implem-status="NA" doc-status="toreview" name="generate:redefine-variable">
@@ -410,8 +556,28 @@
                     générée</definitionRef>. </langElement>
             
             <langElement implem-status="NA" doc-status="toreview" name="generate:target-block">
-                <p>Le contenu de cet élément seront présentent dans la <definitionRef idRef="xsl-gen"
-                    >XSL générée</definitionRef></p>
+                <p>Permet d'insérer un bloc de code contenu dans la <definitionRef idRef="xsl-gen"
+                    >XSL générée</definitionRef> sans impact sur l'éxécution de la XSL source.</p>
+                
+                <p>Exemple, le code suivant :</p>
+                <codeBlock>
+                  <xsl:variable name="foo" select="'foo'" />
+                    <generate:target-block>
+                        <xsl:variable name="bar" select="'bar'" />
+                    </generate:target-block>
+                </codeBlock>
+                
+                <p>Devient, après compilation :</p>
+                <codeBlock>
+                    <xsl:variable name="foo" select="'foo'" />
+                    <xsl:variable name="bar" select="'bar'" />
+                </codeBlock>
+                
+                <p>
+                    Le contenu du <langNodeRef nameRef="generate:target-block" /> étant enfant
+                    d'un élément étranger au namespace XSL, il est ignoré par le processeur
+                    lors de l'éxucution de la XSL source.
+                </p>
             </langElement>
         
         </section>
@@ -451,7 +617,7 @@
             
             <langElement implem-status="NA" doc-status="old" name="generate:if">
                 <p>Si la condition exprimée dans <attribute>test</attribute> est vraie, <case>Les
-                    éléments <element>xsl:*</element> à l'intérieur du bloc sont dupliqués, en tenat
+                    éléments <element>xsl:*</element> à l'intérieur du bloc sont dupliqués, en tenant
                     compte des <element>generate:*</element> et <attribute>generate:*</attribute>
                     qu'ils contiennent.</case>
                     <case>les instructions <element>generate:*</element> sont exécutées.</case>

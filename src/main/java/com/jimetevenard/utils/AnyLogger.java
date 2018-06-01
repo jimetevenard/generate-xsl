@@ -4,6 +4,8 @@ package com.jimetevenard.utils;
  * 
  * Interface for representing a Logger.
  * 
+ * (To wrap various logging system ; Log4j, MavenLogin, etc. )
+ * 
  * 
  * @author jetevenard
  *

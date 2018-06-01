@@ -10,7 +10,7 @@
    <body>
       <header></header>
       <main>
-         <p class="update">Révisé le 28 Mai 2018<a class="project-repo" target="_blank" href="https://github.com/jimetevenard/generate-xsl">Generate XSL - GitHub</a></p>
+         <p class="update">Révisé le 31 Mai 2018<a class="project-repo" target="_blank" href="https://github.com/jimetevenard/generate-xsl">Generate XSL - GitHub</a></p>
          
          
          
@@ -67,17 +67,17 @@
             
             <p>Le code suivant :</p>
             
-            <pre><span class="elt-name">&lt;xsl:choose <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span></span><span class="elt-name">&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:when <span class="attr">test="<span class="attr-value">foo:someXPath()[that/returns]/true()</span>" </span></span><span class="elt-name">&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;/xsl:when&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:otherwhise</span><span class="elt-name">&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Nope !'</span>" </span></span><span class="elt-name">/&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;/xsl:otherwhise&gt;</span>
-<span class="elt-name">&lt;/xsl:choose&gt;</span>
+            <pre><span class="elt-name wwwworgransform">&lt;xsl:choose <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:when <span class="attr">test="<span class="attr-value">true()</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;/xsl:when&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:otherwhise</span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Nope !'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;/xsl:otherwhise&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:choose&gt;</span>
 </pre>
             <p>Devient, après compilation :</p>
-            <pre><span class="elt-name">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name">/&gt;</span>
+            <pre><span class="elt-name wwwworgransform">&lt;xsl:value-of <span class="attr">select="<span class="attr-value">'Yep !'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
 </pre>
             
             <p>Dans cet exemple, on a exprimé par l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> la
@@ -101,13 +101,13 @@
             
             <p>En effet, considérons le cas suivant :</p>
             
-            <pre><span class="elt-name">&lt;xsl:template <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name">&gt;</span>
+            <pre><span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- appel de template compilé --&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:call-template <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr generate">generate:use-build-mode="<span class="attr-value">call-foo</span>" </span> <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;/xsl:template&gt;</span>
-<span class="elt-name">&lt;xsl:template <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name">&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name">&lt;xsl:sequence <span class="attr generate">generate:build="<span class="attr-value">call-foo</span>" </span> <span class="attr">select="<span class="attr-value">someXPath</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;/xsl:template&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:call-template <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr generate">generate:use-build-mode="<span class="attr-value">call-foo</span>" </span> <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:sequence <span class="attr generate">generate:build="<span class="attr-value">call-foo</span>" </span> <span class="attr">select="<span class="attr-value">someXPath</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
 </pre>
             
             <p>
@@ -130,6 +130,13 @@
                mode que nous avons spécifié via l'attribut <a href="#langnode-generate:use-build-mode"><code class="attribute ref node">@generate:use-build-mode</code></a> de <code class="element node">&lt;xsl:call-template/&gt;</code>
                
             </p>
+            
+            
+            <div class="alert alert-info">
+               Le mode par défault est <b>#default</b><br>
+               <b>#all</b> représente tous les modes de compilation.
+               
+            </div>
             
             
             
@@ -218,15 +225,84 @@
             <h2>Lanceur Java</h2>
             
             
-            <p>Un lanceur Java basé sur Saxon ...</p>
+            <p>Un lanceur Java basé sur <a href="https://www.saxonica.com" target="_blank">Saxon</a> est fourni pour faciliter la transformation.
+            </p>
             
-            <p>TODO : fichier scenari</p>
             
-            <p>TODO : lien javadoc</p>
             
-            <p>TODO : Lien vers le plugin Maven</p>
             
-            <p>TODO : Classe avec un main() pour lancement rapide en CLI (+ --help/usage)</p>
+            
+            <div>
+               Son utilisation est basée sur un fichier décrivant des scenari de compilation.<br>
+               Chaque scénario décrit la compilation d'une XSL :
+               
+               <ul>
+                  
+                  <li>Le fichier source</li>
+                  
+                  <li>L'emplacement cible pour la XSL compilée</li>
+                  
+                  <li>Les paramètres à utiliser</li>
+                  
+               </ul>
+               
+            </div>
+            
+            <pre><span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;scenari</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;scenario <span class="attr">name="<span class="attr-value">mon-scenario</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;source-xsl-path</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>source.xsl<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/source-xsl-path&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;target-xsl-path</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>target-dir/generated.xsl<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/target-xsl-path&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;params</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;param <span class="attr">name="<span class="attr-value">param-qname</span>" </span> <span class="attr">select="<span class="attr-value">concat('to','to')</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsldoc">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- &lt;param... /&gt;* --&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/params&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/scenario&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- &lt;scenario... /&gt;* --&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/scenari&gt;</span>
+</pre>
+            
+            <a href="scenari.xsd" target="_blank">Schéma XSD du fichier de scenari</a>
+            
+            <section>
+               
+               <h3>Utilisation standalone</h3>
+               
+               <pre>java -jar generate-xsl.jar --help
+</pre>
+               </section>
+            
+            
+            <section>
+               
+               <h3>API pour intégration</h3>
+               
+               
+               <p>Le lanceur peut être intégré dans une application.</p>
+               
+               
+               <p>La compilation est pilotée par une instance de la classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" target="_blank">com.jimetevenard.xslt.Driver</a> 
+               </p>
+               
+               
+            </section>
+            
+            
+            <section>
+               
+               <h3>Plugin Maven</h3>
+               
+               
+               <p>
+                  TODO - cf. <a href="https://github.com/jimetevenard/Maven-XSL-Generator" target="_blank">Maven-XSL-Generator</a><br>
+                  ECRIRE LE README dans le projet !
+                  
+               </p>
+               
+               
+               
+               
+            </section>
+            
             
             
             
@@ -377,19 +453,23 @@
                      <p>Cet attribut sert à indiquer que l'on souhaite pré-évaluer l'instruction.</p>
                      
                      
-                     <p>La valeur de l'attribut correspond au(x) mode(s) de génération dans lesquels la
-                        valeur de l'instruction doit être calculée.
-                     </p>
+                     <h4>Valeurs :</h4>
+                     
+                     <div class="case">
+                        Mode(s) de génération dans lesquels l'instruction doit être pré-évaluée.
+                        
+                     </div>
+                     
                      
                      
                      <div>Il peut s'ajouter :
                         
                         <div class="case">
                            
-                           <h4>
+                           <h5>
                               Sur les éléments <code class="element node">&lt;xsl:variable/&gt;</code>
                               
-                           </h4>
+                           </h5>
                            
                            <p>Le résultat généré est alors une copie de l'instruction <code class="element node">&lt;xsl:variable/&gt;</code>
                               dont le contenu est un <code>sequence constructor</code> équivalent à la sérialisation
@@ -398,11 +478,17 @@
                               
                            </p>
                            
-                        </div>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">concat('he','llo')</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+</pre>
+                           
+                           <p>Devient, après compilation :</p>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>hello<span class="elt-name wwwworgransform">&lt;/xsl:variable&gt;</span>
+</pre>
+                           </div>
                         
                         <div class="case">
                            
-                           <h4>Sur les éléments <code class="element node">&lt;xsl:value-of/&gt;</code></h4>
+                           <h5>Sur les éléments <code class="element node">&lt;xsl:value-of/&gt;</code></h5>
                            
                            <p>TODO vérifier l'implémentation...</p>
                            
@@ -410,7 +496,7 @@
                         
                         <div class="case">
                            
-                           <h4>Sur les éléments <code class="element node">&lt;xsl:call-template/&gt;</code></h4>
+                           <h5>Sur les éléments <code class="element node">&lt;xsl:call-template/&gt;</code></h5>
                            
                            <p>
                               Nous avons la possibilité de pré-évaluer un appel de template
@@ -426,16 +512,17 @@
                            
                            <p>
                               Peut être complété par un attribut <a href="#langnode-generate:use-build-mode"><code class="attribute ref node">@generate:use-build-mode</code></a>.<br>
-                              Les paramètres spécifiés s'appliquent<br>
-                              TODO compléter ou écrire un paragraphe dédié.
+                              Les paramètres spécifiés s'appliquent<br> 
                               
                            </p>
+                           
+                           <p>TODO exemple</p>
                            
                         </div>
                         
                         <div class="case">
                            
-                           <h4>Sur les éléments <code class="element node">&lt;xsl:with-param/&gt;</code></h4>
+                           <h5>Sur les éléments <code class="element node">&lt;xsl:with-param/&gt;</code></h5>
                            
                            <p>Comportement identique au cas des <code class="element node">&lt;xsl:variable/&gt;</code> décrit ci-dessus
                            </p>
@@ -444,24 +531,44 @@
                         
                         <div class="case">
                            
-                           <h4>Sur les éléments <code class="element node">&lt;xsl:if/&gt;</code> et <code class="element node">&lt;xsl:choose/&gt;</code>&gt;
-                           </h4>
+                           <h5>Sur les éléments <code class="element node">&lt;xsl:if/&gt;</code> et <code class="element node">&lt;xsl:choose/&gt;</code>&gt;
+                           </h5>
                            
                            <p>Le(s) attributs <code class="attribute node">@test</code> correspondant alors sont évalués.
                            </p>
                            
-                           <p>Les blocs de codes pertinents sont reproduits dans la XSL générée.</p>
                            
-                        </div>
+                           
+                           <p>Exemple, le code suivant</p>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:if <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">test="<span class="attr-value">true()</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message</span><span class="elt-name wwwworgransform">&gt;</span>Hello !<span class="elt-name wwwworgransform">&lt;/xsl:message&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:if&gt;</span>
+</pre>
+                           
+                           <p>Devient, après compilation :</p>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:message</span><span class="elt-name wwwworgransform">&gt;</span>Hello !<span class="elt-name wwwworgransform">&lt;/xsl:message&gt;</span>
+</pre>
+                           </div>
                         
                         <div class="case">
                            
-                           <h4>Sur les éléments <code class="element node">&lt;xsl:for-each/&gt;</code></h4>
+                           <h5>Sur les éléments <code class="element node">&lt;xsl:for-each/&gt;</code></h5>
                            
                            <p>Le contenu de bloc est reproduit et décliné pour chaque élément de la séquence 
                               spécifiée en <code class="attribute node">@select</code></p>
                            
-                        </div>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:for-each <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">('foo','bar','baz')</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">current()</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:for-each&gt;</span>
+</pre>
+                           
+                           <p>Devient, après compilation :</p>
+                           <pre><span class="elt-name wwwworgransform">&lt;xsl:message</span><span class="elt-name wwwworgransform">&gt;</span>foo<span class="elt-name wwwworgransform">&lt;/xsl:message&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:message</span><span class="elt-name wwwworgransform">&gt;</span>bar<span class="elt-name wwwworgransform">&lt;/xsl:message&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:message</span><span class="elt-name wwwworgransform">&gt;</span>baz<span class="elt-name wwwworgransform">&lt;/xsl:message&gt;</span>
+</pre>
+                           </div>
+                        
                         
                      </div>
                      
@@ -488,6 +595,24 @@
                         
                      </div>
                      
+                     
+                     <div>
+                        
+                        <h4>Attributs et valeurs :</h4>
+                        
+                        <div class="case">
+                           <code class="attribute node">@idRef</code> : Identifiant (<a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a>) du template à cibler
+                           
+                        </div>
+                        
+                        <div class="case">
+                           <code class="attribute node">@name</code> : Nom du template à cibler
+                           
+                        </div>
+                        
+                        
+                     </div>
+                     
                      <div class="alert alert-info"> Cet élément accepte les enfants <a href="#langnode-generate:set-match"><code class="element ref node">&lt;generate:set-match/&gt;</code></a>
                         <a href="#langnode-generate:set-mode"><code class="element ref node">&lt;generate:set-mode/&gt;</code></a>
                         <a href="#langnode-generate:set-priority"><code class="element ref node">&lt;generate:set-priority/&gt;</code></a>
@@ -497,7 +622,31 @@
                         attributs correspondants du template. 
                      </div>
                      
-                  </div>
+                     
+                     <p>Exemple, le code suivant :</p>
+                     
+                     <pre><span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:for-each <span class="attr">select="<span class="attr-value">('a','p','div')</span>" </span> <span class="attr">name="<span class="attr-value">currentElement</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:copy-template <span class="attr">idRef="<span class="attr-value">bar</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:set-match <span class="attr">value="<span class="attr-value">{$currentElement}</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;/generate:copy-template&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;/generate:for-each&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">match="<span class="attr-value">*</span>" </span> <span class="attr generate">generate:id="<span class="attr-value">bar</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message <span class="attr">select="<span class="attr-value">name()</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+</pre>
+                     
+                     <p>Devient, après compilation :</p>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">match="<span class="attr-value">a</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message <span class="attr">select="<span class="attr-value">name()</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">match="<span class="attr-value">p</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message <span class="attr">select="<span class="attr-value">name()</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr">match="<span class="attr-value">div</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:message <span class="attr">select="<span class="attr-value">name()</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+</pre>
+                     </div>
                </div>
                
                
@@ -550,7 +699,17 @@
                      <p>L'évaluation ou non de la variable durant la compilation peut être exprimée par
                         l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a></p>
                      
-                  </div>
+                     
+                     <p>Exemple, le code suivant</p>
+                     <pre><span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">count('foo','bar')</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:variable <span class="attr">name="<span class="attr-value">bar</span>" </span> <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">count('hello','world')</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
+</pre>
+                     
+                     <p>Devient, après compilation :</p>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">count('foo','bar')</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">bar</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>2<span class="elt-name wwwworgransform">&lt;/xsl:variable&gt;</span>
+</pre>
+                     </div>
                </div>
                
                
@@ -573,12 +732,12 @@
                      
                      <p>Exemple, le code suivant :</p>
                      
-                     <pre><span class="elt-name">&lt;generate:redefine-variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'foo'</span>" </span></span><span class="elt-name">/&gt;</span>
+                     <pre><span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:redefine-variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'foo'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
 </pre>
                      
                      <p>Devient, après compilation :</p>
-                     <pre><span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name">/&gt;</span>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
 </pre>
                      </div>
                </div>
@@ -607,7 +766,28 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:target-block</code></h3>
                      
-                     <p>Le contenu de cet élément seront présentent dans la <a href="#definition-xsl-gen">XSL générée</a></p>
+                     <p>Permet d'insérer un bloc de code contenu dans la <a href="#definition-xsl-gen">XSL générée</a> sans impact sur l'éxécution de la XSL source.
+                     </p>
+                     
+                     
+                     <p>Exemple, le code suivant :</p>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">'foo'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:target-block</span><span class="elt-name jimetevenardcomnsgeneratexsl">&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">bar</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;/generate:target-block&gt;</span>
+</pre>
+                     
+                     <p>Devient, après compilation :</p>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">'foo'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">bar</span>" </span> <span class="attr">select="<span class="attr-value">'bar'</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+</pre>
+                     
+                     <p>
+                        Le contenu du <a href="#langnode-generate:target-block"><code class="element ref node">&lt;generate:target-block/&gt;</code></a> étant enfant
+                        d'un élément étranger au namespace XSL, il est ignoré par le processeur
+                        lors de l'éxucution de la XSL source.
+                        
+                     </p>
                      
                   </div>
                </div>
@@ -732,8 +912,8 @@
                      
                      <p>Exemple : </p>
                      
-                     <pre><span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr generate">generate:use="<span class="attr-value">yes</span>" </span> <span class="attr">select="<span class="attr-value">('foo','bar','baz')</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">count($foo)</span>" </span></span><span class="elt-name">/&gt;</span>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr generate">generate:use="<span class="attr-value">yes</span>" </span> <span class="attr">select="<span class="attr-value">('foo','bar','baz')</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr generate">generate:build="<span class="attr-value">#all</span>" </span> <span class="attr">select="<span class="attr-value">count($foo)</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
 <span class="comment">&lt;!-- Pour pré-évaluer $toto, $foo doit être visible dans le contexte de compilation. --&gt;</span>
 </pre>
                      </div>
@@ -813,9 +993,9 @@
                      
                      <p>Exemple : </p>
                      
-                     <pre><span class="elt-name">&lt;xsl:use-variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">('foo','bar','baz')</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">14</span>" </span></span><span class="elt-name">/&gt;</span>
-<span class="elt-name">&lt;generate:redefine-variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">count($foo)</span>" </span></span><span class="elt-name">/&gt;</span>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:use-variable <span class="attr">name="<span class="attr-value">foo</span>" </span> <span class="attr">select="<span class="attr-value">('foo','bar','baz')</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;xsl:variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">14</span>" </span></span><span class="elt-name wwwworgransform">/&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:redefine-variable <span class="attr">name="<span class="attr-value">toto</span>" </span> <span class="attr">select="<span class="attr-value">count($foo)</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
 </pre>
                      </div>
                </div>
@@ -843,10 +1023,10 @@
                         Exemple :
                         
                      </p>
-                     <pre><span class="elt-name">&lt;xsl:template <span class="attr generate">generate:id="<span class="attr-value">bar</span>" </span> <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name">&gt;</span>
+                     <pre><span class="elt-name wwwworgransform">&lt;xsl:template <span class="attr generate">generate:id="<span class="attr-value">bar</span>" </span> <span class="attr">match="<span class="attr-value">/</span>" </span></span><span class="elt-name wwwworgransform">&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- (...) --&gt;</span>
-<span class="elt-name">&lt;/xsl:template&gt;</span>
-<span class="elt-name">&lt;generate:remove <span class="attr">idRef="<span class="attr-value">bar</span>" </span></span><span class="elt-name">/&gt;</span>
+<span class="elt-name wwwworgransform">&lt;/xsl:template&gt;</span>
+<span class="elt-name jimetevenardcomnsgeneratexsl">&lt;generate:remove <span class="attr">idRef="<span class="attr-value">bar</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsl">/&gt;</span>
 </pre>
                      </div>
                </div>

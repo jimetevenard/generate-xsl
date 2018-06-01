@@ -29,6 +29,19 @@ section > h2, main > h2 {
     margin-top: 34px;
     margin-bottom: 20px;
 }
+h2 {
+    color: #143f46;
+}
+h3 {
+    color: #137d8e;
+    font-size: 1.6rem;
+}
+h4 {
+    color: #17a2b8;
+}
+h5 {
+    color: #6498a0;
+}
 li {
     margin: 0.4em 0;
 }
@@ -39,8 +52,10 @@ img {
 }
 
 .case {
-    padding-left: 17px;
-    margin: 5px auto 8px;
+    padding: 5px 12px;
+    margin: 20px auto 18px 5px;
+    border-left: 4px solid #b3dce2;
+    background: #f9f9f9;
 }
 code {
     padding: 1px 3px;
@@ -58,13 +73,20 @@ pre {
     background: #f4f4f4;
     font-weight: bold;
 }
+.case pre {
+    background: #e8e8e8;
+}
 .elt-name {
     color: #379a7f;
+}
+.elt-name.jimetevenardcomnsgeneratexsl {
+    color: #078ada;
 }
 .attr {
     color: #c50c0c;
 }
-.attr.generate {
+.attr.generate,
+.elt-name.jimetevenardcomnsgeneratexsl .attr{
     color: #f7990c;
 }
 .attr-value {
@@ -110,4 +132,8 @@ pre {
 
 section section {
     margin: 40px 0 15px;
+}
+
+img {
+    max-width: 100%;
 }
