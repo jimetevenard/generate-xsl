@@ -1,130 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
-
-	<groupId>com.jimetevenard.xml</groupId>
-	<artifactId>generate-xsl</artifactId>
-	<version>0.5.0</version>
-
-	<packaging>jar</packaging>
-
-	<name>generateXSL</name>
-
-	
-	<description>Generate-XSL allows you to optimize an XSL-Script by pre-evaluating some of it's instructions.</description>
-  	<url>http://jimetevenard.github.io/generate-xsl/</url>
- 
-  <developers>
-	<developer>
-      <id>jimetevenard</id>
-      <name>Jim Etevenard</name>
-      <email>jetevenard@oxiane.com</email>
-      <url>http://www.github.com/jimetevenard</url>
-      <organization>OXiane</organization>
-      <organizationUrl>http://www.oxiane.com</organizationUrl>
-      <timezone>Europe/Paris</timezone>
-    </developer>
-  </developers>
-
-
-  <contributors>
-  
-  </contributors>
-
-  <scm>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.jimetevenard.xml</groupId>
+    <artifactId>generate-xsl</artifactId>
+    <version>0.5.0</version>
+    <packaging>jar</packaging>
+    <name>generateXSL</name>
+    <description>Generate-XSL allows you to optimize an XSL-Script by pre-evaluating some of it's instructions.</description>
+    <url>http://jimetevenard.github.io/generate-xsl/</url>
+    <developers>
+        <developer>
+            <id>jimetevenard</id>
+            <name>Jim Etevenard</name>
+            <email>jetevenard@oxiane.com</email>
+            <url>http://www.github.com/jimetevenard</url>
+            <organization>OXiane</organization>
+            <organizationUrl>http://www.oxiane.com</organizationUrl>
+            <timezone>Europe/Paris</timezone>
+        </developer>
+    </developers>
+    <contributors></contributors>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <scm>
         <connection>scm:git:https://github.com/jimetevenard/generate-xsl</connection>
         <developerConnection>scm:git:https://github.com/jimetevenard/generate-xsl</developerConnection>
         <url>scm:git:https://github.com/jimetevenard/generate-xsl</url>
         <tag>HEAD</tag>
-</scm>
-
-
-	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>net.sf.saxon</groupId>
-			<artifactId>Saxon-HE</artifactId>
-			<version>9.7.0-20</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.xmlresolver</groupId>
-			<artifactId>xmlresolver</artifactId>
-			<version>0.13.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>2.10.0</version>
-			<type>pom</type>
-		</dependency>
-
-
-	</dependencies>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/xsl</directory>
-				<targetPath>generateXSL/xsl</targetPath>
-			</resource>
-		</resources>
-		<plugins>
-
-		</plugins>
-	</build>
-
-	<distributionManagement>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-	</distributionManagement>
-
-
-<profiles>
- <profile>
-  <id>release</id>
-  <build>
-   <plugins>
-    <plugin>
-     <groupId>org.apache.maven.plugins</groupId>
-     <artifactId>maven-gpg-plugin</artifactId>
-     <version>1.6</version>
-     <executions>
-      <execution>
-       <id>sign-artifacts</id>
-       <phase>verify</phase>
-       <goals>
-        <goal>sign</goal>
-       </goals>
-      </execution>
-     </executions>
-    </plugin>
-    <plugin>
-     <groupId>org.sonatype.plugins</groupId>
-     <artifactId>nexus-staging-maven-plugin</artifactId>
-     <version>1.6.7</version>
-     <extensions>true</extensions>
-     <configuration>
-      <serverId>ossrh</serverId>
-      <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-      <autoReleaseAfterClose>true</autoReleaseAfterClose>
-     </configuration>
-    </plugin>
-   </plugins>
-  </build>
- </profile>
-</profiles> 
-
+    </scm>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+            <version>9.7.0-20</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlresolver</groupId>
+            <artifactId>xmlresolver</artifactId>
+            <version>0.13.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>2.10.0</version>
+            <type>pom</type>
+        </dependency>
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/xsl</directory>
+                <targetPath>generateXSL/xsl</targetPath>
+            </resource>
+        </resources>
+        <plugins></plugins>
+    </build>
+    <distributionManagement>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+        </repository>
+    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
