@@ -13,6 +13,33 @@
 
 	<name>generateXSL</name>
 
+	
+	<description>Generate-XSL allows you to optimize an XSL-Script by pre-evaluating some of it's instructions.</description>
+  	<url>http://jimetevenard.github.io/generate-xsl/</url>
+ 
+  <developers>
+	<developer>
+      <id>jimetevenard</id>
+      <name>Jim Etevenard</name>
+      <email>jetevenard@oxiane.com</email>
+      <url>http://www.github.com/jimetevenard</url>
+      <organization>OXiane</organization>
+      <organizationUrl>http://www.oxiane.com</organizationUrl>
+      <timezone>Europe/Paris</timezone>
+    </developer>
+  </developers>
+
+
+  <contributors>
+  
+  </contributors>
+
+  <scm>
+        <connection>scm:git:https://github.com/jimetevenard/generate-xsl</connection>
+        <developerConnection>scm:git:https://github.com/jimetevenard/generate-xsl</developerConnection>
+        <url>scm:git:https://github.com/jimetevenard/generate-xsl</url>
+        <tag>HEAD</tag>
+</scm>
 
 
 	<properties>
@@ -56,4 +83,48 @@
 
 		</plugins>
 	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+		</repository>
+	</distributionManagement>
+
+
+<profiles>
+ <profile>
+  <id>release</id>
+  <build>
+   <plugins>
+    <plugin>
+     <groupId>org.apache.maven.plugins</groupId>
+     <artifactId>maven-gpg-plugin</artifactId>
+     <version>1.6</version>
+     <executions>
+      <execution>
+       <id>sign-artifacts</id>
+       <phase>verify</phase>
+       <goals>
+        <goal>sign</goal>
+       </goals>
+      </execution>
+     </executions>
+    </plugin>
+    <plugin>
+     <groupId>org.sonatype.plugins</groupId>
+     <artifactId>nexus-staging-maven-plugin</artifactId>
+     <version>1.6.7</version>
+     <extensions>true</extensions>
+     <configuration>
+      <serverId>ossrh</serverId>
+      <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+      <autoReleaseAfterClose>true</autoReleaseAfterClose>
+     </configuration>
+    </plugin>
+   </plugins>
+  </build>
+ </profile>
+</profiles> 
+
 </project>
