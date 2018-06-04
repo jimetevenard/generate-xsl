@@ -7,7 +7,7 @@
 
 	<groupId>com.jimetevenard.xml</groupId>
 	<artifactId>generate-xsl</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.5.0</version>
 
 	<packaging>jar</packaging>
 
@@ -53,15 +53,6 @@
 			</resource>
 		</resources>
 		<plugins>
-
-			<!-- <plugin> <groupId>io.xspec.maven</groupId> <artifactId>xspec-maven-plugin</artifactId> 
-				<dependencies> <dependency> <groupId>extern.net.sf.saxon</groupId> <artifactId>saxonee</artifactId> 
-				<type>jar</type> <version>9.7.0.13</version> <!-\-<version>9.5.1.5</version>-\-> 
-				</dependency> <dependency> <groupId>extern.net.sf.saxon</groupId> <artifactId>saxonee-license</artifactId> 
-				<version>9.7</version> </dependency> </dependencies> <configuration> <catalogFile>${project.basedir}/catalog.xml</catalogFile> 
-				<generateSurefireReport>true</generateSurefireReport> </configuration> <executions> 
-				<execution> <phase>test</phase> <goals> <goal>run-xspec</goal> </goals> </execution> 
-				</executions> </plugin> -->
 
 		</plugins>
 	</build>
