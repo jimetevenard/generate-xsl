@@ -5,8 +5,6 @@ import java.net.URISyntaxException;
 import java.util.Set;
 
 
-import com.jimetevenard.utils.AnyLogger;
-import com.jimetevenard.xslt.implSaxon.SaxonProcessorHolder;
 import com.jimetevenard.xslt.implSaxon.ScenariParser;
 import com.jimetevenard.xslt.implSaxon.XSLTGenerator;
 
@@ -31,7 +29,6 @@ public class Driver {
 	private File catalog;
 	private File dirForIntermediates; // for debug
 	private boolean licencedSaxon;
-	private AnyLogger log;
 	
 	/**
 	 * 
@@ -39,21 +36,21 @@ public class Driver {
 	 * @param scenariFile Scenari file - cf. https://jimetevenard.github.io/generate-xsl/scenari.xsd
 	 * @param catalog <a href="https://www.oasis-open.org/committees/entity/spec-2001-08-06.html">XML Catalog file</a>
 	 */
-	public Driver(AnyLogger log, File scenariFile, File catalog) {
+	public Driver( File scenariFile, File catalog) {
 		super();
 		this.scenariFile = scenariFile;
 		this.catalog = catalog;
-		this.log = log;
+
 	}
 	/**
 	 * 
 	 * @param log : logger
 	 * @param scenariFile Scenari file : cf. https://jimetevenard.github.io/generate-xsl/scenari.xsd
 	 */
-	public Driver(AnyLogger log, File scenariFile) {
+	public Driver( File scenariFile) {
 		super();
 		this.scenariFile = scenariFile;
-		this.log = log;
+
 	}
 	
 	
@@ -91,7 +88,7 @@ public class Driver {
 		
 	
 		String catalogPath = this.catalog != null ? catalog.getAbsolutePath() : "";
-		XSLTGenerator generator = new XSLTGenerator(log, catalogPath, licencedSaxon);
+		XSLTGenerator generator = new XSLTGenerator( catalogPath, licencedSaxon);
 		ScenariParser scenariParser = new ScenariParser(scenariFile.getAbsolutePath());
 		
 		try {

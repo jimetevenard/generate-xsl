@@ -3,7 +3,6 @@ package com.jimetevenard.xslt.implSaxon;
 import java.io.IOException;
 
 
-import com.jimetevenard.utils.AnyLogger;
 import com.jimetevenard.xslt.GenerationException;
 import com.jimetevenard.xslt.utils.ConfigMap;
 import com.jimetevenard.xslt.utils.IntermediateXdm;
@@ -15,21 +14,21 @@ public class XSLTGenerator {
 	
 	
 	
-	private  AnyLogger log;
+
 	private GoSaxon saxonCompiler;
 	
 	
 
 
 
-	public XSLTGenerator(AnyLogger log, String catalogPath){
-		this(log, catalogPath, false); // Use Saxon HE by default
+	public XSLTGenerator(String catalogPath){
+		this( catalogPath, false); // Use Saxon HE by default
 	}
 
-	public XSLTGenerator(AnyLogger log, String catalogPath, boolean useLicensedSaxonEdition) {
+	public XSLTGenerator(String catalogPath, boolean useLicensedSaxonEdition) {
 		super();
-		this.log = log;
-		log.debug("We create the generator with catalog" + catalogPath);
+
+
 		
 		saxonCompiler = new GoSaxon(catalogPath, useLicensedSaxonEdition);
 		
@@ -46,7 +45,6 @@ public class XSLTGenerator {
 		// Generate intermediate
 		ConfigMap configSetp1 = new ConfigMap();
 		configSetp1.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
-		log.info("Generating Intermediate XSL for " + sourceXSLTPath);
 		try {
 			saxonCompiler.generateIntermediate(configSetp1, intermediateXdm);
 		} catch (SaxonApiException | IOException e) {
@@ -58,7 +56,6 @@ public class XSLTGenerator {
 		configStep2.put(ConfigMap.SOURCE_PATH, null);
 		configStep2.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
 
-		log.info("Executing Intermediate XSL for : " + generatedXSLTPath);
 		try {
 			saxonCompiler.executeIntermediate(configStep2, params, intermediateXdm);
 		} catch (SaxonApiException | IOException e) {
@@ -85,7 +82,6 @@ public class XSLTGenerator {
 		configSetp1.put(ConfigMap.SOURCE_PATH, sourceXSLTPath);
 		configSetp1.put(ConfigMap.OUTPUT_PATH, intermediateXSLTPath);
 
-		log.info("Generating Intermediate XSL");
 		try {
 			saxonCompiler.generateIntermediate(configSetp1);
 		} catch (SaxonApiException | IOException e) {
@@ -98,7 +94,6 @@ public class XSLTGenerator {
 		configStep2.put(ConfigMap.SOURCE_PATH, null);
 		configStep2.put(ConfigMap.OUTPUT_PATH, generatedXSLTPath);
 
-		log.info("Executing Intermediate XSL ");
 		try {
 			saxonCompiler.executeIntermediate(configStep2, params);
 		} catch (SaxonApiException | IOException e) {
