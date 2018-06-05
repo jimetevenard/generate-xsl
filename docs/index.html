@@ -10,7 +10,7 @@
    <body>
       <header></header>
       <main>
-         <p class="update">Révisé le 31 Mai 2018<a class="project-repo" target="_blank" href="https://github.com/jimetevenard/generate-xsl">Generate XSL - GitHub</a></p>
+         <p class="update">Révisé le 05 Juin 2018<a class="project-repo" target="_blank" href="https://github.com/jimetevenard/generate-xsl">Generate XSL - GitHub</a></p>
          
          
          
@@ -56,9 +56,9 @@
             <p>L'objectif principal de ce système d'annotation est d'optimiser le traitement d'une
                XSLT
                sans affecter son fonctionnement d'origine.<br> Ainsi cette XSLT reste maintenable et
-               testable, et des test comparés de la <a href="#definition-xsl-source">XSL
-                  source</a> et de la <a href="#definition-xsl-gen">XSL
-                  générée</a> permettent d'identifier facilement les éventuels effets de
+               testable, et des test comparés de la XSL
+               source et de la XSL
+               générée permettent d'identifier facilement les éventuels effets de
                bord de la compilation. 
             </p>
             
@@ -83,8 +83,8 @@
             <p>Dans cet exemple, on a exprimé par l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a> la
                volonté de pré-évaluer ce <code class="element node">&lt;xsl:choose/&gt;</code>.<br> Ainsi, les différents
                <code>xsl:when/@test</code> ont été évalués et seul le code contenu dans le cas
-               pertinent est retranscrit dans la <a href="#definition-xsl-gen">XSL
-                  générée</a>
+               pertinent est retranscrit dans la XSL
+               générée
                
             </p>
             
@@ -141,7 +141,7 @@
             
             
             
-            <h2>Contexte de la pré-évaluation</h2>
+            <h2 id="contexte-pre-evaluation">Contexte de la pré-évaluation</h2>
             
             
             <p>
@@ -154,7 +154,7 @@
             <p>
                L'ensemble du <a href="https://www.w3.org/TR/xpath-30/#context" target="_blank">contexte XPath</a>, variables, paramètres, etc. disponibles pendant
                la phase de compilation
-               est appelée <a href="#definition-contexte">contexte de génération</a><br>
+               est appelée <a href="#contexte-pre-evaluation">contexte de génération</a><br>
                Le développeur qui met en place les annotations doit s'assurer que les expressions
                XPath évaluées sont effectivement évaluables dans ce contexte.
                
@@ -222,69 +222,55 @@
             </div>
             
             
-            <h2>Lanceur Java</h2>
+            <h2>Driver Java</h2>
             
             
-            <p>Un lanceur Java basé sur <a href="https://www.saxonica.com" target="_blank">Saxon</a> est fourni pour faciliter la transformation.
+            <p>Une API Java basé sur <a href="https://www.saxonica.com" target="_blank">Saxon</a> est fourni pour faciliter la transformation.<br>
+               La classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" target="_blank">com.jimetevenard.xslt.Driver</a>
+               assure la compilation d'après un fichier de scenari.
+               
             </p>
             
             
-            
-            
-            
-            <div>
-               Son utilisation est basée sur un fichier décrivant des scenari de compilation.<br>
-               Chaque scénario décrit la compilation d'une XSL :
+            <section id="fichier-scenari">
                
-               <ul>
-                  
-                  <li>Le fichier source</li>
-                  
-                  <li>L'emplacement cible pour la XSL compilée</li>
-                  
-                  <li>Les paramètres à utiliser</li>
-                  
-               </ul>
+               <h3>Fichier de scenari</h3>
                
-            </div>
-            
-            <pre><span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;scenari</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
+               
+               <div>
+                  Son utilisation est basée sur un fichier décrivant des scenari de compilation.<br>
+                  Chaque scénario décrit la compilation d'une XSL :
+                  
+                  <ul>
+                     
+                     <li>Le fichier source</li>
+                     
+                     <li>L'emplacement cible pour la XSL compilée</li>
+                     
+                     <li>Les paramètres à utiliser</li>
+                     
+                  </ul>
+                  
+               </div>
+               
+               <pre><span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;scenari</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;scenario <span class="attr">name="<span class="attr-value">mon-scenario</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;source-xsl-path</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>source.xsl<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/source-xsl-path&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;target-xsl-path</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>target-dir/generated.xsl<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/target-xsl-path&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;params</span><span class="elt-name jimetevenardcomnsgeneratexsldoc">&gt;</span>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;param <span class="attr">name="<span class="attr-value">param-qname</span>" </span> <span class="attr">select="<span class="attr-value">concat('to','to')</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsldoc">/&gt;</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;param <span class="attr">name="<span class="attr-value">param-Qname</span>" </span> <span class="attr">select="<span class="attr-value">//xpath</span>" </span></span><span class="elt-name jimetevenardcomnsgeneratexsldoc">/&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- &lt;param... /&gt;* --&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/params&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/scenario&gt;</span>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">&lt;!-- &lt;scenario... /&gt;* --&gt;</span>
 <span class="elt-name jimetevenardcomnsgeneratexsldoc">&lt;/scenari&gt;</span>
 </pre>
-            
-            <a href="scenari.xsd" target="_blank">Schéma XSD du fichier de scenari</a>
-            
-            <section>
                
-               <h3>Utilisation standalone</h3>
-               
-               <pre>java -jar generate-xsl.jar --help
-</pre>
-               </section>
-            
-            
-            <section>
-               
-               <h3>API pour intégration</h3>
-               
-               
-               <p>Le lanceur peut être intégré dans une application.</p>
-               
-               
-               <p>La compilation est pilotée par une instance de la classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" target="_blank">com.jimetevenard.xslt.Driver</a> 
-               </p>
+               <a href="scenari.xsd" target="_blank">Schéma XSD du fichier de scenari</a>
                
                
             </section>
+            
             
             
             <section>
@@ -293,8 +279,9 @@
                
                
                <p>
-                  TODO - cf. <a href="https://github.com/jimetevenard/Maven-XSL-Generator" target="_blank">Maven-XSL-Generator</a><br>
-                  ECRIRE LE README dans le projet !
+                  Le plugin Maven <a href="https://github.com/jimetevenard/Maven-XSL-Generator" target="_blank">Maven-XSL-Generator</a>
+                  utilise cette API, et permet de lancer la compilation <i>Generate-XSL</i> lors du build de votre projet.
+                  
                   
                </p>
                
@@ -581,9 +568,9 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:copy-template</code></h3>
                      
-                     <div>Duplique dans la <a href="#definition-xsl-gen">XSL générée</a> un
-                        <code class="element node">&lt;xsl:template/&gt;</code> de la <a href="#definition-xsl-source">XSL
-                           source</a> identifié soit par : 
+                     <div>Duplique dans la XSL générée un
+                        <code class="element node">&lt;xsl:template/&gt;</code> de la XSL
+                        source identifié soit par : 
                         <div class="case">Une référence à son éventuel
                            attribut<a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a> exprimée sous forme d'un
                            attribut <code class="attribute node">@idRef</code></div>
@@ -693,8 +680,9 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:variable</code></h3>
                      
-                     <p>Crée une <code class="element node">&lt;xsl:variable/&gt;</code> dans la <a href="#definition-xsl-gen">XSL
-                           générée</a></p>
+                     <p>Crée une <code class="element node">&lt;xsl:variable/&gt;</code> dans la XSL
+                        générée
+                     </p>
                      
                      <p>L'évaluation ou non de la variable durant la compilation peut être exprimée par
                         l'attribut <a href="#langnode-generate:build"><code class="attribute ref node">@generate:build</code></a></p>
@@ -717,8 +705,8 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:redefine-variable</code></h3>
                      
-                     <div>Redéfinit une variable déclarée dans la <a href="#definition-xsl-source">XSL
-                           source</a> identifiée par : 
+                     <div>Redéfinit une variable déclarée dans la XSL
+                        source identifiée par : 
                         <div class="case">Un attribut
                            <code class="attribute node">@id</code>, traité comme référence à l'attribut <a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a> de la variable
                         </div>
@@ -747,8 +735,8 @@
                <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:import">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:import</code></h3> Ajoute un élément
-                     <code class="element node">&lt;xsl:import/&gt;</code> à la <a href="#definition-xsl-gen">XSL
-                        générée</a>. 
+                     <code class="element node">&lt;xsl:import/&gt;</code> à la XSL
+                     générée. 
                   </div>
                </div>
                
@@ -756,8 +744,8 @@
                <div class="langElement card langNode" data-doc-status="toreview" data-implem-status="NA" id="langnode-generate:param">
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:param</code></h3> Ajoute un élément
-                     <code class="element node">&lt;xsl:param/&gt;</code> global à la <a href="#definition-xsl-gen">XSL
-                        générée</a>. 
+                     <code class="element node">&lt;xsl:param/&gt;</code> global à la XSL
+                     générée. 
                   </div>
                </div>
                
@@ -766,8 +754,7 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:target-block</code></h3>
                      
-                     <p>Permet d'insérer un bloc de code contenu dans la <a href="#definition-xsl-gen">XSL générée</a> sans impact sur l'éxécution de la XSL source.
-                     </p>
+                     <p>Permet d'insérer un bloc de code contenu dans la XSL générée sans impact sur l'éxécution de la XSL source.</p>
                      
                      
                      <p>Exemple, le code suivant :</p>
@@ -837,7 +824,7 @@
                         <code class="attribute node">@select</code>.
                      </p>
                      
-                     <p>La valeur de cet attribut est évaluée dans le <a href="#definition-contexte">contexte de génération</a>.
+                     <p>La valeur de cet attribut est évaluée dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.
                      </p>
                      
                      <div>A chaque itération : 
@@ -861,7 +848,7 @@
                      
                      <div>Si la condition exprimée dans <code class="attribute node">@test</code> est vraie, 
                         <div class="case">Les
-                           éléments <code class="element node">&lt;xsl:*/&gt;</code> à l'intérieur du bloc sont dupliqués, en tenat
+                           éléments <code class="element node">&lt;xsl:*/&gt;</code> à l'intérieur du bloc sont dupliqués, en tenant
                            compte des <code class="element node">&lt;generate:*/&gt;</code> et <code class="attribute node">@generate:*</code>
                            qu'ils contiennent.
                         </div>
@@ -872,7 +859,7 @@
                      </div>
                      
                      <p>La valeur de l'attribut <code class="attribute node">@test</code> est évaluée dans le
-                        <a href="#definition-contexte">contexte de génération</a>.
+                        <a href="#contexte-pre-evaluation">contexte de génération</a>.
                      </p>
                      
                   </div>
@@ -905,7 +892,7 @@
                      
                      <p>Associé à un <code class="element node">&lt;xsl:import/&gt;</code> ou à une
                         <code class="element node">&lt;xsl:variable/&gt;</code> permet de rendre ce·tte dernier·e visible
-                        dans le <a href="#definition-contexte">contexte de
+                        dans le <a href="#contexte-pre-evaluation">contexte de
                            génération</a>.
                      </p>
                      
@@ -927,7 +914,7 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:use-import</code></h3>
                      
-                     <p>Importe une Transformation XSL externe et la rend visible dans le <a href="#definition-contexte">contexte de génération</a>.
+                     <p>Importe une Transformation XSL externe et la rend visible dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.
                      </p>
                      
                      
@@ -938,20 +925,21 @@
                         
                         <div class="case">Via un attribut <code class="attribute node">@id</code>, traité comme aune référence à
                            l'attribut <a href="#langnode-generate:id"><code class="attribute ref node">@generate:id</code></a> d'un import déclaré la
-                           <a href="#definition-xsl-source">XSL source</a></div>
+                           XSL source
+                        </div>
                         
                      </div>
                      
                      
                      <p>Les variables, paramètres, templates, fonctions... déclarées dans la XSL importée
-                        sont visibles dans le <a href="#definition-contexte">contexte de
+                        sont visibles dans le <a href="#contexte-pre-evaluation">contexte de
                            génération</a></p>
                      
                      
                      <div class="alert alert-warning">
                         
                         <p> Il appartient au développeur de s'assurer que les expressions XPath exprimées
-                           dans la XSL importée sont effectivement evaluables dans le <a href="#definition-contexte">contexte de génération</a>. 
+                           dans la XSL importée sont effectivement evaluables dans le <a href="#contexte-pre-evaluation">contexte de génération</a>. 
                         </p>
                         
                         <p>L'utilisation de <a href="#langnode-generate:use"><code class="attribute ref node">@generate:use</code></a> ou <a href="#langnode-generate:use-variable"><code class="element ref node">&lt;generate:use-variable/&gt;</code></a> peut, par exemple, être néscéssaire.
@@ -969,7 +957,7 @@
                      <h3 class="card-title">Element <code>generate:use-param</code></h3>
                      
                      <p>
-                        Permet d'utiliser un paramètre visible uniquement dans le <a href="#definition-contexte">contexte de génération.</a>
+                        Permet d'utiliser un paramètre visible uniquement dans le <a href="#contexte-pre-evaluation">contexte de génération.</a>
                         
                      </p>
                      
@@ -983,7 +971,7 @@
                   <div class="card-body">
                      <h3 class="card-title">Element <code>generate:use-variable</code></h3>
                      
-                     <p>Définit une variable évaluée et visible dans le <a href="#definition-contexte">contexte de génération</a>.
+                     <p>Définit une variable évaluée et visible dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.
                      </p>
                      
                      <div class="alert alert-warning">La/les expressions XPath exprimées pour définir la valeur de la variable
@@ -1059,36 +1047,6 @@
             
             
             
-            <h2>Definitions</h2>
-            
-            
-            <div class="definition" id="definition-contexte">
-               
-               <h3>Contexte de génération</h3>
-               
-               <p>TODO : Les définitions sont abandonnées - A remplacer par un systeme d'id générique.
-                  De façon générale, le format doc ne sert à rien, rendre plus proche du HTML
-               </p>
-               
-            </div>
-            
-            
-            <div class="definition" id="definition-xsl-source">
-               
-               <h3>XSL Source</h3>
-               
-               <p>La XSL source (TODO rédiger)</p>
-               
-            </div>
-            
-            
-            <div class="definition" id="definition-xsl-gen">
-               
-               <h3>XSL Générée</h3>
-               
-               <p>La XSL générée (TODO rédiger)</p>
-               
-            </div>
             
             
             

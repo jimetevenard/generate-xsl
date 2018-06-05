@@ -125,7 +125,7 @@
         
         
         
-        <h>Contexte de la pré-évaluation</h>
+        <h id="contexte-pre-evaluation">Contexte de la pré-évaluation</h>
         
         <p>
             La pré-évaluation de la XSL est une phase liée au build d'un projet.<br />
@@ -135,7 +135,7 @@
         <p>
             L'ensemble du <a href="https://www.w3.org/TR/xpath-30/#context">contexte XPath</a>, variables, paramètres, etc. disponibles pendant
             la phase de compilation
-            est appelée <definitionRef idRef="contexte">contexte de génération</definitionRef><br />
+            est appelée <a href="#contexte-pre-evaluation">contexte de génération</a><br />
             Le développeur qui met en place les annotations doit s'assurer que les expressions
             XPath évaluées sont effectivement évaluables dans ce contexte.
         </p>
@@ -180,13 +180,16 @@
             <p>En l'absence d'annotations, la XSL générée est une copie de la XSL source.</p>
         </info>
         
-        <h>Lanceur Java</h>
+        <h>Driver Java</h>
         
-        <p>Un lanceur Java basé sur <a href="https://www.saxonica.com">Saxon</a> est fourni pour faciliter la transformation.</p>
-        
+        <p>Une API Java basé sur <a href="https://www.saxonica.com">Saxon</a> est fourni pour faciliter la transformation.<br />
+            La classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" >com.jimetevenard.xslt.Driver</a>
+            assure la compilation d'après un fichier de scenari.
+        </p>
        
-        
-        
+        <section id="fichier-scenari">
+            <h>Fichier de scenari</h>
+
             <p>
                 Son utilisation est basée sur un fichier décrivant des scenari de compilation.<br/>
                 Chaque scénario décrit la compilation d'une XSL :
@@ -203,8 +206,8 @@
                         <source-xsl-path>source.xsl</source-xsl-path>
                         <target-xsl-path>target-dir/generated.xsl</target-xsl-path>
                         <params>
-                            <param name="param-qname"
-                                select="concat('to','to')"/>
+                            <param name="param-Qname"
+                                select="//xpath"/>
                                 <!-- <param... />* -->
                         </params>
                     </scenario>
@@ -214,27 +217,17 @@
             </codeBlock>
             
             <a href="scenari.xsd">Schéma XSD du fichier de scenari</a>
-        <section>
-            <h>Utilisation standalone</h>
             
-            <codeBlock>java -jar generate-xsl.jar --help</codeBlock>
         </section>
         
-        <section>
-            <h>API pour intégration</h>
-            
-            <p>Le lanceur peut être intégré dans une application.</p>
-            
-            <p>La compilation est pilotée par une instance de la classe <a href="java-api/index.html?com/jimetevenard/xslt/Driver.html" >com.jimetevenard.xslt.Driver</a> </p>
-            
-        </section>
-         
+       
          <section>
              <h>Plugin Maven</h>
              
              <p>
-                 TODO - cf. <a href="https://github.com/jimetevenard/Maven-XSL-Generator">Maven-XSL-Generator</a><br />
-                   ECRIRE LE README dans le projet !
+                 Le plugin Maven <a href="https://github.com/jimetevenard/Maven-XSL-Generator">Maven-XSL-Generator</a>
+                 utilise cette API, et permet de lancer la compilation <i>Generate-XSL</i> lors du build de votre projet.
+                   
              </p>
              
                 
@@ -606,8 +599,7 @@
             <langElement implem-status="NA" doc-status="old" name="generate:for-each">
                 <p>Itère sur chaque élément de la séquence exprimée dans l'attribut
                     <attribute>select</attribute>.</p>
-                <p>La valeur de cet attribut est évaluée dans le <definitionRef idRef="contexte"
-                    >contexte de génération</definitionRef>.</p>
+                <p>La valeur de cet attribut est évaluée dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.</p>
                 <p>A chaque itération : <case>Les éléments <element>xsl:*</element> à l'intérieur du
                     bloc sont dupliqués, en tenant compte des <element>generate:*</element> et
                     <attribute>generate:*</attribute> qu'ils contiennent.</case>
@@ -623,7 +615,7 @@
                     <case>les instructions <element>generate:*</element> sont exécutées.</case>
                 </p>
                 <p>La valeur de l'attribut <attribute>test</attribute> est évaluée dans le
-                    <definitionRef idRef="contexte">contexte de génération</definitionRef>.</p>
+                    <a href="#contexte-pre-evaluation">contexte de génération</a>.</p>
             </langElement>
             
             <langElement implem-status="0" doc-status="todo" name="generate:choose">
@@ -640,8 +632,8 @@
             <langAttribute implem-status="NA" doc-status="tocomplete" name="generate:use">
                 <p>Associé à un <element>xsl:import</element> ou à une
                     <element>xsl:variable</element> permet de rendre ce·tte dernier·e visible
-                    dans le <definitionRef idRef="contexte">contexte de
-                        génération</definitionRef>.</p>
+                    dans le <a href="#contexte-pre-evaluation">contexte de
+                        génération</a>.</p>
                 
                 <p>Exemple : </p>
                 
@@ -658,8 +650,7 @@
             
             
             <langElement implem-status="NA" doc-status="pending" name="generate:use-import">
-                <p>Importe une Transformation XSL externe et la rend visible dans le <definitionRef
-                    idRef="contexte">contexte de génération</definitionRef>.</p>
+                <p>Importe une Transformation XSL externe et la rend visible dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.</p>
                 
                 <p>La XSL cible peut être référencée : <case>Via un attribut <attribute>href</attribute>
                     contenant l'URI de la feuille de style importée</case>
@@ -669,13 +660,12 @@
                 </p>
                 
                 <p>Les variables, paramètres, templates, fonctions... déclarées dans la XSL importée
-                    sont visibles dans le <definitionRef idRef="contexte">contexte de
-                        génération</definitionRef></p>
+                    sont visibles dans le <a href="#contexte-pre-evaluation">contexte de
+                        génération</a></p>
                 
                 <warning>
                     <p> Il appartient au développeur de s'assurer que les expressions XPath exprimées
-                        dans la XSL importée sont effectivement evaluables dans le <definitionRef
-                            idRef="contexte">contexte de génération</definitionRef>. </p>
+                        dans la XSL importée sont effectivement evaluables dans le <a href="#contexte-pre-evaluation">contexte de génération</a>. </p>
                     <p>L'utilisation de <langNodeRef nameRef="generate:use"/> ou <langNodeRef
                         nameRef="generate:use-variable"/> peut, par exemple, être néscéssaire.</p>
                     
@@ -684,14 +674,13 @@
             
             <langElement implem-status="NA" doc-status="pending" name="generate:use-param">
                 <p>
-                    Permet d'utiliser un paramètre visible uniquement dans le <definitionRef idRef="contexte">contexte de génération.</definitionRef>
+                    Permet d'utiliser un paramètre visible uniquement dans le <a href="#contexte-pre-evaluation">contexte de génération.</a>
                 </p>
                 <warning>TODO, non implémenté !</warning>
             </langElement>
             
             <langElement implem-status="NA" doc-status="pending" name="generate:use-variable">
-                <p>Définit une variable évaluée et visible dans le <definitionRef idRef="contexte"
-                    >contexte de génération</definitionRef>.</p>
+                <p>Définit une variable évaluée et visible dans le <a href="#contexte-pre-evaluation">contexte de génération</a>.</p>
                 <warning>La/les expressions XPath exprimées pour définir la valeur de la variable
                     doivent être effectivement évaluables dans le contexte de génération.</warning>
                 
@@ -750,23 +739,7 @@
 
 
        
-            <h>Definitions</h>
-
-            <definition id="contexte">
-                <h>Contexte de génération</h>
-                <p>TODO : Les définitions sont abandonnées - A remplacer par un systeme d'id générique.
-                    De façon générale, le format doc ne sert à rien, rendre plus proche du HTML</p>
-            </definition>
-
-            <definition id="xsl-source">
-                <h>XSL Source</h>
-                <p>La XSL source (TODO rédiger)</p>
-            </definition>
-
-            <definition id="xsl-gen">
-                <h>XSL Générée</h>
-                <p>La XSL générée (TODO rédiger)</p>
-            </definition>
+           
 
         
 

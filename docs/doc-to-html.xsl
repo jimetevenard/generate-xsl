@@ -91,6 +91,7 @@
     
     <xsl:template match="doc:h">
         <xsl:element name="{doc:headerTag(.)}">
+            <xsl:copy-of select="@*"></xsl:copy-of>
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
@@ -229,12 +230,15 @@
     </xsl:template>
 
     <xsl:template match="doc:definitionRef">
-        <xsl:variable name="referedDefinition"
+<!--        <xsl:variable name="referedDefinition"
             select="(//doc:definition[@id = current()/@idRef])[1]"/>
         <a>
             <xsl:attribute name="href" select="concat('#definition-', $referedDefinition/@id)"/>
             <xsl:apply-templates/>
-        </a>
+        </a>-->
+        
+        <xsl:message>definitionRef is deprecated !</xsl:message>
+        <xsl:apply-templates/>
     </xsl:template>
 
     <xsl:template match="doc:langNodeRef">

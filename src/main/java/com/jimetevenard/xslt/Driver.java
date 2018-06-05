@@ -32,9 +32,8 @@ public class Driver {
 	
 	/**
 	 * 
-	 * @param log logger
 	 * @param scenariFile Scenari file - cf. https://jimetevenard.github.io/generate-xsl/scenari.xsd
-	 * @param catalog <a href="https://www.oasis-open.org/committees/entity/spec-2001-08-06.html">XML Catalog file</a>
+	 * @param catalog <a href="https://www.oasis-open.org/committees/entity/spec-2001-08-06.html">XML Catalog </a> file
 	 */
 	public Driver( File scenariFile, File catalog) {
 		super();
@@ -44,7 +43,6 @@ public class Driver {
 	}
 	/**
 	 * 
-	 * @param log : logger
 	 * @param scenariFile Scenari file : cf. https://jimetevenard.github.io/generate-xsl/scenari.xsd
 	 */
 	public Driver( File scenariFile) {
@@ -66,10 +64,10 @@ public class Driver {
 	
 	/**
 	 * Set to true to use Saxon PE/EE functionalities.<br>
-	 * <i>The you need to buildthis project with SaxonEE/PE dependency + licence</i>
+	 * <i>Then you need to buildthis project with SaxonEE/PE dependency + licence</i>
 	 * 
 	 * 
-	 * @param licencedSaxon
+	 * @param licencedSaxon use Saxon EE/PE's API
 	 */
 	public void setLicencedSaxon(boolean licencedSaxon) {
 		this.licencedSaxon = licencedSaxon;
